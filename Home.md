@@ -22,5 +22,3 @@ _`name=<name>, radec=<HH:MM:SS.f,DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`
 
 Sources specified in the _target list_ will be observed in the order listed in the configuration file, while sources listed in the _calibration standards_ will be observed intermittently at a user specified cadence provided in the observation instruction set.   
 A _target list_ must always be provided for observation, but _calibration standards_ are only provided when needed.
-
-An implementation example can be found on the [Example: Maser monitoring observations](https://github.com/rubyvanrooyen/astrokat/wiki/Example:-Maser-monitoring-observations) page
