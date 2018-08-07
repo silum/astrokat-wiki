@@ -63,11 +63,3 @@ G12.89+0.49, radec B1950, 18:08:56.4, -17:32:14.0
 3C286, radec bpcal fluxcal delaycal, 13:31:08.29,  +30:30:33.0
 ```
 
-- display targets against LST
-
-- show separation with given catalogue of targets (assumed to be calibrators)
-
-
-- display beam shape from antennas selected and UV coverage for integration time
-
-
