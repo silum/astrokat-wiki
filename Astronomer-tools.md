@@ -1,6 +1,35 @@
 
 ## Convert target catalogue in original CSV format to observation configuration file
-Given a catalogue of targets, with or without calibrators
+The minimum requirement with a proposal is a comma separated file that contains a list of all targets, with or without calibrators. This is a simple text file with defined format:   
+`[name], tags, ra, dec` or `[name], tags, az, el` or `[name], tags, l, b`
+
+The targets can be celestial, horizontal or galactic. Specials such as TLE for satellites and near earth objects are not currently available.
+
+The basic steps for easy conversion:
+* Input catalogue of random targets
+```
+, radec target, 0, -90
+, azel target, 10, 50
+, gal target, -10, 40
+```
+* Convert catalogue to observation configuration file   
+```
+python catalogue2config.py -i ../catalogues/targets.csv -o targets.yaml --instrument c856M4k --target-duration 10
+```
+* Output YAML file --- alternative to the catalogue, astronomers may prefer to provide the observation configuration file generated during the proposal planning phase using the offline observation functionality   
+```
+instrument: c856M4k
+observation_loop:
+  - LST: 0-23
+    target_list:
+      - name=, radec=0 -90, tags=radec target, duration=10
+      - name=, azel=10 50, tags=azel target, duration=10
+      - name=, gal=-10 40, tags=gal target, duration=10
+    calibration_standards:
+```
+
+
+
 ```
 # 7th set of pointings of the Galactic plane Mosaic
 J1939-6342 | *1934-638,radec bpcal delaycal, 19:39:25.03,-63:42:45.63
@@ -16,6 +45,7 @@ T4R01C05, radec target, +17:08:54.27808, -39:20:57.3978
 T4R02C02, radec target, +17:15:26.58923, -38:26:36.9760
 T4R02C04, radec target, +17:12:28.40227, -39:14:39.4421
 ```
+
 
 ```
 G328.24-0.55, radec B1950, 15:54:06.11, -53:50:47.0
