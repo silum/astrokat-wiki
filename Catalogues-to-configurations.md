@@ -1,4 +1,4 @@
-## Convert target catalogue in original CSV format to observation configuration file
+## Convert CSV format target catalogue to observation configuration file
 The minimum requirement with a proposal is a comma separated file that contains a list of all targets, with or without calibrators. This is a simple text file with defined format:   
 `[name], tags, ra, dec` or `[name], tags, az, el` or `[name], tags, l, b`
 
@@ -27,8 +27,9 @@ observation_loop:
     calibration_standards:
 ```
 
-## A standard imaging observation run
-
+## A standard imaging observation
+Consists of a number of target pointings and one or more calibrators
+* Input catalogue   
 ```
 # 7th set of pointings of the Galactic plane Mosaic
 J1939-6342 | *1934-638,radec bpcal delaycal, 19:39:25.03,-63:42:45.63
@@ -44,6 +45,53 @@ T4R01C05, radec target, +17:08:54.27808, -39:20:57.3978
 T4R02C02, radec target, +17:15:26.58923, -38:26:36.9760
 T4R02C04, radec target, +17:12:28.40227, -39:14:39.4421
 ```
+* Convert catalogue to observation configuration file   
+```
+python catalogue2config.py -i ../catalogues/image.csv -o image.yaml --target-duration 180 --cal-duration 300
+```
+* Output observation configuration file   
+```
+instrument: bc856M4k
+observation_loop:
+  - LST: 11-23
+    target_list:
+      - name=T3R04C06, radec=+17:22:27.46877 -38:12:09.4023, tags=radec target, duration=180
+      - name=T4R00C02, radec=+17:11:22.47016 -37:51:51.0758, tags=radec target, duration=180
+      - name=T4R00C04, radec=+17:08:23.04449 -38:39:29.8486, tags=radec target, duration=180
+      - name=T4R00C06, radec=+17:05:19.53524 -39:26:50.4693, tags=radec target, duration=180
+      - name=T4R01C01, radec=+17:14:51.97986 -37:45:16.2459, tags=radec target, duration=180
+      - name=T4R01C03, radec=+17:11:55.13096 -38:33:15.4802, tags=radec target, duration=180
+      - name=T4R01C05, radec=+17:08:54.27808 -39:20:57.3978, tags=radec target, duration=180
+      - name=T4R02C02, radec=+17:15:26.58923 -38:26:36.9760, tags=radec target, duration=180
+      - name=T4R02C04, radec=+17:12:28.40227 -39:14:39.4421, tags=radec target, duration=180
+    calibration_standards:
+      - name=J1939-6342 | *1934-638, radec=19:39:25.03 -63:42:45.63, tags=radec bpcal delaycal, duration=300
+      - name=J1331+3030 | *3C286, radec=13:31:08.288 +30:30:32.959, tags=radec bpcal polcal, duration=300
+      - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=radec gaincal, duration=300
+```
+* Minimal edit to file to adjust gain calibrator duration   
+```
+> cat image.yaml
+instrument: bc856M4k
+observation_loop:
+  - LST: 11-23
+    target_list:
+      - name=T3R04C06, radec=+17:22:27.46877 -38:12:09.4023, tags=radec target, duration=180
+      - name=T4R00C02, radec=+17:11:22.47016 -37:51:51.0758, tags=radec target, duration=180
+      - name=T4R00C04, radec=+17:08:23.04449 -38:39:29.8486, tags=radec target, duration=180
+      - name=T4R00C06, radec=+17:05:19.53524 -39:26:50.4693, tags=radec target, duration=180
+      - name=T4R01C01, radec=+17:14:51.97986 -37:45:16.2459, tags=radec target, duration=180
+      - name=T4R01C03, radec=+17:11:55.13096 -38:33:15.4802, tags=radec target, duration=180
+      - name=T4R01C05, radec=+17:08:54.27808 -39:20:57.3978, tags=radec target, duration=180
+      - name=T4R02C02, radec=+17:15:26.58923 -38:26:36.9760, tags=radec target, duration=180
+      - name=T4R02C04, radec=+17:12:28.40227 -39:14:39.4421, tags=radec target, duration=180
+    calibration_standards:
+      - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=radec gaincal, duration=65
+      - name=J1939-6342 | *1934-638, radec=19:39:25.03 -63:42:45.63, tags=radec bpcal delaycal, duration=300
+      - name=J1331+3030 | *3C286, radec=13:31:08.288 +30:30:32.959, tags=radec bpcal polcal, duration=300
+```
+
+
 
 ## A more complex spectral line monitoring observation
 
