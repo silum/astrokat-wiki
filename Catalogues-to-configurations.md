@@ -71,7 +71,6 @@ observation_loop:
 ```
 * Minimal edit to file to adjust gain calibrator duration   
 ```
-> cat image.yaml
 instrument: bc856M4k
 observation_loop:
   - LST: 11-23
@@ -93,8 +92,9 @@ observation_loop:
 
 
 
-## A more complex spectral line monitoring observation
-
+## Complex spectral line monitoring observation
+Not all observations are straight forward, depending on science need, the observation configuration may be complex with looped observations over LST ranges.
+* Input catalogue   
 ```
 G328.24-0.55, radec B1950, 15:54:06.11, -53:50:47.0
 G331.13-0.24, radec B1950, 16:07:10.8, -51:42:29.0
@@ -109,4 +109,6 @@ G12.89+0.49, radec B1950, 18:08:56.4, -17:32:14.0
 1934-638 , radec bpcal fluxcal delaycal, 19:39:25.026 , -63:42:45.63
 3C286, radec bpcal fluxcal delaycal, 13:31:08.29,  +30:30:33.0
 ```
-
+* Convert catalogue to observation configuration file   
+* Output observation configuration file   
+* Configuration file setup during observation planning runs   
