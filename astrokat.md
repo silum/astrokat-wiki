@@ -23,6 +23,10 @@ _`name=<name>, radec=<HH:MM:SS.f,DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`
 _`name=<name>, gal=<HH:MM:SS.f,DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
 _`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
 
+Two types of targets are specified:
+* observation targets of interest with accompanying gain/delay calibrators as ordered targets
+* [optional] bandpass calibrators to be observed at some user specified cadence
+
 **Tags** are used by the telescope to classify the target type, current available options:
 * Target tags indicate the type of target coordinate along with the 'target' indicator   
 `radec target, azel target, gal target`
