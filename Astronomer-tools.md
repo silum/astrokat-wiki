@@ -28,7 +28,7 @@ observation_loop:
     calibration_standards:
 ```
 
-
+## A standard imaging observation run
 
 ```
 # 7th set of pointings of the Galactic plane Mosaic
@@ -46,6 +46,7 @@ T4R02C02, radec target, +17:15:26.58923, -38:26:36.9760
 T4R02C04, radec target, +17:12:28.40227, -39:14:39.4421
 ```
 
+## A more complex spectral line monitoring observation
 
 ```
 G328.24-0.55, radec B1950, 15:54:06.11, -53:50:47.0
