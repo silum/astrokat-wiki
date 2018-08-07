@@ -180,3 +180,6 @@ observation_loop:
 ```
 
 Note the complex combination of gain calibrators now associated with target positions, with only the bandpass calibrators at cadence given the need to optimise time, minimise atmospheric differences, as well as the assumed stability of the passband over time.
+
+After editing, and before continuing to observation planning, it is always a good idea to see that the configuration file can be parsed successfully. The `readconfig.py` script will take the config file and if parsed successfully will display the observation strategy described in the file to screen   
+`python readconfig.py OH_periodic_masers.yaml`
