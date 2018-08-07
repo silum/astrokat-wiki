@@ -19,6 +19,18 @@ An observation contains the following elements and items:
 * **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range
 * **Target List** and **Calibration Standards** are targets, each specified as:   
 _`name=<name>, radec=<HH:MM:SS.f,DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, gal=<HH:MM:SS.f,DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
+
+**Tags** are used by the telescope to classify the target type, current available options:
+* Target tags indicate the type of target coordinate along with the 'target' indicator   
+`radec target, azel target, gal target`
+* Gain calibrator are used to solve the complex phase corrections and indicated   
+`gaincal, delaycal`
+* Other calibrator indicators are
+ * Bandpass calibrators: `bpcal`
+ * Flux calibrators: `fluxcal`
+ * Polarisation calibrators: `polcal`
 
 Sources specified in the _target list_ will be observed in the order listed in the configuration file, while sources listed in the _calibration standards_ will be observed intermittently at a user specified cadence provided in the observation instruction set.   
 A _target list_ must always be provided for observation, but _calibration standards_ are only provided when needed.
