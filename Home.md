@@ -1,5 +1,5 @@
 # Astronomer Tools
-[Observation target catalogues](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-catalogues)
+* [Observation target catalogues](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-catalogues)
 * [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations)
 * [MeerKAT LST tools](https://github.com/rubyvanrooyen/astrokat/wiki/MeerKAT-LST-tools)
 * Show separation with given catalogue of targets (assumed to be calibrators)
