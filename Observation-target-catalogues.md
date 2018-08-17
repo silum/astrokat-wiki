@@ -14,14 +14,15 @@ The structure of each target specified in the input catalogues can be assumed to
 
 ### Target name
 User free form string associated with the target.   
-Sometimes a target may have a number of names associated and these can be listed using the '|' to separate names.   
-`J0025-2602 | *PKS 0023-26 | OB-238`
+Sometimes a target may have a number of names associated and these can be listed using the '`|`' to separate names.   
+`J0025-2602 | *PKS 0023-26 | OB-238`   
+The asterisk, '`*`', character indicate the target name to use.
 
 ### Tags
 A list of tags associated with the provided target coordinates.   
 The first tag is always the format of the coordinates provided.    
 `radec` or `azel` or `gal`   
-For targets the explicit `target` tag or epoch `B1950`.  J2000 is assumed as default epoch.   
+For targets the explicit `target` tag or epoch `B1950`.  `J2000` is assumed as default epoch.   
 The following calibrator tags are available: `gaincal`, `bpcal`, `fluxcal`, `polcal`
 
 ### Target location
@@ -76,17 +77,20 @@ target.__dict__
 ## Known issues
 Target names or coordinates can potentially have issues if hidden or special characters were captured during a copy and paste process. Simple validation is by parsing each target provided as a `katpoint.Target` and evaluating success as shown in the examples above.
 
-Most important fields to verify is that a `ephem` Fixed Body object could be created, which means 
+Most important fields to verify is that a `ephem` **FixedBody object** could be created, which means that the coordinates could be read and parsed, as well as the **tags** has been assigned correctly.
+```
+target.body
+<ephem.FixedBody '3C286' at 0x1088e25b0>
+
+target.tags
+['radec', 'bpcal', 'polcal']
+```
 
 Errors can be difficult to identify, but the following list provides the most common:
 * Spaces can be replaced with short space, long space or tab characters
 * Name(s) specification can contain the '`|`', '`*`' and '`-`' characters prone to be replaced with special characters by word processing software.
-* Target declination in the southern hemisphere requires a negative sign and this is most common replaced by the double dash '`--`' character and difficult to see the difference when reading the target.   
+* Target declination in the southern hemisphere requires a negative sign,'`-`', and this is most common replaced by the double dash '`--`' character and difficult to see the difference when reading the target.   
 Also when C&P the negative sign of the declination coordinate can be lost, meaning the target could potentially be unreachable if it now gives a far northern target declination.
+* Spelling errors can be provided by selecting from a list of tags
 
-- special characters (hidden characters) from wordprocessors or especially from PDF documents (C&P issues)
-- dubble dash for the negative declination
-- pointing to far north because the - sign has not copied correctly
-spelling errors can be provided by selecting from a list of tags
-
-
+Most common issues slip in when provided targets are copy and paste from wordprocessors or especially from PDF documents.
