@@ -2,7 +2,7 @@
 
 Observational targets and calibrators are grouped in observational catalogues provided by the requesting astronomer or constructed in collaboration with MeerKAT astronomers.
 
-The minimum requirement is a comma separated file that contains a list of targets, with or without calibrators:
+The minimum requirement is a comma-separated file that contains a list of targets, with or without calibrators:
 `<catalogue_name>.csv`
 
 The structure of each target specified in the input catalogues can be assumed to be:
@@ -16,20 +16,20 @@ The structure of each target specified in the input catalogues can be assumed to
 User free form string associated with the target.   
 Sometimes a target may have a number of names associated and these can be listed using the '`|`' to separate names.   
 `J0025-2602 | *PKS 0023-26 | OB-238`   
-The asterisk, '`*`', character indicate the target name to use.
+The asterisk, '`*`', character indicate the preferred target name to use.
 
 ### Tags
 A list of tags associated with the provided target coordinates.   
 The first tag is always the format of the coordinates provided.    
 `radec` or `azel` or `gal`   
-For targets the explicit `target` tag or epoch `B1950`.  `J2000` is assumed as default epoch.   
+For targets the explicit `target` tag or epoch `B1950`. `J2000` is assumed as default epoch.   
 The following calibrator tags are available: `gaincal`, `bpcal`, `fluxcal`, `polcal`
 
 ### Target location
 
 Specials such as planets and satellites are simply   
 `Sun, special`   
-and not discussed further
+and not discussed further.
 
 The targets can be equatorial, horizontal or galactic.
 * Equatorial coordinates
@@ -37,7 +37,7 @@ The targets can be equatorial, horizontal or galactic.
   * Y = dec (declination) -- given as [sign]DD:MM:SS.f or an angle in degrees
 * Horizontal coordinates
   * X = az (azimuth angle) -- given as an angle in degrees
-  * Y = alt (altitude angle) -- given in angle above horizon
+  * Y = alt (altitude angle) -- given as angle above horizon
 * Galactic coordinates (Heliocentric)
   * X = l (galactic longitude) -- given as an angle in degrees
   * Y = b (galactic latitude) -- given as an angle in degrees
@@ -46,7 +46,7 @@ It is important to note that the target coordinates must be **astrometric**. Tha
 Maximum northern pointing angle for MeerKAT is **+33**.
 
 ## Example Targets
-Target are implemented using [katpoint](https://pypi.org/project/katpoint/), based on [PyEphem](http://rhodesmill.org/pyephem/)
+Targets are implemented using [katpoint](https://pypi.org/project/katpoint/), based on [PyEphem](http://rhodesmill.org/pyephem/)
 
 ```
 target = 'J1331+3030 | *3C286, radec bpcal polcal, 13:31:08.288, +30:30:32.959'
