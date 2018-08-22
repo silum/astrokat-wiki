@@ -16,7 +16,7 @@ For convenience the output can be displayed to screen for easy visual verificati
 ```
 python catalogue2config.py --catalogue ../catalogues/targets.csv --instrument c856M4k --target-duration 10
 ```
-Once the use is satisfied with the output, a observation profile can be created   
+Once the user is satisfied with the output, an observation profile can be created   
 ```
 python catalogue2config.py --catalogue ../catalogues/targets.csv --obsfile targets.yaml --instrument c856M4k --target-duration 10
 ```
@@ -78,7 +78,7 @@ observation_loop:
 
 
 ## Complex spectral line monitoring observation
-Not all observations are straight forward, depending on science need, the observation configuration may be complex with looped observations over LST ranges. It is worth while noting that these observations do not have a cadence on the calibration standards, which will cause the standards to be observed directly after the target list.
+Not all observations are straightforward, depending on science need, the observation configuration may be complex with looped observations over LST ranges. It is worthwhile noting that these observations do not have a cadence on the calibration standards, which will cause the standards to be observed directly after the target list.
 * Input catalogue   
 ```
 G328.24-0.55, radec B1950, 15:54:06.11, -53:50:47.0
@@ -166,5 +166,5 @@ observation_loop:
 
 Note the complex combination of gain calibrators now associated with target positions, with only the bandpass calibrators at cadence given the need to optimise time, minimise atmospheric differences, as well as the assumed stability of the passband over time.
 
-After editing, and before continuing to observation planning, it is always a good idea to see that the configuration file can be parsed successfully. The `readconfig.py` script will take the config file and if parsed successfully will display the observation strategy described in the file to screen   
-`python readconfig.py OH_periodic_masers.yaml`
+After editing, and before continuing to observation planning, it is always a good idea to see that the configuration file can be parsed successfully. The `readconfig.py` script will take the config file and if parsed successfully, will display the observation strategy described in the file to screen   
+`python readconfig.py OH_periodic_masers.yaml`.
