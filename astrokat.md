@@ -19,13 +19,13 @@ An observation contains the following elements and items:
 * **Instrument** defining the subarray correlator setup. If the instrument element is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
 * **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range
 * **Target List** and **Calibration Standards** are targets, each specified as:   
-_`name=<name>, radec=<HH:MM:SS.f,DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
-_`name=<name>, gal=<HH:MM:SS.f,DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, gal=<DD:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
 _`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
 
 Two types of targets are specified:
 * observation targets of interest with accompanying gain/delay calibrators as ordered targets
-* [optional] bandpass calibrators to be observed at some user specified cadence
+* [optional] calibrators to be observed at some user specified cadence by adding: _`, duration=<sec>`_
 
 **Tags** are used by the telescope to classify the target type, current available options:
 * Target tags indicate the type of target coordinate along with the 'target' indicator   
