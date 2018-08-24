@@ -25,7 +25,7 @@ _`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_
 
 Two types of targets are specified:
 * observation targets of interest with accompanying gain/delay calibrators as ordered targets
-* [optional] calibrators to be observed at some user specified cadence by adding:   
+* [optional] calibration standards to be observed at some user specified cadence by adding:   
 _`, cadence=<sec>`_
 
 **Tags** are used by the telescope to classify the target type, current available options:
