@@ -2,10 +2,11 @@ Observations using the **`astrokat`** `observe.py` script are controlled using a
 
 
 ## Observation planning
-
+Observation configuration and sequence planning
 
 ## Observation verification
-
+System verification of observation viability
 
 
 ## Observation scheduling
+Observation execution on live system
