@@ -1,5 +1,3 @@
-# astrokat
-
 Observations using the **`astrokat`** `observe.py` script are controlled using an observation configuration file. This configuration file is a human readable/editable file describing a desired observation strategy that the observer builds using **`astrokat`** tools.
 
 The configuration file implements the **`yaml`** configuration format for easy parsing and usage in Python.   
