@@ -4,6 +4,7 @@ List of observation targets specified as one target per line, using comma separa
 Per target required information: **Name, Tags, RA, Decl**   
 Details discussion of the per target information can be found on the [Observation target specification](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-specification) page
 
+Generally a catalogue is expected as part of the observation request. See [docs](https://github.com/rubyvanrooyen/astrokat/tree/master/docs) for an example observation request template
 
 ## Target catalogue to observation configuration
 If a observation catalogue file is provided, an initial configuration file can easily be generated.
