@@ -33,7 +33,7 @@ observation_loop:
 
 
 ## Calibrator observation
-Example observation tracking two standard calibrators
+Example observation tracking two standard calibrators with noise diode for Tsys calibration
 * Input catalogue
 ```
 1934-638,radec bpcal,19:39:25.03,-63:42:45.63
@@ -41,11 +41,16 @@ Example observation tracking two standard calibrators
 ```
 * Convert catalogue to observation configuration file   
 ```
-python catalogue2config.py --catalogue ../catalogues/two_calib.csv --obsfile two_calib.yaml --instrument c856M4k --bpcal-duration 30
+python catalogue2config.py --catalogue ../catalogues/two_calib.csv --obsfile two_calib.yaml --dumprate 4 --instrument c856M4k --bpcal-duration 30 --noise-source 4 -1
 ```
 * Output observation configuration file   
 ```
 instrument: c856M4k
+dumprate: 4
+noise_diode:
+  cycle_len: 4.0
+  on_fraction: -1.0
+  pattern: all
 observation_loop:
   - LST: 0.0-23.9
     calibration_standards:
