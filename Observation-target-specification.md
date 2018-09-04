@@ -29,7 +29,7 @@ The following calibrator tags are available: `gaincal`, `bpcal`, `fluxcal`, `pol
 
 ### Target location
 
-Specials such as planets and satellites are simply   
+Specials such as planets are simply   
 `Sun, special`   
 and not discussed further.
 
