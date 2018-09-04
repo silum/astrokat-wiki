@@ -1,5 +1,16 @@
-Observations using the **`astrokat`** `observe.py` script are controlled using an observation configuration file. This configuration file is a human readable/editable file describing a desired observation strategy that the observer builds using **`astrokat`** tools.
+## Observation catalogue
+_Minimum required information_   
+List of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.
+Per target required information: **Name, Tags, RA, Decl**   
+Details discussion of the per target information can be found on the [Observation target specification](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-specification) page
 
+
+## Target catalogue to observation configuration
+If a observation catalogue file is provided, an initial configuration file can easily be generated.
+Instructions on how to convert a catalogue to a configuration file, as well as some examples can be found on the [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations) page
+
+
+## Observation configuration file
 The configuration file implements the **`yaml`** configuration format for easy parsing and usage in Python.   
 ```
 instrument: <name>
