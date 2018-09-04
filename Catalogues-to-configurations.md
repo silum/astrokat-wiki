@@ -26,10 +26,53 @@ instrument: c856M4k
 observation_loop:
   - LST: 0.000-24.000
     target_list:
-      - name=target0_radec, radec=0 -90, tags=target, duration=300
-      - name=target1_azel, azel=10 50, tags=target, duration=300
-      - name=target2_gal, gal=-10 40, tags=target, duration=300
+      - name=target0_radec, radec=0 -90, tags=target, duration=10.0
+      - name=target1_azel, azel=10 50, tags=target, duration=10.0
+      - name=target2_gal, gal=-10 40, tags=target, duration=10.0
+```
+
+
+## Calibrator observation
+Example observation tracking two standard calibrators
+* Input catalogue
+```
+1934-638,radec bpcal,19:39:25.03,-63:42:45.63
+0408-65,radec bpcal,04:08:20.38,-65:45:09.1
+```
+* Convert catalogue to observation configuration file   
+```
+python catalogue2config.py --catalogue ../catalogues/two_calib.csv --obsfile two_calib.yaml --instrument c856M4k --bpcal-duration 30
+```
+* Output observation configuration file   
+```
+instrument: c856M4k
+observation_loop:
+  - LST: 0.0-23.9
     calibration_standards:
+      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal, duration=30.0
+      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=bpcal, duration=30.0
+```
+
+
+## Drift scan observations
+Observation that performs drift scans over calibrators as targets, using whatever instrument is available, but requiring 2 second dump rates
+* Input catalogue
+```
+1934-638,radec,19:39:25.03,-63:42:45.63
+0408-65,radec,04:08:20.38,-65:45:09.1
+```
+* Convert catalogue to observation configuration file   
+```
+python catalogue2config.py --catalogue ../catalogues/drift_targets.csv --obsfile drift_targets.yaml --dumprate 2 --target-duration 180 --drift-scan
+```
+* Output observation configuration file   
+```
+dumprate: 2
+drift_scans:
+  - LST: 0.0-23.9
+    target_list:
+      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=target, duration=180.0
+      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=target, duration=180.0
 ```
 
 
