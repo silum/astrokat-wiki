@@ -8,4 +8,4 @@
 
 
 # Observation configuration and planning
-* [astrokat](https://github.com/rubyvanrooyen/astrokat/wiki/astrokat)
+* [Basic definitions used in astrokat](https://github.com/rubyvanrooyen/astrokat/wiki/Basic-definitions-used-in-astrokat)
