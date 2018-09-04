@@ -12,6 +12,8 @@ The structure of each target specified in the input catalogues can be assumed to
 * Target Y location
 * Flux model [optional]
 
+Note: All information provided in the catalogue file must be standard text, no unicode characters are allowed.
+
 ### Target name
 User free form string associated with the target.   
 Sometimes a target may have a number of names associated and these can be listed using the '`|`' to separate names.   
