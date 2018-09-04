@@ -7,9 +7,6 @@
 * Display beam shape from antennas selected and UV coverage for integration time
 
 
-# Observation configuration and planning
+# Observation specification
 * [Basic definitions used in astrokat](https://github.com/rubyvanrooyen/astrokat/wiki/Basic-definitions-used-in-astrokat)
-* Observation specification: From proposal to observation script
-  * Observation configuration and sequence planning
-  * System verification of observation viability
-  * Observation execution on live system
+* [From proposal to observation](https://github.com/rubyvanrooyen/astrokat/wiki/From-proposal-to-observation-schedule-block)
