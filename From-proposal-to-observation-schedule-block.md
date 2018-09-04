@@ -3,10 +3,12 @@ Observations using the **`astrokat`** `observe.py` script are controlled using a
 
 ## Observation planning
 Observation configuration and sequence planning
+Mainly done by the proposing astronomer with possible assistance from a staff astronomer
 
 ## Observation verification
 System verification of observation viability
-
+Mainly done by the staff astronomer or AOD
 
 ## Observation scheduling
 Observation execution on live system
+Mainly OOD responsibility
