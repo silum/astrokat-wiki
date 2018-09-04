@@ -24,11 +24,11 @@ python catalogue2config.py --catalogue ../catalogues/targets.csv --obsfile targe
 ```
 instrument: c856M4k
 observation_loop:
-  - LST: 0-23
+  - LST: 0.000-24.000
     target_list:
-      - name=, radec=0 -90, tags=target, duration=10.0
-      - name=, azel=10 50, tags=target, duration=10.0
-      - name=, gal=-10 40, tags=target, duration=10.0
+      - name=target0_radec, radec=0 -90, tags=target, duration=300
+      - name=target1_azel, azel=10 50, tags=target, duration=300
+      - name=target2_gal, gal=-10 40, tags=target, duration=300
     calibration_standards:
 ```
 
