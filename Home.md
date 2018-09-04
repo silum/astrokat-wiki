@@ -9,3 +9,7 @@
 
 # Observation configuration and planning
 * [Basic definitions used in astrokat](https://github.com/rubyvanrooyen/astrokat/wiki/Basic-definitions-used-in-astrokat)
+* Observation specification: From proposal to observation script
+  * Observation configuration and sequence planning
+  * System verification of observation viability
+  * Observation execution on live system
