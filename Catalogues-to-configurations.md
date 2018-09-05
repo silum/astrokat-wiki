@@ -74,7 +74,8 @@ python catalogue2config.py --catalogue ../catalogues/drift_targets.csv --obsfile
 ```
 * Output observation configuration file   
 ```
-dumprate: 2
+instrument:
+  dumprate: 2
 drift_scans:
   - LST: 0.0-23.9
     target_list:
