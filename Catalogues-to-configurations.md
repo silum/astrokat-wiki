@@ -14,15 +14,16 @@ The basic steps for easy conversion:
 * Convert catalogue to observation configuration file   
 For convenience the output can be displayed to screen for easy visual verification   
 ```
-python catalogue2config.py --catalogue ../catalogues/targets.csv --instrument c856M4k --target-duration 10
+python catalogue2config.py --catalogue ../catalogues/targets.csv --product c856M4k --target-duration 10
 ```
 Once the user is satisfied with the output, an observation profile can be created   
 ```
-python catalogue2config.py --catalogue ../catalogues/targets.csv --obsfile targets.yaml --instrument c856M4k --target-duration 10
+python catalogue2config.py --catalogue ../catalogues/targets.csv --obsfile targets.yaml --product c856M4k --target-duration 10
 ```
 * Output YAML file --- alternative to the catalogue, astronomers may prefer to provide the observation configuration file generated during the proposal planning phase using the offline observation functionality   
 ```
-instrument: c856M4k
+instrument:
+  product: c856M4k
 observation_loop:
   - LST: 0.000-24.000
     target_list:
