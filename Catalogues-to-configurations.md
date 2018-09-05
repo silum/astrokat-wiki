@@ -177,9 +177,10 @@ python catalogue2config.py --catalogue ../catalogues/OH_periodic_masers.csv --ob
 ```
 * Output observation configuration file   
 ```
-instrument: c856M32k
+instrument:
+  product: c856M32k
 observation_loop:
-  - LST: 9-23
+  - LST: 9.448-23.344
     target_list:
       - name=G328.24-0.55, radec=15:54:06.11 -53:50:47.0, tags=B1950 target, duration=600.0
       - name=G331.13-0.24, radec=16:07:10.8 -51:42:29.0, tags=B1950 target, duration=600.0
@@ -197,7 +198,8 @@ observation_loop:
 ```
 * Configuration file updated and observation complexity formulated during observation planning runs   
 ```
-instrument: c856M32k
+instrument:
+  product: c856M32k
 observation_loop:
   - LST: 10-12
     target_list:
