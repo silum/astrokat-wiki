@@ -104,13 +104,14 @@ T4R02C04, radec target, +17:12:28.40227, -39:14:39.4421
 ```
 * Convert catalogue to observation configuration file   
 ```
-python catalogue2config.py --catalogue ../catalogues/image.csv --obsfile image.yaml --target-duration 180 --bpcal-duration 60 --gaincal-duration 30 --bpcal-interval 1800
+python catalogue2config.py --catalogue ../catalogues/image.csv --obsfile image_sim.yaml --target-duration 180 --bpcal-duration 60 --gaincal-duration 30 --bpcal-interval 1800 --product bc856M4k
 ```
 * Output observation configuration file   
 ```
-instrument: bc856M4k
+instrument:
+  product: bc856M4k
 observation_loop:
-  - LST: 11-23
+  - LST: 11.140-23.248
     target_list:
       - name=T3R04C06, radec=+17:22:27.46877 -38:12:09.4023, tags=target, duration=180.0
       - name=T4R00C02, radec=+17:11:22.47016 -37:51:51.0758, tags=target, duration=180.0
@@ -122,9 +123,34 @@ observation_loop:
       - name=T4R02C02, radec=+17:15:26.58923 -38:26:36.9760, tags=target, duration=180.0
       - name=T4R02C04, radec=+17:12:28.40227 -39:14:39.4421, tags=target, duration=180.0
     calibration_standards:
-      - name=J1939-6342 | *1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal delaycal, duration=300.0, cadence=1800.0
-      - name=J1331+3030 | *3C286, radec=13:31:08.288 +30:30:32.959, tags=bpcal polcal, duration=300.0, cadence=1800.0
-      - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=gaincal, duration=65.0
+      - name=J1939-6342 | *1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal delaycal, duration=60.0, cadence=1800.0
+      - name=J1331+3030 | *3C286, radec=13:31:08.288 +30:30:32.959, tags=bpcal polcal, duration=60.0, cadence=1800.0
+      - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=gaincal, duration=30.0
+```
+* Configuration file updated to remove the cadence added to 3C286, which is unwanted   
+```
+instrument:
+  product: bc856M4k
+observation_loop:
+  - LST: 11.140-23.248
+    target_list:
+      - name=T3R04C06, radec=+17:22:27.46877 -38:12:09.4023, tags=target, duration=180.0
+      - name=T4R00C02, radec=+17:11:22.47016 -37:51:51.0758, tags=target, duration=180.0
+      - name=T4R00C04, radec=+17:08:23.04449 -38:39:29.8486, tags=target, duration=180.0
+      - name=T4R00C06, radec=+17:05:19.53524 -39:26:50.4693, tags=target, duration=180.0
+      - name=T4R01C01, radec=+17:14:51.97986 -37:45:16.2459, tags=target, duration=180.0
+      - name=T4R01C03, radec=+17:11:55.13096 -38:33:15.4802, tags=target, duration=180.0
+      - name=T4R01C05, radec=+17:08:54.27808 -39:20:57.3978, tags=target, duration=180.0
+      - name=T4R02C02, radec=+17:15:26.58923 -38:26:36.9760, tags=target, duration=180.0
+      - name=T4R02C04, radec=+17:12:28.40227 -39:14:39.4421, tags=target, duration=180.0
+    calibration_standards:
+      - name=J1939-6342 | *1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal delaycal, duration=60.0, cadence=1800.0
+      - name=J1331+3030 | *3C286, radec=13:31:08.288 +30:30:32.959, tags=bpcal polcal, duration=60.0
+      - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=gaincal, duration=30.0
+```
+* Second desirable observation setup
+```
+python catalogue2config.py --catalogue ../catalogues/image.csv --obsfile image.yaml --target-duration 180 --bpcal-duration 300 --gaincal-duration 65 --gaincal-interval 600 --bpcal-interval 1800 --product bc856M4
 ```
 
 
@@ -147,7 +173,7 @@ G12.89+0.49, radec B1950, 18:08:56.4, -17:32:14.0
 ```
 * Convert catalogue to observation configuration file   
 ```
-python catalogue2config.py --catalogue ../catalogues/OH_periodic_masers.csv --obsfile OH_periodic_masers.yaml --target-duration 600 --bpcal-duration 300 --gaincal-duration 60 --instrument c856M32k
+python catalogue2config.py --catalogue ../catalogues/OH_periodic_masers.csv --obsfile OH_periodic_masers.yaml --target-duration 600 --bpcal-duration 300 --gaincal-duration 60 --product c856M32k
 ```
 * Output observation configuration file   
 ```
