@@ -25,7 +25,7 @@ python catalogue2config.py --catalogue ../catalogues/targets.csv --obsfile targe
 instrument:
   product: c856M4k
 observation_loop:
-  - LST: 0.000-24.000
+  - LST: 0.000-23.9
     target_list:
       - name=target0_radec, radec=0 -90, tags=target, duration=10.0
       - name=target1_azel, azel=10 50, tags=target, duration=10.0
@@ -34,7 +34,7 @@ observation_loop:
 
 
 ## Calibrator observation
-Example observation tracking two standard calibrators with noise diode for Tsys calibration
+Example observation tracking only two standard calibrators with noise diode for Tsys calibration
 * Input catalogue
 ```
 1934-638,radec bpcal,19:39:25.03,-63:42:45.63
@@ -42,16 +42,17 @@ Example observation tracking two standard calibrators with noise diode for Tsys 
 ```
 * Convert catalogue to observation configuration file   
 ```
-python catalogue2config.py --catalogue ../catalogues/two_calib.csv --obsfile two_calib.yaml --dumprate 4 --instrument c856M4k --bpcal-duration 30 --noise-source 4 -1
+python catalogue2config.py --catalogue ../catalogues/two_calib.csv --obsfile two_calib.yaml --dumprate 4 --product c856M4k --bpcal-duration 30 --noise-source 0.01 -1
 ```
 * Output observation configuration file   
 ```
-instrument: c856M4k
-dumprate: 4
+instrument:
+  product: c856M4k
+  dumprate: 4
 noise_diode:
-  cycle_len: 4.0
-  on_fraction: -1.0
   pattern: all
+  on_fraction: -1.0
+  cycle_len: 0.01
 observation_loop:
   - LST: 0.0-23.9
     calibration_standards:
