@@ -1,6 +1,6 @@
 ## Observation catalogue
 _Minimum required information_   
-List of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.
+List of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.   
 Per target required information: **Name, Tags, RA, Decl**   
 Details discussion of the per target information can be found on the [Observation target specification](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-specification) page
 
@@ -14,7 +14,14 @@ Instructions on how to convert a catalogue to a configuration file, as well as s
 ## Observation configuration file
 The configuration file implements the **`yaml`** configuration format for easy parsing and usage in Python.   
 ```
-instrument: <name>
+instrument:
+  product: <name>
+  dumprate: <sec>
+  required_antennas: <m0XX,...>
+noise_diode:
+  pattern: <all> or <cycle> or <m0XX>
+  on_fraction: < % >
+  cycle_len: <sec>
 observation_loop:
   - LST: <start>-<end>
     target_list:
@@ -26,7 +33,7 @@ observation_loop:
 ```
 
 An observation contains the following elements and items:
-* **Instrument** defining the subarray correlator setup. If the instrument element is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
+* **Instrument** defining the subarray correlator _`product`_. If the product element is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
 * **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When converting from a catalogue, the LST range is calculated from the RA of the listed targets.
 * **Target List** and **Calibration Standards** are targets, each specified as:   
 _`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
