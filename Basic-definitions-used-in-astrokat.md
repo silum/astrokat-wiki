@@ -27,7 +27,7 @@ observation_loop:
 
 An observation contains the following elements and items:
 * **Instrument** defining the subarray correlator setup. If the instrument element is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
-* **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range
+* **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When converting from a catalogue, the LST range is calculated from the RA of the listed targets.
 * **Target List** and **Calibration Standards** are targets, each specified as:   
 _`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
 _`name=<name>, gal=<DD:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
