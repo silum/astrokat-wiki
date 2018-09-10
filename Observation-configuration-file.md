@@ -1,17 +1,3 @@
-## Observation catalogue
-The _minimum required information_ for any observation is a list of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.   
-Per target required information: **Name, Tags, RA, Decl**   
-Details discussion of the per target information can be found on the [Observation target specification](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-specification) page
-
-Generally a catalogue is expected as part of the observation request. See [docs](https://github.com/rubyvanrooyen/astrokat/tree/master/docs) for an example observation request template
-
-
-## Target catalogue to observation configuration
-If a observation catalogue file is provided, an initial configuration file can easily be generated.
-Instructions on how to convert a catalogue to a configuration file, as well as some examples can be found on the [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations) page
-
-
-## Observation configuration file
 The configuration file implements the **`YAML`** configuration format for easy parsing and usage in Python.
 YAML is case sensitive and uses spaces for indentation, please no **TABS**.   
 Keys and values are separated by a colon, '`:`', using 2 additional spaces indentation for key words of the next deeper layer.
