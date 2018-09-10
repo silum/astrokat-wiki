@@ -14,27 +14,57 @@ If a observation catalogue file is provided, an initial configuration file can e
 Instructions on how to convert a catalogue to a configuration file, as well as some examples can be found on the [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations) page
 
 The `catalogue2config.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
+```
+catalogue2config.py -h
+```
+Required input parameters are the name of the catalogue file, `--catalogue`, as well as an on target duration in seconds, `--target-duration`.   
+For convenience the output will be displayed to screen if an output filename, '`--obsfile`', is not specified.  
 
-
-
-
-
-
-
-
-The basic steps for easy conversion:
-* Input catalogue of random targets
+Basic steps for conversion can be illustrated using some random targets, `targets.csv`
 ```
 , radec target, 0, -90
 , azel target, 10, 50
 , gal target, -10, 40
 ```
-* Convert catalogue to observation configuration file   
-For convenience the output can be displayed to screen for easy visual verification   
+
+Simple convert targets to configuration
 ```
-python catalogue2config.py --catalogue ../catalogues/targets.csv --product c856M4k --target-duration 10
+python catalogue2config.py --catalogue targets.csv --target-duration 10
 ```
-Once the user is satisfied with the output, an observation profile can be created   
+Resulting in a basic target list
+```
+instrument:
+observation_loop:
+  - LST: 0.000-23.9
+    target_list:
+      - name=target0_radec, radec=0 -90, tags=target, duration=10.0
+      - name=target1_azel, azel=10 50, tags=target, duration=10.0
+      - name=target2_gal, gal=-10 40, tags=target, duration=10.0
+```
+An empty key for _`instrument`_ indicate that currently only the target sequence is important and will be evaluated.   
+No _`LST`_ range was specified in the conversion, so the range over which the targets are visible has been inserted by default.   
+Also, target names were not provided, resulting in generated names to be created.   
+Each target has its own _`tags`_ and _`duration`_. These can be updated by the user.
+
+The default observation type is to track the target for the duration specified.
+The type key can also be used to specify alternative observation types, currently only driftscans are implemented.
+```
+python catalogue2config.py --catalogue targets.csv --target-duration 10 --drift-scan
+```
+Or can be added explicitly, using the type key
+```
+instrument:
+observation_loop:
+  - LST: 0.000-23.9
+    target_list:
+      - name=target0_radec, radec=0 -90, tags=target, duration=10.0, type=track
+...
+```
+
+
+
+The basic steps for easy conversion:
+*  Once the user is satisfied with the output, an observation profile can be created   
 ```
 python catalogue2config.py --catalogue ../catalogues/targets.csv --obsfile targets.yaml --product c856M4k --target-duration 10
 ```
