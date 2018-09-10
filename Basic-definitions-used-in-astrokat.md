@@ -6,6 +6,7 @@ Details discussion of the per target information can be found on the [Observatio
 
 Generally a catalogue is expected as part of the observation request. See [docs](https://github.com/rubyvanrooyen/astrokat/tree/master/docs) for an example observation request template
 
+
 ## Target catalogue to observation configuration
 If a observation catalogue file is provided, an initial configuration file can easily be generated.
 Instructions on how to convert a catalogue to a configuration file, as well as some examples can be found on the [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations) page
@@ -38,6 +39,7 @@ observation_loop:
       - ...
 ```
 
+
 ### [Optional] Instrument
 The **_`instrument`_** key describes all subarray parameters required to be available in the active subarray before the observation can be executed. Currently, these include
 
@@ -60,6 +62,7 @@ If the band key is not specified, the default assumption will be that the observ
 * By default 8 seconds worth of data is averaged before output. The _`dumprate`_ key sets this parameter.
 * _`required_antennas`_ is used if the observation can only be executed with a required antenna in the array. If this antenna becomes unavailable, the observation will not proceed.
 
+
 ### [Optional] Noise diode
 A 20K noise diode is fitted at each receptor. The activation of the noise diode will trigger noise diodes on all antennas in the active subarray.
 
@@ -75,23 +78,17 @@ Although the _`noise_diode`_ key is optional, once specified, all the sub-keys m
 * The noise diode will cycle through an on/off pattern in the amount of time set by _`cycle_len`_, specified in seconds or fraction of seconds.
 * Fraction of the cycle time the noise diode must be in the on state is provided in _`on_fraction`_ key
 
+
 ### Observation loops
-An example observation contains the following elements and items:
-* **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When converting from a catalogue, the LST range is calculated from the RA of the listed targets.
-* **Target List** and **Calibration Standards** are targets, each specified as:   
+An observation_loop contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When converting from a catalogue, the LST range is calculated from the RA of the listed targets.
+
+**Target List** and **Calibration Standards** are targets, each specified as:   
 _`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
 _`name=<name>, gal=<DD:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
 _`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
 
+Sources specified in the _`target_list`_ will be observed in the order listed in the configuration file, while sources listed in the _`calibration_standards`_ will be observed after all the targets in the _`target_list`_ has been completed, or intermittently at a user specified cadence. Targets listed in the _`target_list`_ can be observation targets of interest with accompanying gain/delay calibrators, while _`calibration_standards`_ observations are not necessarily required as part of the target cycle. A _`target_list`_ must always be provided for observation, but _`calibration_standards`_ are only provided when needed.
 
-   
-
-
-
-Two types of targets are specified:
-* observation targets of interest with accompanying gain/delay calibrators as ordered targets
-* [optional] calibration standards to be observed at some user specified cadence by adding:   
-_`, cadence=<sec>`_
 
 **Tags** are used by the telescope to classify the target type, current available options:
 * Target tags indicate the type of target coordinate along with the 'target' indicator   
@@ -103,5 +100,6 @@ _`, cadence=<sec>`_
  * Flux calibrators: `fluxcal`
  * Polarisation calibrators: `polcal`
 
-Sources specified in the _target list_ will be observed in the order listed in the configuration file, while sources listed in the _calibration standards_ will be observed intermittently at a user specified cadence provided in the observation instruction set.   
-A _target list_ must always be provided for observation, but _calibration standards_ are only provided when needed.
+Optional keys provided when needed to target elements:
+* For the _`target_list`_, an optional _`type`_ element can be added to indicate observation types other than tracking the target specified. Currently, an additional observation type is driftscan which can be added as _`type=driftscan`_.
+* For _`calibration_standards`_ to be observed at some user specified cadence, the optional key is required: _`cadence=<sec>`_
