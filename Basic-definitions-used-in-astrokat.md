@@ -19,7 +19,26 @@ Keys and values are separated by a colon, '`:`', using 2 additional spaces inden
 Primary keys of interest to the user are: _`instrument`_, _`noise_diode`_ and **_`observation_loop`_**   
 Only the _`observation_loop`_ key is required, the rest is optional and only added to the configuration file when needed.
 
-### Instrument
+```
+instrument:
+  product: <name>
+  dumprate: <sec>
+  required_antennas: <m0XX,...>
+noise_diode:
+  pattern: <all> or <cycle> or <m0XX>
+  on_fraction: < % >
+  cycle_len: <sec>
+observation_loop:
+  - LST: <start>-<end>
+    target_list:
+      - <target>
+      - ...
+    calibration_standards:
+      - <target>
+      - ...
+```
+
+### [Optional] Instrument
 The **_`instrument`_** key describes all subarray parameters required to be available in the active subarray before the observation can be executed. Currently, these include
 
 | key | Value |
@@ -41,7 +60,20 @@ If the band key is not specified, the default assumption will be that the observ
 * By default 8 seconds worth of data is averaged before output. The _`dumprate`_ key sets this parameter.
 * _`required_antennas`_ is used if the observation can only be executed with a required antenna in the array. If this antenna becomes unavailable, the observation will not proceed.
 
-### Noise diode
+### [Optional] Noise diode
+A 20K noise diode is fitted at each receptor. The activation of the noise diode will trigger noise diodes on all antennas in the active subarray.
+
+| key | Value |
+| --- | --- |
+| pattern | < all > or <m0XX, ...> |
+| cycle_len | Number seconds the noise diode cycle [on/off] |
+| on_fraction | < % > |
+
+Noise diode keys:   
+Although the _`noise_diode`_ key is optional, once specified, all the sub-keys must be provided to describe how the noise diode must be set.
+* Noise diode _`pattern`_ can be triggered an all antennas in the array, or a list of selected antennas.
+* The noise diode will cycle through an on/off pattern in the amount of time set by _`cycle_len`_, specified in seconds or fraction of seconds.
+* Fraction of the cycle time the noise diode must be in the on state is provided in _`on_fraction`_ key
 
 ### Observation loops
 An example observation contains the following elements and items:
@@ -53,24 +85,7 @@ _`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_
 
 
    
-```
-instrument:
-  product: <name>
-  dumprate: <sec>
-  required_antennas: <m0XX,...>
-noise_diode:
-  pattern: <all> or <cycle> or <m0XX>
-  on_fraction: < % >
-  cycle_len: <sec>
-observation_loop:
-  - LST: <start>-<end>
-    target_list:
-      - <target>
-      - ...
-    calibration_standards:
-      - <target>
-      - ...
-```
+
 
 
 Two types of targets are specified:
