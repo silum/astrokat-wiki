@@ -1,6 +1,5 @@
 ## Observation catalogue
-_Minimum required information_   
-List of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.   
+The _minimum required information_ for any observation is a list of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.   
 Per target required information: **Name, Tags, RA, Decl**   
 Details discussion of the per target information can be found on the [Observation target specification](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-specification) page
 
@@ -25,8 +24,9 @@ Only the _`observation_loop`_ key is required, the rest is optional and only add
 ```
 instrument:
   product: <name>
-  dumprate: <sec>
-  required_antennas: <m0XX,...>
+  dump_rate: <sec>
+  band: l
+  pool_resources: <m0XX,...>, ptuse
 noise_diode:
   pattern: <all> or <cycle> or <m0XX>
   on_fraction: < % >
@@ -49,10 +49,10 @@ The **_`instrument`_** key describes all subarray parameters required to be avai
 | --- | --- |
 | product | Correlator product specific name |
 |     | c856M4k, bc856M4k, c856M32k, bc856M32k, bc856M1k, bec856M4kssd |
-| band | Observation band, currently only `l` band is available |
-| dumprate | Number seconds averaging data before output |
+| dump_rate | Number seconds averaging data before output |
 |     | 1, 2, 4, 8 (with 8s averaging default) |
-| required_antennas | Observation should not proceed if any of these antennas are not available |
+| band | Observation band, currently only `l` band is available |
+| pool_resources | Required antennas for observation or using PTUSE for beamformer observations |
 
 The _`instrument`_ primary key is optional. If the instrument key is not specified, the observation can be executed using any active subarray. Example usage is telescope specific calibration observations that is needed for all correlator products, but generally observe the same targets.
 
@@ -61,8 +61,8 @@ The _`instrument`_ primary key is optional. If the instrument key is not specifi
 If the product key is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
 * _`band`_ defining the receptor required for observation.
 If the band key is not specified, the default assumption will be that the observation can be scheduled using any receptor. Band expected: UHF, L, S and X.
-* By default 8 seconds worth of data is averaged before output. The _`dumprate`_ key sets this parameter.
-* _`required_antennas`_ is used if the observation can only be executed with a required antenna in the array. If this antenna becomes unavailable, the observation will not proceed.
+* By default 8 seconds worth of data is averaged before output. The _`dump_rate`_ key sets this parameter.
+* _`pool_resources`_ is used if the observation can only be executed with a required array setup. The observation should not proceed if any of these resources are not available.
 
 
 ### [Optional] Noise diode
