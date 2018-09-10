@@ -78,7 +78,7 @@ Noise diode keys:
 Although the _`noise_diode`_ key is optional, once specified, all the sub-keys must be provided to describe how the noise diode must be set.
 * Noise diode _`pattern`_ can be triggered an all antennas in the array, or a list of selected antennas.
 * The noise diode will cycle through an on/off pattern in the amount of time set by _`cycle_len`_, specified in seconds or fraction of seconds.
-* Fraction of the cycle time the noise diode must be in the on state is provided in _`on_fraction`_ key. if the _`on_fraction`_ key is set to -1, the noise diode will trigger for _`cycle_len`_ before tracking a target.
+* Fraction of the cycle time the noise diode must be in the on state is provided in _`on_fraction`_ key. if the _`on_fraction`_ key is set to `-1`, the noise diode will trigger for _`cycle_len`_ before tracking a target.
 
 
 ### Observation loops
