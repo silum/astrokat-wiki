@@ -12,7 +12,44 @@ Instructions on how to convert a catalogue to a configuration file, as well as s
 
 
 ## Observation configuration file
-The configuration file implements the **`yaml`** configuration format for easy parsing and usage in Python.   
+The configuration file implements the **`YAML`** configuration format for easy parsing and usage in Python.
+YAML is case sensitive and uses spaces for indentation, please no **TABS**.   
+Keys and values are separated by a colon, '`:`', using 2 additional spaces indentation for key words of the next deeper layer.
+
+Primary keys of interest to the user are: _`instrument`_, _`noise_diode`_ and **_`observation_loop`_**   
+Only the _`observation_loop`_ key is required, the rest is optional and only added to the configuration file when needed.
+
+The **_`instrument`_** key describes all subarray parameters required to be available in the active subarray before the observation can be executed. Currently, these include
+
+| key | Value |
+| --- | --- |
+| product | Correlator product specific name |
+|     | c856M4k, bc856M4k, c856M32k, bc856M32k, bc856M1k, bec856M4kssd |
+| band | Observation band, currently only `l` band is available |
+| dumprate | Number seconds averaging data before output |
+|     | 1, 2, 4, 8 (with 8s averaging default) |
+| required_antennas | Observation should not proceed if any of these antennas are not available |
+
+The _`instrument`_ primary key is optional. If the instrument key is not specified, the observation can be executed using any active subarray. Example usage is telescope specific calibration observations that is needed for all correlator products, but generally observe the same targets.
+
+[Optional] Instrument keys:
+* _`product`_ defining the subarray correlator setup.
+If the product key is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
+* _`band`_ defining the receptor required for observation.
+If the band key is not specified, the default assumption will be that the observation can be scheduled using any receptor. Band expected: UHF, L, S and X.
+* By default 8 seconds worth of data is averaged before output. The _`dumprate`_ key sets this parameter.
+* _`required_antennas`_ is used if the observation can only be executed with a required antenna in the array. If this antenna becomes unavailable, the observation will not proceed.
+
+
+An example observation contains the following elements and items:
+* **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When converting from a catalogue, the LST range is calculated from the RA of the listed targets.
+* **Target List** and **Calibration Standards** are targets, each specified as:   
+_`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, gal=<DD:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
+
+
+   
 ```
 instrument:
   product: <name>
@@ -32,13 +69,6 @@ observation_loop:
       - ...
 ```
 
-An observation contains the following elements and items:
-* **Instrument** defining the subarray correlator _`product`_. If the product element is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
-* **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When converting from a catalogue, the LST range is calculated from the RA of the listed targets.
-* **Target List** and **Calibration Standards** are targets, each specified as:   
-_`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
-_`name=<name>, gal=<DD:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
-_`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
 
 Two types of targets are specified:
 * observation targets of interest with accompanying gain/delay calibrators as ordered targets
