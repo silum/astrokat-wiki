@@ -1,8 +1,26 @@
-## Convert CSV format target catalogue to observation configuration file
-The minimum requirement with a proposal is a comma separated file that contains a list of all targets, with or without calibrators. This is a simple text file with defined format:   
-`[name], tags, ra, dec` or `[name], tags, az, el` or `[name], tags, l, b`
+## Observation catalogue
+The _minimum required information_ for any observation is a list of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.   
+Per target required information:   
+`[name], tags, ra, dec` or `[name], tags, az, el` or `[name], tags, l, b`   
+Details discussion of the per target information can be found on the [Observation target specification](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-specification) page
 
 The targets can be celestial, horizontal or galactic. Specials such as TLE for satellites and near earth objects are not currently available.
+
+Generally a catalogue is expected as part of the observation request. See [docs](https://github.com/rubyvanrooyen/astrokat/tree/master/docs) for an example observation request template
+
+
+## Convert CSV format target catalogue to observation configuration file
+If a observation catalogue file is provided, an initial configuration file can easily be generated.
+Instructions on how to convert a catalogue to a configuration file, as well as some examples can be found on the [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations) page
+
+The `catalogue2config.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
+
+
+
+
+
+
+
 
 The basic steps for easy conversion:
 * Input catalogue of random targets
