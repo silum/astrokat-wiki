@@ -19,6 +19,7 @@ Keys and values are separated by a colon, '`:`', using 2 additional spaces inden
 Primary keys of interest to the user are: _`instrument`_, _`noise_diode`_ and **_`observation_loop`_**   
 Only the _`observation_loop`_ key is required, the rest is optional and only added to the configuration file when needed.
 
+### Instrument
 The **_`instrument`_** key describes all subarray parameters required to be available in the active subarray before the observation can be executed. Currently, these include
 
 | key | Value |
@@ -40,7 +41,9 @@ If the band key is not specified, the default assumption will be that the observ
 * By default 8 seconds worth of data is averaged before output. The _`dumprate`_ key sets this parameter.
 * _`required_antennas`_ is used if the observation can only be executed with a required antenna in the array. If this antenna becomes unavailable, the observation will not proceed.
 
+### Noise diode
 
+### Observation loops
 An example observation contains the following elements and items:
 * **Observation Loop** containing a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When converting from a catalogue, the LST range is calculated from the RA of the listed targets.
 * **Target List** and **Calibration Standards** are targets, each specified as:   
