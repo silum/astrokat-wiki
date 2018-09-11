@@ -17,7 +17,7 @@ Noise source will be active for 100ms before each drift-scan
 * Output observation configuration file   
 ```
 instrument:
-  dump_rate: 2
+  dump_rate: 0.5
 noise_diode:
   pattern: all
   on_fraction: -1.0
