@@ -2,7 +2,7 @@ The configuration file implements the **`YAML`** configuration format for easy p
 YAML is case sensitive and uses spaces for indentation, please no **TABS**.   
 Keys and values are separated by a colon, '`:`', using 2 additional spaces indentation for key words of the next deeper layer.
 
-Example configuration files with various observation types can be found on the [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations) page.
+Example configuration files with various observation types can be found on the [Observation configuration examples](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-examples) page.
 
 Primary keys of interest to the user are: _`instrument`_, _`noise_diode`_ and **_`observation_loop`_**   
 Only the _`observation_loop`_ key is required, the rest is optional and only added to the configuration file when needed.
