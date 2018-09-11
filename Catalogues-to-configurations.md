@@ -10,8 +10,8 @@ Generally a catalogue is expected as part of the observation request. See [docs]
 
 
 ## Converting target catalogue to observation configuration file
-If a observation catalogue file is provided, an initial configuration file can easily be generated.
-Instructions on how to convert a catalogue to a configuration file, as well as some examples can be found on the [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations) page
+If an observation catalogue file is provided, an initial configuration file can easily be generated.
+More extensive information on the observation configuration file can be found on the [Observation configuration file](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-file) page
 
 The `catalogue2config.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
 ```
