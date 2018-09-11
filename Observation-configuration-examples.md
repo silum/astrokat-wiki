@@ -50,7 +50,7 @@ T4R02C04, radec target, +17:12:28.40227, -39:14:39.4421
 ```
 * Convert catalogue to observation configuration file   
 ```
-python catalogue2config.py --catalogue ../catalogues/image.csv --obsfile image_sim.yaml --target-duration 180 --bpcal-duration 60 --gaincal-duration 30 --bpcal-interval 1800 --product bc856M4k
+python catalogue2config.py --catalogue image.csv --obsfile image_sim.yaml --target-duration 180 --bpcal-duration 60 --gaincal-duration 30 --bpcal-interval 1800 --product bc856M4k
 ```
 * Output observation configuration file   
 ```
@@ -96,7 +96,7 @@ observation_loop:
 ```
 * Second desirable observation setup
 ```
-python catalogue2config.py --catalogue ../catalogues/image.csv --obsfile image.yaml --target-duration 180 --bpcal-duration 300 --gaincal-duration 65 --gaincal-interval 600 --bpcal-interval 1800 --product bc856M4
+python catalogue2config.py --catalogue image.csv --obsfile image.yaml --target-duration 180 --bpcal-duration 300 --gaincal-duration 65 --gaincal-interval 600 --bpcal-interval 1800 --product bc856M4
 ```
 
 
@@ -119,7 +119,7 @@ G12.89+0.49, radec B1950, 18:08:56.4, -17:32:14.0
 ```
 * Convert catalogue to observation configuration file   
 ```
-python catalogue2config.py --catalogue ../catalogues/OH_periodic_masers.csv --obsfile OH_periodic_masers.yaml --target-duration 600 --bpcal-duration 300 --gaincal-duration 60 --product c856M32k
+python catalogue2config.py --catalogue OH_periodic_masers.csv --obsfile OH_periodic_masers.yaml --target-duration 600 --bpcal-duration 300 --gaincal-duration 60 --product c856M32k
 ```
 * Output observation configuration file   
 ```
