@@ -10,7 +10,7 @@ Only the _`observation_loop`_ key is required, the rest is optional and only add
 ```
 instrument:
   product: <name>
-  dump_rate: <sec>
+  dump_rate: <Hz>
   band: l
   pool_resources: <m0XX,...>, ptuse
 noise_diode:
@@ -35,8 +35,8 @@ The **_`instrument`_** key describes all subarray parameters required to be avai
 | --- | --- |
 | product | Correlator product specific name |
 |     | c856M4k, bc856M4k, c856M32k, bc856M32k, bc856M1k, bec856M4kssd |
-| dump_rate | Number seconds averaging data before output |
-|     | 1, 2, 4, 8 (with 8s averaging default) |
+| dump_rate | Output dump rate |
+|     | 1=1Hz, 2=0.5Hz, 4=0.25Hz, 8=0.125Hz (with 8s averaging default) |
 | band | Observation band, currently only `l` band is available |
 | pool_resources | Required antennas for observation or using PTUSE for beamformer observations |
 
@@ -47,7 +47,7 @@ The _`instrument`_ primary key is optional. If the instrument key is not specifi
 If the product key is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
 * _`band`_ defining the receptor required for observation.
 If the band key is not specified, the default assumption will be that the observation can be scheduled using any receptor. Band expected: UHF, L, S and X.
-* By default 8 seconds worth of data is averaged before output. The _`dump_rate`_ key sets this parameter.
+* Observation data is averaged over some number seconds before output. This is default 8 seconds worth of data is averaged before output. The _`dump_rate`_ key sets this parameter as a rate of output, 1/#seconds [Hz]
 * _`pool_resources`_ is used if the observation can only be executed with a required array setup. The observation should not proceed if any of these resources are not available.
 
 
