@@ -117,7 +117,7 @@ Adding the additional information to the _`instrument`_ key, setting the observa
 ```
 instrument:
   product: bc856M4k
-  dump_rate: 2
+  dump_rate: 0.5
 observation_loop:
   - LST: 0.000-23.9
     target_list:
