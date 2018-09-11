@@ -1,54 +1,32 @@
-Alternative to the catalogue, astronomers may prefer to provide the observation configuration file generated during the proposal planning phase using the offline observation functionality   
+The examples provided is in the form of simple observation catalogues converted to observation configuration files. This is simply introductory, more advance users can simple construct an observation configuration file during the proposal planning phase using the offline observation functionality   
 
 
-## Calibrator observation
-Example observation tracking only two standard calibrators with noise diode for Tsys calibration
-* Input catalogue
-```
-1934-638,radec bpcal,19:39:25.03,-63:42:45.63
-0408-65,radec bpcal,04:08:20.38,-65:45:09.1
-```
-* Convert catalogue to observation configuration file   
-```
-python catalogue2config.py --catalogue ../catalogues/two_calib.csv --obsfile two_calib.yaml --dumprate 4 --product c856M4k --bpcal-duration 30 --noise-source 0.01 -1
-```
-* Output observation configuration file   
-```
-instrument:
-  product: c856M4k
-  dumprate: 4
-noise_diode:
-  pattern: all
-  on_fraction: -1.0
-  cycle_len: 0.01
-observation_loop:
-  - LST: 0.0-23.9
-    calibration_standards:
-      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal, duration=30.0
-      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=bpcal, duration=30.0
-```
-
-
-## Drift scan observations
-Observation that performs drift scans over calibrators as targets, using whatever instrument is available, but requiring 2 second dump rates
-* Input catalogue
+## Simple calibrator drift scan
+An example observation that performs drift scans over calibrators as targets.
+Use whatever correlator is active at scheduling, but requiring 2 second dump rates. Noise diode activation before each scan is included for Tsys calibration.
+* Input catalogue   
 ```
 1934-638,radec,19:39:25.03,-63:42:45.63
 0408-65,radec,04:08:20.38,-65:45:09.1
 ```
 * Convert catalogue to observation configuration file   
 ```
-python catalogue2config.py --catalogue ../catalogues/drift_targets.csv --obsfile drift_targets.yaml --dumprate 2 --target-duration 180 --drift-scan
+python catalogue2config.py --catalogue drift_targets.csv --obsfile drift_targets.yaml --dump-rate 2 --noise-source 0.1 -1 --target-duration 180 --drift-scan
 ```
+Noise source will be active for 100ms before each drift-scan
 * Output observation configuration file   
 ```
 instrument:
-  dumprate: 2
-drift_scans:
+  dump_rate: 2
+noise_diode:
+  pattern: all
+  on_fraction: -1.0
+  cycle_len: 0.1
+observation_loop:
   - LST: 0.0-23.9
     target_list:
-      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=target, duration=180.0
-      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=target, duration=180.0
+      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=target, duration=180.0, type=drift_scan
+      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=target, duration=180.0, type=drift_scan
 ```
 
 
