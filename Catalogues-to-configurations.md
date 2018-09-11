@@ -51,15 +51,30 @@ The type key can also be used to specify alternative observation types, currentl
 ```
 python catalogue2config.py --catalogue targets.csv --target-duration 10 --drift-scan
 ```
-Or can be added explicitly, using the type key
+Resulting on a _`type`_ key being added indicating that the targets must be observed using a drift scan
+```
+instrument:
+observation_loop:
+  - LST: 0.000-23.9
+    target_list:
+      - name=target0_radec, radec=0 -90, tags=target, duration=10.0, type=drift_scan
+      - name=target1_azel, azel=10 50, tags=target, duration=10.0, type=drift_scan
+      - name=target2_gal, gal=-10 40, tags=target, duration=10.0, type=drift_scan
+```
+Optional is to remove the key for those targets not requiring a drift scan, or explicitly adding the track observation type.
 ```
 instrument:
 observation_loop:
   - LST: 0.000-23.9
     target_list:
       - name=target0_radec, radec=0 -90, tags=target, duration=10.0, type=track
-...
+      - name=target1_azel, azel=10 50, tags=target, duration=10.0, type=track
+      - name=target2_gal, gal=-10 40, tags=target, duration=10.0, type=drift_scan
 ```
+
+
+
+
 
 
 
