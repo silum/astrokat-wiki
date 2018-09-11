@@ -20,6 +20,7 @@ catalogue2config.py -h
 Required input parameters are the name of the catalogue file, `--catalogue`, as well as an on target duration in seconds, `--target-duration`.   
 For convenience the output will be displayed to screen if an output filename, '`--obsfile`', is not specified.  
 
+### Adding observation source targets
 Basic steps for conversion can be illustrated using some random targets, `targets.csv`
 ```
 , radec target, 0, -90
@@ -73,6 +74,33 @@ observation_loop:
 ```
 
 
+### Adding observation calibrators
+Gain calibrators is generally intermingled with the source target list, but primary calibrators such and bandpass and polarisation calibrators need only be visited at some slow cadence.
+```
+, radec target, 0, -90
+, azel target, 10, 50
+, gal target, -10, 40
+1934-638,radec bpcal,19:39:25.03,-63:42:45.63
+0408-65,radec bpcal,04:08:20.38,-65:45:09.1
+```
+When calibrators are present in the catalogue, they are added to the _`calibration_standards`_ key of the _`observation_loop`_. This makes the initial presentation clean and easy to edit by the user should there be a need to move the calibrator to the target list to ensure the calibrator is observation in sequence.
+For this example we assume a bandpass calibrator to be observed for 30 seconds every hour. Two calibrators are added since the targets fill the whole 24h LST range.
+```
+python catalogue2config.py --catalogue targets.csv --target-duration 10 --bpcal-duration 30 --bpcal-interval 3600
+```
+Updating the observation configuration to
+```
+instrument:
+observation_loop:
+  - LST: 0.000-23.9
+    target_list:
+      - name=target0_radec, radec=0 -90, tags=target, duration=10.0
+      - name=target1_azel, azel=10 50, tags=target, duration=10.0
+      - name=target2_gal, gal=-10 40, tags=target, duration=10.0
+    calibration_standards:
+      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal, duration=30.0, cadence=3600.0
+      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=bpcal, duration=30.0, cadence=3600.0
+```
 
 
 
