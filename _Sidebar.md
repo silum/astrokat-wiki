@@ -1,4 +1,4 @@
-# Observations
+# Observation setup
 * [Observation target specification](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-specification)
 * [Observation configuration file](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-file)
 * [Catalogues to configurations](https://github.com/rubyvanrooyen/astrokat/wiki/Catalogues-to-configurations)
