@@ -8,7 +8,7 @@ Observation configuration and sequence planning is mainly done by the proposing 
 
 The observation sequence is validated by the output display using the _`observe.py`_ script with the configuration file as input. The output will cover the whole LST range that the observation can be scheduled as indicated in the configuration file.
 
-Some example output using the tutorial configuration files:
+Some example output using the tutorial configuration files:   
 `python observe.py --profile ../config/drift_targets.yaml`
 ```
 2018-09-12 08:51:44Z - Noise diode will be fired on all antenna(s) for 0.1 sec before each track or scan
