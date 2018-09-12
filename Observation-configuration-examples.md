@@ -1,4 +1,5 @@
-The examples provided is in the form of simple observation catalogues converted to observation configuration files. This is simply introductory, more advance users can simple construct an observation configuration file during the proposal planning phase using the offline observation functionality   
+The examples provided is in the form of simple observation catalogues converted to observation configuration files.
+This is simply introductory, more advance users can construct an observation configuration file during the proposal planning phase using the offline observation functionality   
 
 
 ## Simple calibrator drift scan
