@@ -6,7 +6,7 @@ In order to achieve consistent representation and processing, MeerKAT observatio
 ## Observation planning
 Observation configuration and sequence planning is mainly done by the proposing astronomer with possible assistance from a staff astronomer. This requires the generation of an observation configuration file describing a desired observation strategy that the observer builds using tools provided by MeerKAT.
 
-The observation sequence is validated by the output display using the _`observe.py`_ script with the configuration file as input. The output will cover the whole LST range that the observation can be scheduled as indicated in the configuration file.
+The observation sequence is validated by the output display using the `observe.py` script with the configuration file as input. The output will cover the whole LST range that the observation can be scheduled as indicated in the configuration file.
 
 Some example output using the tutorial configuration files:   
 `python observe.py --profile ../config/drift_targets.yaml`
