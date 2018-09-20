@@ -1,7 +1,7 @@
 # Time calculations providing LST information relative to the MeerKAT telescope
 
 * Current LST at MeerKAT telescope: 
-`python mkat_lst.py`
+`python astrokat-lst.py`
 > Current clock times at MeerKAT:   
 > Now is 2018/9/20 11:19:21Z UTC and 12:42:19.57 LST
 
