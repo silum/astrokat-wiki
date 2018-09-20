@@ -1,8 +1,9 @@
 # Time calculations providing LST information relative to the MeerKAT telescope
 
-* Current LST at MeerKAT telescope   
-`python mkat_lst.py --current`   
-**Current LST at MeerKAT 6:40:16.32**
+* Current LST at MeerKAT telescope: 
+`python mkat_lst.py`
+> Current clock times at MeerKAT:   
+> Now is 2018/9/20 11:19:21Z UTC and 12:42:19.57 LST
 
 * Return MeerKAT LST for a given UTC date and time   
 `python mkat_lst.py --utc '2018-08-06 12:34'`   
