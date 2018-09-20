@@ -10,6 +10,5 @@
 
 # Tools
 * [MeerKAT LST tools](https://github.com/rubyvanrooyen/astrokat/wiki/MeerKAT-LST-tools)
-* [MeerKAT calibrator selection tools]
-
+* [MeerKAT calibrator selection](https://github.com/rubyvanrooyen/astrokat/wiki/MeerKAT-calibrator-selection)
 
