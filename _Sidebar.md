@@ -12,3 +12,5 @@
 * [MeerKAT LST tools](https://github.com/ska-sa/astrokat/wiki/MeerKAT-LST-tools)
 * [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection)
 
+# Usage
+* [Verification and observation](https://github.com/ska-sa/astrokat/wiki/Verification-and-observation)
