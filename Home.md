@@ -6,4 +6,4 @@
 * Display beam shape from antennas selected and UV coverage for integration time
 
 # Documentation
-[Observation framework specification](https://github.com/ska-sa/astrokat/wiki/)
+[Observation framework specification](https://github.com/ska-sa/astrokat/wiki/Observation-framework-specification)
