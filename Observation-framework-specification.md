@@ -1,6 +1,12 @@
 Specifying tags and functionality to incorporate into the new observation framework in relation to observational requirements.
 
 ## All observations
+* Type of input coordinates
+* types of calibrators and where to find them
+
+* verification needs -- the various steps and stages of running the script offline and online
+
+
 
 ## Correlator specific observational requirements
 Information and options required during observation planning and execution in the YAML file
