@@ -6,6 +6,10 @@ Specifying tags and functionality to incorporate into the new observation framew
 
 * verification needs -- the various steps and stages of running the script offline and online
 
+### Noise diode usage during observations
+* astrokat [issue 5](https://github.com/ska-sa/astrokat/issues/5)
+
+
 
 
 ## Correlator specific observational requirements
