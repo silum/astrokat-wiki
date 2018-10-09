@@ -1,8 +1,11 @@
 Specifying tags and functionality to incorporate into the new observation framework in relation to observational requirements.
 
 ## All observations
-* Type of input coordinates
-* types of calibrators and where to find them
+* Type of input coordinates   
+Details on page [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) -- needs to be updated with using only template obs_plan files and all target definitions and when
+
+* types of calibrators and where to find them   
+Details on page [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) -- needs to be updated with new implementations as well as with details for OPT GUI
 
 * verification needs -- the various steps and stages of running the script offline and online
 
