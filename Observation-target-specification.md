@@ -25,7 +25,7 @@ A list of tags associated with the provided target coordinates.
 The first tag is always the format of the coordinates provided.    
 `radec` or `azel` or `gal`   
 For targets the explicit `target` tag or epoch `B1950`. `J2000` is assumed as default epoch.   
-The following calibrator tags are available: `gaincal`, `bpcal`, `fluxcal`, `polcal`
+The following calibrator tags are available: `phasecal`, `gaincal`, `bpcal`, `fluxcal`, `polcal`
 
 ### Target location
 
