@@ -1,4 +1,76 @@
-Find the closest calibrators to a target and create a CSV catalogue file.
+# Aim
+User tool to find the closest, good calibrators to a target, as well as create a CSV catalogue file.   
+`python astrokat-cals.py -h`
+
+#### Basic functionality
+The tool requires that a target, or a catalogue file be specified.   
+A single target is specified with the `--target` argument,    
+while catalogue file containing multiple targets are provided with the `--infile` argument.   
+* Format for specifying a single target is simply `--target <name> <ra> <dec>`   
+* Providing multiple targets in an input file simply follows the typical target specification definition of the observation CSV catalogue files [ADD LINK TO WIKI PAGE GIVING THIS DEFINITION HERE].
+Default is to select the first target in the list of targets to find the indicated calibrators for. This is not always desirable and to indicate which targets in the file to use when selecting calibrators the `calref` tag must be added to that target's observation information.   
+For example the input file: `cat sample_targetlist_for_cals.csv`
+```
+#7th set of pointings of the Galactic plane Mosaic
+T3R04C06, radec, +17:22:27.46877, -38:12:09.4023
+T4R00C02, radec, +17:11:22.47016, -37:51:51.0758
+T4R00C04, radec, +17:08:23.04449, -38:39:29.8486
+T4R00C06, radec, +17:05:19.53524, -39:26:50.4693
+T4R01C01, radec calref, +17:14:51.97986, -37:45:16.2459
+T4R01C03, radec, +17:11:55.13096, -38:33:15.4802
+T4R01C05, radec, +17:08:54.27808, -39:20:57.3978
+T4R02C02, radec, +17:15:26.58923, -38:26:36.9760
+T4R02C04, radec, +17:12:28.40227, -39:14:39.4421
+```
+
+* In addition to the targets, the user must also specify the type of calibrators to select using the `--cal-tags` argument. Current available options are `gain, bp, flux, pol`
+
+| Tag | Calibrator Type |
+| --- | --- |
+| gain | gain |
+| bp | bandpass |
+| flux | flux |
+| pol | polarisation |
+
+#### Additional information
+* Calibrators are selected using observatory calibrator catalogues located in `katconfig/user/catalogues`.   
+To use a user specified catalogue the `--cat-path` argument must be specified giving the full path to the folder where the desired catalogues are located.   
+**Important**: The reader should note that the current implementation of `astrokat-cals.py` assume a specific calibrator naming convension: `Lband-<calibrator_calssification>-calibrators.csv`.   
+The implementation will be updated as new requirements are identified based on usage.
+
+* Optional input arguments such as `--pi`, `--contact` and `--prop-id`, provides metadata that is added when the observation catalogue file is created.
+The purpose of this information is simply informational and is supplementary to the target specification. 
+
+
+# Detailed examples
+## Creating a catalogue
+### Using a single target as input
+Most basic implementation is to view available calibrators for a target   
+`python astrokat-cals.py --target 'Abell 13' '00:13:32.2' '-19:30:03.6' --cal-tags gain flux`
+
+Resulting in display output:
+```
+Observation Table for 2018-10-20 12:45:51.596
+Sources         Class           Rise Time       Set Time        Separation      Notes
+Abell 13        target          15:41:37        02:01:43        143.42          separation from Sun
+J0408-6545      bpcal,fluxcal   17:24:33        08:05:34        59.64 ***       separation from Abell 13
+J2348-1631      gaincal         15:22:34        01:29:57        6.75            separation from Abell 13
+```
+With the `***` a visual aid to the user to draw attention that the closest calibrator found was more than 15 degrees away from the target.
+
+If the Python `matplotlib` library is available, an elevation graph will also be displayed.   
+ADD FIG HERE [astrokat-cals-single-target.png]
+
+Useful additional options:
+* To create a catalogue file a filename for the output catalogue has to be provided by adding the `--outfile` argument.
+* To view the observation table output for a specific date, the `--datetime` argument can be added
+
+### For multiple targets in an input file
+
+
+
+## Viewing a catalogue
+
 
 To quickly find calibrators for a target during planning
 The `astrokat-cals.py` script will display the selected calibrators as well as relative separation angle information to screen + generate an elevation display for the target and suggested calibrators.
