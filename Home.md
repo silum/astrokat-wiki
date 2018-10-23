@@ -1,11 +1,34 @@
-This page will house installation information and links to the specifications with hopefully some discussion about how to use which of the links presented in the HowTo menu bar
+Specifying terminology and functionality that is incorporated into the new observation framework in relation to observational requirements.
 
-# ToDo
-* Specialised correlator settings
-* [From proposal to observation](https://github.com/rubyvanrooyen/astrokat/wiki/From-proposal-to-observation-schedule-block)
+Most requirements and implementations are derived from usage cases provided by Commissioning.
 
-# Astronomer Tools
+## All observations
+* [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) of observation targets, definition, structure and coordinate specification.   
+* Observation target catalogues, CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/Observation-catalogues) vs [observation files](https://github.com/ska-sa/astrokat/wiki/Observation-file).   
+As well as a method to go [from CSV format catalogue to observation file](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) in order to easily move from the older observation regime to the new observation framework.
+* Additional scripts provide an easy way of selecting [calibrators from MeerKAT observatory catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) as well as some basic functionality for command line observation evaluation during planning.
+
+
+### Noise diode usage during observations
+* astrokat [issue 5](https://github.com/ska-sa/astrokat/issues/5)
+
+
+### Verifcation needs
+* the various steps and stages of running the script offline and online
+
+
+## Correlator specific observational requirements
+Information and options required during observation planning and execution in the YAML file
+* Correlator observation input
+
+Functionality represented in tag values -- why and which observations needs them
+* Correlator observation functionality
+
+
+## Beamformer specific observational requirements
+Information and options required during observation planning and execution in the YAML file
 * Display beam shape from antennas selected and UV coverage for integration time
+* Beamformer observation input
 
-# Documentation
-[Observation framework specification](https://github.com/ska-sa/astrokat/wiki/Observation-framework-specification)
+Functionality represented in tag values -- why and which observations needs them
+* Beamformer observation functionality
