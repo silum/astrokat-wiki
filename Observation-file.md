@@ -1,11 +1,14 @@
-The configuration file implements the **`YAML`** configuration format for easy parsing and usage in Python.
-YAML is case sensitive and uses spaces for indentation, please no **TABS**.   
-Keys and values are separated by a colon, '`:`', using 2 additional spaces indentation for key words of the next deeper layer.
+The observation file implemented by the astrokat observation framework uses the **`YAML`** configuration format. This is a very user friendly format that is easy to use, as well as parse in Python.
+
+Three simple rules that the user should know:   
+* YAML is **case sensitive** and uses spaces for indentation, please **no TABS**.   
+* Keys and values are separated by a colon, `:`
+* Use **2 additional spaces indentation** for key words of the next deeper layer.
 
 Example configuration files with various observation types can be found on the [Observation configuration examples](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-examples) page.
 
-Primary keys of interest to the user are: _`instrument`_, _`noise_diode`_ and **_`observation_loop`_**   
-Only the _`observation_loop`_ key is required, the rest is optional and only added to the configuration file when needed.
+Primary keys of interest to the user are: _`instrument`_, _`configuration`_, _`noise_diode`_, _`durations`_ and **_`observation_loop`_**   
+Only the _`observation_loop`_ key is required, the rest is optional and only added to the observation file when needed.
 
 ```
 instrument:
