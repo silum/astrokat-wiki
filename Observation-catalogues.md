@@ -6,6 +6,6 @@ Standard observation catalogues have a very simple structure:
 
 These files are used directly by the observation scripts available in the [katsdpscripts](https://github.com/ska-sa/katsdpscripts) repository.
 
-It is also the standard format for the MeerKAT observatory calibration catalogues, since the CSV format is easily parsed in python
+It is also the standard format for the MeerKAT observatory calibration catalogues.
 
 > More implementation detail required, but based on usage, maybe ask one of the astronomers for assistance.
