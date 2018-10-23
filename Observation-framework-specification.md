@@ -1,4 +1,4 @@
-Specifying tags and functionality to incorporate into the new observation framework in relation to observational requirements.
+Specifying terminology and functionality that is incorporated into the new observation framework in relation to observational requirements.
 
 ## All observations
 * Type of input coordinates   
