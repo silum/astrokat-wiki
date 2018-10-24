@@ -2,7 +2,7 @@ The observation file implemented by the astrokat observation framework uses the 
 
 Three simple rules that the user should know:   
 * YAML is **case sensitive** and uses spaces for indentation, please **no TABS**.   
-* Keys and values are separated by a colon, `:`
+* Keys and values are separated by a colon, '`:`'
 * Use **2 additional spaces indentation** for key words of the next deeper layer.
 
 Example configuration files with various observation types can be found on the [Observation configuration examples](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-examples) page.
@@ -67,30 +67,23 @@ Targets listed in the _`target_list`_ can be observation targets of interest wit
 A _`target_list`_ must always be provided for observation.
 
 
-
-
-
 ### [Optional] Instrument
-The **_`instrument`_** key describes all subarray parameters required to be available in the active subarray before the observation can be executed. Currently, these include
+The _`instrument`_ primary key is optional. If the instrument key is not specified, the observation can be executed using any active subarray.
+
+The _`instrument`_ key describes all subarray parameters **required** to be available in the active subarray before the observation can be executed. The observation will not execute unless these resources are available in the active subarray at the time of observation. Currently, these include
 
 | key | Value |
 | --- | --- |
+| band | Observation band defines the receptor required for observation, currently only `l` band is available |
+|     | Bands expected: UHF, L, S and X |
+|     | If the band key is not specified, the default assumption will be that the observation can be scheduled using any receptor.|
 | product | Correlator product specific name |
-|     | c856M4k, bc856M4k, c856M32k, bc856M32k, bc856M1k, bec856M4kssd |
-| dump_rate | Output dump rate |
-|     | 1=1Hz, 2=0.5Hz, 4=0.25Hz, 8=0.125Hz (with 8s averaging default) |
-| band | Observation band, currently only `l` band is available |
-| pool_resources | Required antennas for observation or using PTUSE for beamformer observations |
-
-The _`instrument`_ primary key is optional. If the instrument key is not specified, the observation can be executed using any active subarray. Example usage is telescope specific calibration observations that is needed for all correlator products, but generally observe the same targets.
-
-[Optional] Instrument keys:
-* _`product`_ defining the subarray correlator setup.
-If the product key is not specified, the default assumption will be that the observation can be scheduled for any active instrument.
-* _`band`_ defining the receptor required for observation.
-If the band key is not specified, the default assumption will be that the observation can be scheduled using any receptor. Band expected: UHF, L, S and X.
-* Observation data is averaged over some number seconds before output. This is default 8 seconds worth of data is averaged before output. The _`dump_rate`_ key sets this parameter as a rate of output, 1/#seconds [Hz]
-* _`pool_resources`_ is used if the observation can only be executed with a required array setup. The observation should not proceed if any of these resources are not available.
+|     | c856M4k, bc856M4k, c856M32k, bc856M32k, bc856M1k |
+|     | If the product key is not specified, the default assumption will be that the observation can be scheduled for any active instrument. |
+| pool_resources | Required antennas for observation, to enable the commensal USE instruments, as well as PTUSE for beamformer observations. |
+|     | The observation should not proceed if any of these resources are not available. |
+| integration_time | Observation data is averaged over some number seconds before output. This translates to the telescope parameter dump_rate with relation Hz = 1/s |
+|     | 1s=1Hz, 2s=0.5Hz, 4s=0.25Hz, 8s=0.125Hz (with 8s averaging default) |
 
 
 ### [Optional] Noise diode
