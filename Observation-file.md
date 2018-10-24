@@ -7,15 +7,16 @@ Three simple rules that the user should know:
 
 Example configuration files with various observation types can be found on the [Observation configuration examples](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-examples) page.
 
-Primary keys of interest to the user are: _`instrument`_, _`configuration`_, _`noise_diode`_, _`durations`_ and **_`observation_loop`_**   
+Primary keys of interest to the user are:   
+_`instrument`_, _`configuration`_, _`noise_diode`_, _`durations`_ and **_`observation_loop`_**   
 Only the _`observation_loop`_ key is required, the rest is optional and only added to the observation file when needed.
 
+## Typical observation file
 ```
 instrument:
   product: <name>
-  dump_rate: <Hz>
+  integration_period: <s>
   band: l
-  pool_resources: <m0XX,...>, ptuse
 noise_diode:
   pattern: <all> or <cycle> or <m0XX>
   on_fraction: < % >
@@ -25,10 +26,48 @@ observation_loop:
     target_list:
       - <target>
       - ...
-    calibration_standards:
-      - <target>
-      - ...
 ```
+
+
+### Observation loops
+An observation_loop contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When [converting from a catalogue](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files), the LST range is calculated from the RA of the listed targets.
+
+The **Target List** is generally specified as:   
+_`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, gal=<DD:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
+
+The only key in the target definition that is not clearly self-explanatory is the _`tags`_ key.
+**Tags** are used by the telescope to classify the target type:
+* The explicit `target` tag for non-calibrator sources are optional
+* Calibrator tags are assigned per functionality
+  * Gain calibrator to solve the complex phase corrections: `gaincal`
+  * Bandpass calibrators: `bpcal`
+  * Flux calibrators: `fluxcal`
+  * Polarisation calibrators: `polcal`
+
+Full definition of the target specification and related keys can be found on the [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) page.
+
+
+Additional keys can be added per target for specialised target specification:   
+* The _`cadence=<sec>`_ key for targets such as calibrators that are to be observed at some user specified cadence.   
+* The _`type=<type>`_ key can be added to indicate observation types other than tracking the target specified.   
+* Target specific noise diode settings that is not suited to setting a noise diode pattern needs to be indicated using the _`nd=<off/sec>`_ key.
+
+| key | Value |
+| --- | --- |
+| cadence | Repetition time in seconds for targets that need to be visited intermittently |
+| type | Type of observation |
+|     | _`track`_ (default), _`scan`_, _`drift_scan`_ |
+| nd  | _`off`_ to disable the noise diode pattern for a target,  |
+|     | or number of seconds to activate the noise diode before the target observation |
+
+Sources specified in the _`target_list`_ will be observed in the order listed in the configuration file, with sources marked with a cadence will be inserted intermittently at a user specified cadence.
+Targets listed in the _`target_list`_ can be observation targets of interest with accompanying calibrators.
+A _`target_list`_ must always be provided for observation.
+
+
+
 
 
 ### [Optional] Instrument
@@ -70,27 +109,3 @@ Although the _`noise_diode`_ key is optional, once specified, all the sub-keys m
 * Fraction of the cycle time the noise diode must be in the on state is provided in _`on_fraction`_ key. if the _`on_fraction`_ key is set to `-1`, the noise diode will trigger for _`cycle_len`_ before tracking a target.
 
 
-### Observation loops
-An observation_loop contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When converting from a catalogue, the LST range is calculated from the RA of the listed targets.
-
-**Target List** and **Calibration Standards** are targets, each specified as:   
-_`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
-_`name=<name>, gal=<DD:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
-_`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
-
-Sources specified in the _`target_list`_ will be observed in the order listed in the configuration file, while sources listed in the _`calibration_standards`_ will be observed after all the targets in the _`target_list`_ has been completed, or intermittently at a user specified cadence. Targets listed in the _`target_list`_ can be observation targets of interest with accompanying gain/delay calibrators, while _`calibration_standards`_ observations are not necessarily required as part of the target cycle. A _`target_list`_ must always be provided for observation, but _`calibration_standards`_ are only provided when needed.
-
-
-**Tags** are used by the telescope to classify the target type, current available options:
-* Target tags indicate the type of target coordinate along with the 'target' indicator   
-`radec target, azel target, gal target`
-* Gain calibrator are used to solve the complex phase corrections and indicated   
-`gaincal, delaycal`
-* Other calibrator indicators are
- * Bandpass calibrators: `bpcal`
- * Flux calibrators: `fluxcal`
- * Polarisation calibrators: `polcal`
-
-Optional keys provided when needed to target elements:
-* For the _`target_list`_, an optional _`type`_ element can be added to indicate observation types other than tracking the target specified. Currently, an additional observation type is driftscan which can be added as _`type=driftscan`_.
-* For _`calibration_standards`_ to be observed at some user specified cadence, the optional key is required: _`cadence=<sec>`_
