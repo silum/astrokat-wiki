@@ -7,7 +7,7 @@ Most requirements and implementations are derived from usage cases provided by C
 * Observation target catalogues, CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/Observation-catalogues) vs [observation files](https://github.com/ska-sa/astrokat/wiki/Observation-file).   
 As well as a method to go [from CSV format catalogue to observation file](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) in order to easily move from the older observation regime to the new observation framework.
 * Additional scripts provide an easy way of selecting [calibrators from MeerKAT observatory catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) as well as some basic functionality for command line observation evaluation during planning.
-
+* A number of [observation types](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) are available with the standard tracking of a target the default observation type.
 
 ### Noise diode usage during observations
 * astrokat [issue 5](https://github.com/ska-sa/astrokat/issues/5)
