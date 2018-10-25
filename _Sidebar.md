@@ -1,6 +1,7 @@
 # How To
 ## Definitions and terminology
 * [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification)
+* [Types of target observations](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations)
 * [Observation catalogues](https://github.com/ska-sa/astrokat/wiki/Observation-catalogues)
 * [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file)
 * [Example observation files](https://github.com/ska-sa/astrokat/wiki/Example-observation-files)
