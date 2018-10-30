@@ -1,4 +1,4 @@
-Specifying terminology and functionality that is incorporated into the new observation framework in relation to observational requirements.
+Specifying terminology and functionality that is incorporated into the observation framework in relation to observational requirements.
 
 Most requirements and implementations are derived from usage cases provided by Commissioning.
 
@@ -7,11 +7,12 @@ Most requirements and implementations are derived from usage cases provided by C
 * Observation target catalogues, CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/Observation-catalogues) vs [observation files](https://github.com/ska-sa/astrokat/wiki/Observation-file).   
 As well as a method to go [from CSV catalogue to observation file](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) in order to easily move from the older observation regime to the new observation framework.
 * Additional scripts provide an easy way of selecting [calibrators from MeerKAT observatory catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) as well as some basic functionality for command line observation evaluation during planning.
-* A number of [observation types](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) are available with the standard tracking of a target the default observation type.
-* Some observations may include the use of a noise diode. The current understanding of the various noise diode implementation requirements are described here.
+
 
 ### Noise diode usage during observations
-Current implementation for the observation framework provides the following noise diode functionality:   
+Some observations may include the use of a noise diode. The current understanding of the various noise diode implementation requirements are described here.
+
+Noise diode implementation for the observation framework provides the following functionality:   
 _`on`_, _`off`_, _`trigger`_ and _`pattern`_
 
 While switching the noise diode _`on`_ and _`off`_ is a straight forward implementation, the _`trigger`_ and _`pattern`_ settings needs to be clarified a little more.
@@ -43,19 +44,17 @@ It takes time for the command to trigger the noise diode to get to all the digit
 
 To ensure all noise diode events always happen in sync, a default lead time of two, 2.0, seconds are added to the time at which the command is requested. Thus ensuring the command are received by all digitisers and will trigger simultaneously.
 
-* astrokat [issue 5](https://github.com/ska-sa/astrokat/issues/5)
-
-
-### Verifcation needs
+### Verification needs
 * the various steps and stages of running the script offline and online
 
 
-## Correlator specific observational requirements
-Information and options required during observation planning and execution in the YAML file
-* Correlator observation input
+## Correlator observational requirements
+This section focus on the information and options required for interferometry observations such as imaging and spectral line observations. Focus on the observational needs during planning and execution, and how to represent these requirements in the YAML file
 
-Functionality represented in tag values -- why and which observations needs them
-* Correlator observation functionality
+A number of [observation types](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) are available with the standard tracking of a target the default observation type.
+
+
+Migrating imaging observations to the new framework (a simple HowTo):
 
 
 ## Beamformer specific observational requirements
