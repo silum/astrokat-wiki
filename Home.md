@@ -45,7 +45,10 @@ It takes time for the command to trigger the noise diode to get to all the digit
 To ensure all noise diode events always happen in sync, a default lead time of two, 2.0, seconds are added to the time at which the command is requested. Thus ensuring the command are received by all digitisers and will trigger simultaneously.
 
 ### Verification needs
-* the various steps and stages of running the script offline and online
+The observation framework provides a number of usage levels and currently requires three, 3, stages where verification must occur during development.
+* Most development should take place on a local framework setup and thus using the `offline` implementation. This part is focus solely on getting the anticipated observational behaviour. It is agnostic to the system specifications and subarray setup, which is only verified in the following verification steps.
+* Verifying the subarray and setup related observational requirements are done during the CAM `dry-run` simulation step. This step requires access to one of the CAM development systems, with the default VM being [devcomm](http://monctl.devcomm.camlab.kat.ac.za/katgui/home).
+* The last verification happens as part of the scheduling of the observation on the `live` system. This is where the required resources and antenna setup specifications are evaluated before observation.
 
 
 ## Correlator observational requirements
@@ -55,6 +58,16 @@ A number of [observation types](https://github.com/ska-sa/astrokat/wiki/Types-of
 
 
 Migrating imaging observations to the new framework (a simple HowTo):
+* Setting up the observation framework
+Using the sandbox system
+
+Getting a local copy
+
+* Using the various scripts in the observation framework
+
+ -- creating an observation catalogue
+ -- if a catalogue already exists or you have just created a catalogue (moving a catalogue to the observation file)
+
 
 
 ## Beamformer specific observational requirements
