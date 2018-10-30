@@ -2,14 +2,14 @@ Specifying terminology and functionality that is incorporated into the observati
 
 Most requirements and implementations are derived from usage cases provided by Commissioning.
 
-## All observations
+# All observations
 * [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) of observation targets, definition, structure and coordinate specification.   
 * Observation target catalogues, CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/Observation-catalogues) vs [observation files](https://github.com/ska-sa/astrokat/wiki/Observation-file).   
 As well as a method to go [from CSV catalogue to observation file](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) in order to easily move from the older observation regime to the new observation framework.
 * Additional scripts provide an easy way of selecting [calibrators from MeerKAT observatory catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) as well as some basic functionality for command line observation evaluation during planning.
 
 
-### Noise diode usage during observations
+## Noise diode usage during observations
 Some observations may include the use of a noise diode. The current understanding of the various noise diode implementation requirements are described here.
 
 Noise diode implementation for the observation framework provides the following functionality:   
@@ -44,27 +44,27 @@ It takes time for the command to trigger the noise diode to get to all the digit
 
 To ensure all noise diode events always happen in sync, a default lead time of two, 2.0, seconds are added to the time at which the command is requested. Thus ensuring the command are received by all digitisers and will trigger simultaneously.
 
-### Verification needs
+## Verification needs
 The observation framework provides a number of usage levels and currently requires three, 3, stages where verification must occur during development.
 * Most development should take place on a local framework setup and thus using the `offline` implementation. This part is focus solely on getting the anticipated observational behaviour. It is agnostic to the system specifications and subarray setup, which is only verified in the following verification steps.
 * Verifying the subarray and setup related observational requirements are done during the CAM `dry-run` simulation step. This step requires access to one of the CAM development systems, with the default VM being [devcomm](http://monctl.devcomm.camlab.kat.ac.za/katgui/home).
 * The last verification happens as part of the scheduling of the observation on the `live` system. This is where the required resources and antenna setup specifications are evaluated before observation.
 
 
-## Correlator observational requirements
+# Correlator observational requirements
 This section focus on the information and options required for interferometry observations such as imaging and spectral line observations. Focus on the observational needs during planning and execution, and how to represent these requirements in the YAML file
 
 A number of [observation types](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) are available with the standard tracking of a target the default observation type.
 
 
-### Migrating imaging observations to the new framework (a simple HowTo):
+## Migrating imaging observations to the new framework (a simple HowTo):
 
-**Setting up the observation framework**   
+### Setting up the observation framework   
 Getting a local copy: `git clone git@github.com:ska-sa/astrokat.git`   
 Using the sandbox system: `ssh -Y kat@calvin.sdp.kat.ac.za`   
 Using devcomm: `ssh kat@monctl.devcomm.camlab.kat.ac.za`
 
-**[Optional] Easy generation of observation CSV catalogue with calibrators**   
+### [Optional] Easy generation of observation CSV catalogue with calibrators   
 This step is only required if the observation target list does not include calibrator sources and good calibrators have to be added.
 This is not a required step, since a CSV catalogue or observation YAML file can be created directly.
 The aim of the [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) tool is to simply the selection of good calibrators.
@@ -87,11 +87,11 @@ Only producing catalogue file and output to screen
 ```
 If the user prefers having the output display, then the scripts on the sand box should be used.
 
-**Using the sandbox to plan an observation**
+### Using the sandbox to plan an observation
 
 
 
-## Beamformer specific observational requirements
+# Beamformer specific observational requirements
 Information and options required during observation planning and execution in the YAML file
 * Display beam shape from antennas selected and UV coverage for integration time
 * Beamformer observation input
