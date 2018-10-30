@@ -57,16 +57,37 @@ This section focus on the information and options required for interferometry ob
 A number of [observation types](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) are available with the standard tracking of a target the default observation type.
 
 
-Migrating imaging observations to the new framework (a simple HowTo):
-* Setting up the observation framework
-Using the sandbox system
+### Migrating imaging observations to the new framework (a simple HowTo):
 
-Getting a local copy
+**Setting up the observation framework**   
+Getting a local copy: `git clone git@github.com:ska-sa/astrokat.git`   
+Using the sandbox system: `ssh -Y kat@calvin.sdp.kat.ac.za`   
+Using devcomm: `ssh kat@monctl.devcomm.camlab.kat.ac.za`
 
-* Using the various scripts in the observation framework
+**[Optional] Easy generation of observation CSV catalogue with calibrators**   
+This step is only required if the observation target list does not include calibrator sources and good calibrators have to be added.
+This is not a required step, since a CSV catalogue or observation YAML file can be created directly.
+The aim of the [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) tool is to simply the selection of good calibrators.
 
- -- creating an observation catalogue
- -- if a catalogue already exists or you have just created a catalogue (moving a catalogue to the observation file)
+Usage on a local copy or the sandbox (`cd framework/astrokat/scripts`)
+```
+python astrokat-cals.py --prop-id 'SCI-propid-0' --pi 'No One' --contact 'dummy@ska.ac.za' --cal-tags gain bp pol flux delay --outfile ../output/catalogue_name.csv --infile ../input/sample_targetlist_for_cals.csv --datetime '2018-08-06 12:34' --cat-path ../../katconfig/user/catalogues/
+```
+
+Usage on the devcomm or live systems (`cd usersnfs/framework/astrokat/scripts`)
+```
+python astrokat-cals.py --prop-id 'SCI-prop-id' --pi 'No One' --contact 'dummy@ska.ac.za' --cal-tags gain bp pol flux delay --outfile /home/kat/usersnfs/framework/extras/catalogue_name.csv --infile /home/kat/usersnfs/framework/extras/sample_targetlist_for_cals.csv --datetime '2018-08-06 12:34'
+```
+
+Note that the live systems does not have processing packages installed, thus only text output to screen will be displayed and the catalogue created
+```
+Required matplotlib functionalities not available
+Cannot create elevation plot or generate report
+Only producing catalogue file and output to screen
+```
+If the user prefers having the output display, then the scripts on the sand box should be used.
+
+**Using the sandbox to plan an observation**
 
 
 
