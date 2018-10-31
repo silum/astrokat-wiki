@@ -96,8 +96,9 @@ These format was selected to be easy to use by the astronomer and can be created
 
 The script arguments are verbose to ensure ease of use, with duration and cadence settings similar to the _`image.py`_ and _`track.py`_ scripts.
 ```
-python catalogue2obsfile.py --catalogue ../output/catalogue_name.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65 --obsfile ../output/catalogue_name.yaml
+python catalogue2obsfile.py --catalogue /home/kat/usersnfs/framework/extras/catalogue_name.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65 --obsfile /home/kat/usersnfs/framework/extras/catalogue_name.yaml
 ```
+
 
 ### Using the sandbox to plan an observation
 
