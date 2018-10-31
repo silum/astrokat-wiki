@@ -13,15 +13,15 @@ Generally a catalogue is expected as part of the observation request. See [docs]
 If an observation catalogue file is provided, an initial configuration file can easily be generated.
 More extensive information on the observation configuration file can be found on the [Observation configuration file](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-file) page
 
-The `catalogue2config.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
+The `catalogue2obsfile.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
 ```
-catalogue2config.py -h
+python catalogue2obsfile.py -h
 ```
-Required input parameters are the name of the catalogue file, `--catalogue`, as well as an on target duration in seconds, `--target-duration`.   
+The only required input parameter is the name of the catalogue file, `--catalogue`.   
 For convenience the output will be displayed to screen if an output filename, `--obsfile`, is not specified.  
 Once the user is satisfied with the output, an observation profile can be created   
 ```
-python catalogue2config.py --catalogue targets.csv --obsfile targets.yaml ...
+python catalogue2obsfile.py --catalogue targets.csv --obsfile targets.yaml ...
 ```
 
 ### Adding observation source targets
@@ -34,11 +34,10 @@ Basic steps for conversion can be illustrated using some random targets, `target
 
 Simple convert targets to configuration
 ```
-python catalogue2config.py --catalogue targets.csv --target-duration 10
+python catalogue2obsfile.py --catalogue astrokat/tests/test_convert/targets.csv --target-duration 10
 ```
 Resulting in a basic target list
 ```
-instrument:
 observation_loop:
   - LST: 0.000-23.9
     target_list:
@@ -46,86 +45,92 @@ observation_loop:
       - name=target1_azel, azel=10 50, tags=target, duration=10.0
       - name=target2_gal, gal=-10 40, tags=target, duration=10.0
 ```
-An empty key for _`instrument`_ indicate that currently only the target sequence is important and will be evaluated.   
 No _`LST`_ range was specified in the conversion, so the range over which the targets are visible has been inserted by default.   
-Also, target names were not provided, resulting in generated names to be created.   
-Each target has its own _`tags`_ and _`duration`_. These can be updated by the user.
+Target names were not provided, resulting in generated names to be created.   
+Each target has its own _`tags`_ and _`duration`_, which can be updated by the user.
 
-### Changing the type of observation
-The default observation type is to track the target for the duration specified.
-The type key can also be used to specify alternative observation types, currently only driftscans are implemented.
+The target list construction does not distinguish between targets in calibrators when converting from CSV format catalogues to observation files, but when converting catalogues that contains calibrators, the user must specify the associated timings required.
 ```
-python catalogue2config.py --catalogue targets.csv --target-duration 10 --drift-scan
-```
-Resulting on a _`type`_ key being added indicating that the targets must be observed using a drift scan
-```
-instrument:
+python catalogue2obsfile.py --catalogue astrokat/tests/test_convert/two_calib.csv  --primary-cal-duration 180
+
 observation_loop:
-  - LST: 0.000-23.9
+  - LST: 0.0-23.9
     target_list:
-      - name=target0_radec, radec=0 -90, tags=target, duration=10.0, type=drift_scan
-      - name=target1_azel, azel=10 50, tags=target, duration=10.0, type=drift_scan
-      - name=target2_gal, gal=-10 40, tags=target, duration=10.0, type=drift_scan
+      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal, duration=180.0
+      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=bpcal, duration=180.0
 ```
-Optional is to remove the key for those targets not requiring a drift scan, or explicitly adding the track observation type.
-```
-instrument:
-observation_loop:
-  - LST: 0.000-23.9
-    target_list:
-      - name=target0_radec, radec=0 -90, tags=target, duration=10.0, type=track
-      - name=target1_azel, azel=10 50, tags=target, duration=10.0, type=track
-      - name=target2_gal, gal=-10 40, tags=target, duration=10.0, type=drift_scan
-```
+In general the default application assumes _`gaincal`_ as secondary calibrators, while _`bpcal`_, _`fluxcal`_ and _`polcal`_ targets are considered primary calibrators.
 
 
-### Adding observation calibrators
-Gain calibrators is generally intermingled with the source target list, but primary calibrators such and bandpass and polarisation calibrators need only be visited at some slow cadence.
+### Observations with targets and calibrators
+Gain calibrators are generally intermingled with the source target list, with primary calibrators often need only be visited at some slower cadence.
 ```
-, radec target, 0, -90
-, azel target, 10, 50
-, gal target, -10, 40
-1934-638,radec bpcal,19:39:25.03,-63:42:45.63
-0408-65,radec bpcal,04:08:20.38,-65:45:09.1
+7th set of pointins of the Galactic plane Mosaic
+J1939-6342 | *1934-638, radec bpcal delaycal, 19:39:25.03, -63:42:45.63
+J1331+3030 | *3C286, radec bpcal polcal, 13:31:08.288, +30:30:32.959
+1827-360, radec gaincal, 18:30:58.80, -36:02:30.1
+T3R04C06, radec target, +17:22:27.46877, -38:12:09.4023
+T4R00C02, radec target, +17:11:22.47016, -37:51:51.0758
+T4R00C04, radec target, +17:08:23.04449, -38:39:29.8486
+T4R00C06, radec target, +17:05:19.53524, -39:26:50.4693
+T4R01C01, radec target, +17:14:51.97986, -37:45:16.2459
+T4R01C03, radec target, +17:11:55.13096, -38:33:15.4802
+T4R01C05, radec target, +17:08:54.27808, -39:20:57.3978
+T4R02C02, radec target, +17:15:26.58923, -38:26:36.9760
+T4R02C04, radec target, +17:12:28.40227, -39:14:39.4421
 ```
-When calibrators are present in the catalogue, they are added to the _`calibration_standards`_ key of the _`observation_loop`_. This makes the initial presentation clean and easy to edit by the user should there be a need to move the calibrator to the target list to ensure the calibrator is observation in sequence.
+
 For this example we assume a bandpass calibrator to be observed for 30 seconds every hour. Two calibrators are added since the targets fill the whole 24h LST range.
+An example is an imaging observation with both primary and secondary calibrators, where the bandpass calibrator is only observed every 30 minutes for 3 minutes.
+
+While the target and gain calibrator, without cadence values will be observed in sequence as listed in the catalogue. The targets for 5 minutes and the gain calibrators for 65 seconds.
 ```
-python catalogue2config.py --catalogue targets.csv --target-duration 10 --bpcal-duration 30 --bpcal-interval 3600
-```
-Updating the observation configuration to
-```
-instrument:
+python catalogue2obsfile.py --catalogue astrokat/tests/test_convert/image.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65
+
+#7th set of pointins of the Galactic plane Mosaic
 observation_loop:
-  - LST: 0.000-23.9
+  - LST: 11.139-23.248
     target_list:
-      - name=target0_radec, radec=0 -90, tags=target, duration=10.0
-      - name=target1_azel, azel=10 50, tags=target, duration=10.0
-      - name=target2_gal, gal=-10 40, tags=target, duration=10.0
-    calibration_standards:
-      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal, duration=30.0, cadence=3600.0
-      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=bpcal, duration=30.0, cadence=3600.0
+      - name=J1939-6342 | *1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal delaycal, duration=180.0, cadence=1800.0
+      - name=J1331+3030 | *3C286, radec=13:31:08.288 +30:30:32.959, tags=bpcal polcal, duration=180.0, cadence=1800.0
+      - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=gaincal, duration=65.0
+      - name=T3R04C06, radec=+17:22:27.46877 -38:12:09.4023, tags=target, duration=300.0
+      - name=T4R00C02, radec=+17:11:22.47016 -37:51:51.0758, tags=target, duration=300.0
+      - name=T4R00C04, radec=+17:08:23.04449 -38:39:29.8486, tags=target, duration=300.0
+      - name=T4R00C06, radec=+17:05:19.53524 -39:26:50.4693, tags=target, duration=300.0
+      - name=T4R01C01, radec=+17:14:51.97986 -37:45:16.2459, tags=target, duration=300.0
+      - name=T4R01C03, radec=+17:11:55.13096 -38:33:15.4802, tags=target, duration=300.0
+      - name=T4R01C05, radec=+17:08:54.27808 -39:20:57.3978, tags=target, duration=300.0
+      - name=T4R02C02, radec=+17:15:26.58923 -38:26:36.9760, tags=target, duration=300.0
+      - name=T4R02C04, radec=+17:12:28.40227 -39:14:39.4421, tags=target, duration=300.0
 ```
 
 
 ### Adding telescope specific requirements
-Most astronomy observations will require a specific observation mode, provided by MeerKAT as correlator products. These are generally identified from the science proposal requirements, but if known upfront, can be added in the conversion step.
+Most astronomy observations will require a specific observation instrument, provided by MeerKAT as correlator products. These are generally identified from the science proposal requirements, but if known upfront, can be added in the conversion step.
 ```
-python catalogue2config.py --catalogue targets.csv --target-duration 10 --bpcal-duration 30 --bpcal-interval 3600 --product bc856M4k  --dump-rate 2
-```
-Adding the additional information to the _`instrument`_ key, setting the observation mode to beamformer/correlator wide channel mode, and averaging data for 2 seconds.
-```
-instrument:
-  product: bc856M4k
-  dump_rate: 0.5
-observation_loop:
-  - LST: 0.000-23.9
-    target_list:
-      - name=target0_radec, radec=0 -90, tags=target, duration=10.0
-      - name=target1_azel, azel=10 50, tags=target, duration=10.0
-      - name=target2_gal, gal=-10 40, tags=target, duration=10.0
-    calibration_standards:
-      - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal, duration=30.0, cadence=3600.0
-      - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=bpcal, duration=30.0, cadence=3600.0
-```
+python catalogue2obsfile.py --catalogue astrokat/tests/test_convert/image.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65 --product c856M4k --band l --integration-period 8 --max-duration 11700
 
+#7th set of pointins of the Galactic plane Mosaic
+instrument:
+  integration_period: 8.0
+  band: l
+  product: c856M4k
+durations:
+  obs_duration: 11700.0
+observation_loop:
+  - LST: 11.139-23.248
+    target_list:
+      - name=J1939-6342 | *1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal delaycal, duration=180.0, cadence=1800.0
+      - name=J1331+3030 | *3C286, radec=13:31:08.288 +30:30:32.959, tags=bpcal polcal, duration=180.0, cadence=1800.0
+      - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=gaincal, duration=65.0
+      - name=T3R04C06, radec=+17:22:27.46877 -38:12:09.4023, tags=target, duration=300.0
+      - name=T4R00C02, radec=+17:11:22.47016 -37:51:51.0758, tags=target, duration=300.0
+      - name=T4R00C04, radec=+17:08:23.04449 -38:39:29.8486, tags=target, duration=300.0
+      - name=T4R00C06, radec=+17:05:19.53524 -39:26:50.4693, tags=target, duration=300.0
+      - name=T4R01C01, radec=+17:14:51.97986 -37:45:16.2459, tags=target, duration=300.0
+      - name=T4R01C03, radec=+17:11:55.13096 -38:33:15.4802, tags=target, duration=300.0
+      - name=T4R01C05, radec=+17:08:54.27808 -39:20:57.3978, tags=target, duration=300.0
+      - name=T4R02C02, radec=+17:15:26.58923 -38:26:36.9760, tags=target, duration=300.0
+      - name=T4R02C04, radec=+17:12:28.40227 -39:14:39.4421, tags=target, duration=300.0
+```
