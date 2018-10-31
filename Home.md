@@ -59,6 +59,7 @@ A number of [observation types](https://github.com/ska-sa/astrokat/wiki/Types-of
 
 ## Migrating imaging observations to the new framework (a simple HowTo):
 
+
 ### Setting up the observation framework   
 Getting a local copy: `git clone git@github.com:ska-sa/astrokat.git`   
 Using the sandbox system: `ssh -Y kat@calvin.sdp.kat.ac.za`   
@@ -86,6 +87,17 @@ Cannot create elevation plot or generate report
 Only producing catalogue file and output to screen
 ```
 If the user prefers having the output display, then the scripts on the sand box should be used.
+
+
+### [Optional] Easy conversion of CSV catalogues to YAML observation files
+The observation framework uses target specific information that is provided in the observation YAML file as detailed on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) wiki page.   
+
+These format was selected to be easy to use by the astronomer and can be created manually. For existing observations that needs to be re-observed, getting an initial YAML file is made easy with a quick conversion tool, _`catalogue2obsfile.py`_.
+
+The script arguments are verbose to ensure ease of use, with duration and cadence settings similar to the _`image.py`_ and _`track.py`_ scripts.
+```
+python catalogue2obsfile.py --catalogue ../output/catalogue_name.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65 --obsfile ../output/catalogue_name.yaml
+```
 
 ### Using the sandbox to plan an observation
 
