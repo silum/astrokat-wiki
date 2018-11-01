@@ -18,11 +18,13 @@ instrument:
   integration_period: <s>
   band: l
 noise_diode:
-  pattern: <all> or <cycle> or <m0XX>
-  on_fraction: < % >
+  antennas: <all> or <cycle> or <m0XX>
+  on_frac: < % >
   cycle_len: <sec>
+durations:
+  obs_duration: <sec>
 observation_loop:
-  - LST: <start>-<end>
+  - LST: <start>[-<end>]
     target_list:
       - <target>
       - ...
@@ -30,7 +32,9 @@ observation_loop:
 
 
 ### Observation loops
-An observation_loop contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When [converting from a catalogue](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files), the LST range is calculated from the RA of the listed targets.
+An observation_loop contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When [converting from a catalogue](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files), the LST range is calculated from the RA of the listed targets.   
+If an observation loop has multiple _`target_list`_s, the lists must be separated by explicitly indicating their LST range, both _`start`_ and _`end`_ angle hours.
+If, however, the observation contains only a single _`target_list`_, the user need only specify a start LST, as well as the expected _`obs_duration`_ of the observation.
 
 The **Target List** is generally specified as:   
 _`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
@@ -102,10 +106,30 @@ Although the _`noise_diode`_ primary key is optional, once specified, all the se
 | _`cycle_len`_ | The noise diode will cycle through an on/off pattern in the amount of time set, specified in seconds or fraction of seconds. For L-band there is a maximum cycle length of 20 seconds. |
 | _`on_fraction`_ | Fraction of the cycle time the noise diode must be in the on state. |
 
+Standard definition of the noise diode is to specify an on/off pattern that will be repeated until disabled. The pattern is defined by specifying the time period to repeat the pattern, `cycle length`, as well as the fraction of the pattern time length that the noise diode must be switched on, `on fraction`. This can be applied to all antennas, or to a specified list of antennas.
+```
+## Set noise diode pattern on all or selected antennas
+noise_diode:
+  # 'all' for the entire subarray,
+  # or antenna name m0XX for selected antennas as comma separated list: m0XX,m0YY,...
+  antennas: all
+  # timeperiod in seconds for an on/off noise diode cycle
+  cycle_len: 0.1  # sec
+  # fraction of cycle length that the noise diode should be switched on
+  on_frac: 0.5  # %
+```
+
+
+NOTE: this key cannot be empty, ones secified, all subkeys must be provided and values specified
+
+When a noise diode pattern is requested it will be set at the start of the observation and deactivated at the end of the observation.
+Else a noisediode.off command must be issued to disable the pattern set.
+
 
 ### [Optional] Observation duration settings
 Desired observation durations   
 TBD
 
+### [Optional] Special scan type settings
 
 
