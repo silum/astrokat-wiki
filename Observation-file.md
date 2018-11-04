@@ -33,7 +33,7 @@ observation_loop:
 
 ### Observation loops
 An observation_loop contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When [converting from a catalogue](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files), the LST range is calculated from the RA of the listed targets.   
-If an observation loop has multiple _`target_list`_s, the lists must be separated by explicitly indicating their LST range, both _`start`_ and _`end`_ angle hours.
+If an observation loop has multiple _`target_list`_s, the lists must be separated by explicitly indicating their LST range, both _`start`_ and _`end`_ as decimal angle hours.
 If, however, the observation contains only a single _`target_list`_, the user need only specify a start LST, as well as the expected _`obs_duration`_ of the observation.
 
 The **Target List** is generally specified as:   
@@ -62,7 +62,7 @@ Additional keys can be added per target for specialised target specification:
 | --- | --- |
 | _`cadence`_ | Repetition time in seconds for targets that need to be visited intermittently |
 | _`type`_ | Type of observation |
-|     | _`track`_ (default), _`scan`_, _`drift_scan`_ |
+|     | _`track`_ (default), _`scan`_, _`raster_scan`_, _`drift_scan`_ |
 | _`nd`_  | _`off`_ to disable the noise diode pattern for a target,  |
 |     | or number of seconds to activate the noise diode before the target observation |
 
@@ -95,41 +95,83 @@ Subarray antenna layout related to PSF calculation
 TBD
 
 
-### [Optional] Noise diode pattern
+### [Optional] Noise diode
 A 20K noise diode is fitted at each receptor. The activation of the noise diode will trigger noise diodes on all antennas in the active subarray.
-Although the _`noise_diode`_ primary key is optional, once specified, all the secondary keys must be provided to describe how the noise diode must be set.
+
+Standard definition of the noise diode is to specify an on/off pattern that will be repeated until disabled. The pattern is defined by specifying the optional _`noise_diode`_ primary key. Once specified, all the secondary keys must be provided to describe how the noise diode pattern must be set. These include the time period to repeat the pattern, `cycle length`, as well as the fraction of the pattern time length that the noise diode must be switched on, `on fraction`. The pattern applies to the active array and can be applied to all antennas, or to a specified list of antennas.
 
 | key | Value |
 | --- | --- |
-| _`pattern`_ | Noise diode can be triggered an all antennas in the array, or a list of selected antennas. |
+| _`antennas`_ | The antennas for which the noise diode pattern should be set. Noise diode can be triggered an all antennas in the array, or a list of selected antennas. |
 |    | < all > or <m0XX, ...> |
 | _`cycle_len`_ | The noise diode will cycle through an on/off pattern in the amount of time set, specified in seconds or fraction of seconds. For L-band there is a maximum cycle length of 20 seconds. |
-| _`on_fraction`_ | Fraction of the cycle time the noise diode must be in the on state. |
-
-Standard definition of the noise diode is to specify an on/off pattern that will be repeated until disabled. The pattern is defined by specifying the time period to repeat the pattern, `cycle length`, as well as the fraction of the pattern time length that the noise diode must be switched on, `on fraction`. This can be applied to all antennas, or to a specified list of antennas.
-```
-## Set noise diode pattern on all or selected antennas
-noise_diode:
-  # 'all' for the entire subarray,
-  # or antenna name m0XX for selected antennas as comma separated list: m0XX,m0YY,...
-  antennas: all
-  # timeperiod in seconds for an on/off noise diode cycle
-  cycle_len: 0.1  # sec
-  # fraction of cycle length that the noise diode should be switched on
-  on_frac: 0.5  # %
-```
-
-
-NOTE: this key cannot be empty, ones secified, all subkeys must be provided and values specified
+| _`on_frac`_ | Fraction of the cycle time the noise diode must be in the on state. |
 
 When a noise diode pattern is requested it will be set at the start of the observation and deactivated at the end of the observation.
-Else a noisediode.off command must be issued to disable the pattern set.
+```
+noise_diode:
+  antennas: all
+  cycle_len: 0.1  # 100ms
+  on_frac: 0.5  # on/off 50% of the time
+```
 
+Refer to the [observation loop](https://github.com/ska-sa/astrokat/wiki/Observation-file#observation-loops) discussion above for specialised per target options are used when a pattern is not desired. These relate to the having a noise diode trigger before the observation of a target, _`nd=<sec>`_, or to disable the set noise diode pattern for a specific target observation, _`nd=off`_.
 
-### [Optional] Observation duration settings
-Desired observation durations   
-TBD
 
 ### [Optional] Special scan type settings
+Specialised scans such as the _`scan`_ and _`raster_scan`_ options listed in the [observation loop](https://github.com/ska-sa/astrokat/wiki/Observation-file#observation-loops) tables have slightly different target definitions and require additional input information. The types of observations are discussed in detail on the [Types of target observations](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) page.
+
+Specific information for the _`scan`_ and _`raster_scan`_ types are:
+
+For a single `scan` across a target, the necessary information is added using the very specific _`scan`_ primary key, followed by the sub-keys.
+
+| key | Value |
+| --- | --- |
+| _`duration`_ | Minimum duration of each scan across target, in seconds |
+| _`start`_ | Initial scan position as (x, y) offset in degrees |
+| _`end `_ | Final scan position as (x, y) offset in degrees |
+| _`projection`_ | Name of [projection](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations#specialised-scan-observation-types) in which to perform the scan|
+
+The reader should note that target definition does not contain a **_`duration`_** option along with the _`type=scan`_ option, this is because the scan specific duration falls under the scan setup options
+```
+scan:
+  duration: <sec>
+  start: <dx,dy>
+  end: <dx,dy>
+  projection: plate-carree
+observation_loop:
+  - LST: <start>[-<end>]
+    target_list:
+      - name=<name>, radec=<RA> <DECl>, tags=target, type=scan
+```
+
+Alternative to a single scan is a _`raster_scan`_, which performs a series of equidistant scans across a target, either by scanning in azimuth or elevation.
+If an odd number of scans are specified, the middle scan will pass directly over the target.
+The default is to scan in azimuth and step in elevation, leading to a series of horizontal scans.
+
+Similar to the scan observation type above, additional information must be provided as a _`raster_scan`_ primary key section with sub-keys, in addition to the observation target instructions.
+
+| key | Value |
+| --- | --- |
+| _`num_scans`_ | Number of scans across target |
+| _`scan_duration`_ | Minimum duration of each scan across target, in seconds |
+| _`scan_extent`_ | Angular distance of scan along scanning coordinate, in degrees |
+| _`scan_spacing`_ | Separation between each consecutive scan in degrees |
+| _`scan_in_azimuth`_ | True if scanning in azimuth, while elevation remains fixed; False if scanning in elevation and stepping in azimuth instead |
+| _`projection`_ | Name of [projection](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations#specialised-scan-observation-types) in which to perform the scan|
 
 
+Target specification also does not have a **_`duration`_** option in the target specification, which must be provided in the _`raster_scan`_ section as a combination of _`num_scans`_ and _`scan_duration`_.
+```
+raster_scan:
+  num_scans: <#>
+  scan_duration: <sec>
+  scan_extent: <deg>
+  scan_spacing: <deg>
+  scan_in_azimuth: True
+  projection: plate-carree
+observation_loop:
+  - LST: <start>[-<end>]
+    target_list:
+      - name=<name>, radec=<RA> <DECl>, tags=target, type=raster_scan
+```
