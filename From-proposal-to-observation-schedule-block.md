@@ -32,7 +32,7 @@ python catalogue2obsfile.py --catalogue astrokat/tests/test_convert/image.csv --
 A YAML observation file can be constructed using any editor using the information provided on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) wiki page.
 Alternatively, simply make a copy of an existing YAML file and edit the information appropriately.
 ```
-> cat ../tests/test_cals/sample_targetlist_for_cals.yaml
+> cat image.yaml
 # AR1 mosaic NGC641
 # Catalogue for the AR1 mosaic tests
 observation_loop:
