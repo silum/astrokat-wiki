@@ -1,4 +1,56 @@
-In order to achieve consistent representation and processing, MeerKAT observations are executed using the the **`astrokat`** `observe.py` script, which takes as input a human readable/editable observation configuration file. All aspects related to requirements and targets to observe is housed in this single configuration file.
+In order to achieve consistent representation and processing, MeerKAT observations are executed using the the `astrokat-observe.py` script, which takes as input a human readable/editable observation file. All aspects related to requirements and targets to observe is housed in this single observation file.
+
+
+## Creating an observation YAML file
+Observation YAML files can either be created from scratch by the astronomer during observation planning, or, for an existing observation which already has a CSV catalogue and has an existing schedule block using `track.py` or `image.py` observation scripts, conversion to the YAML observation framework is quick and easy.
+
+
+### Convert the CSV catalogue to a YAML observation file.
+Detailed discussion of CSV catalogues to YAML observation files can be found on the [Catalogues to observation files](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) wiki page.
+
+For this tutorial consider an example imaging observation:   
+`
+/home/kat/katsdpscripts/observation/image.py <image.csv> --horizon=20 -t 300 -g 65 -b 180 -i 1800 -m 35400
+`
+
+To create the associated YAML file from the standard observation options, the mapping of options between the two observation scripts are tabled below:
+
+| `image.py` | `catalogue2obsfile.py` |
+| --- | --- |
+| -t | --target-duration |
+| -m | --max-duration |
+| -g | --secondary-cal-duration |
+| -b | --primary-cal-duration |
+| -i | --primary-cal-cadence |
+
+`
+python catalogue2obsfile.py --catalogue astrokat/tests/test_convert/image.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --obsfile image.yaml
+`
+
+
+### Construct a YAML observation file.
+A YAML observation file can be constructed using any editor using the information provided on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) wiki page.
+Alternatively, simply make a copy of an existing YAML file and edit the information appropriately.
+```
+> cat ../tests/test_cals/sample_targetlist_for_cals.yaml
+# AR1 mosaic NGC641
+# Catalogue for the AR1 mosaic tests
+observation_loop:
+  - LST: 1.795-8.947
+    target_list:
+      - name=NGC641_02D02, radec=01:39:25.009 -42:14:49.216, tags=target, duration=300.0
+      - name=NGC641_03D02, radec=01:37:01.491 -42:14:49.216, tags=target, duration=300.0
+      - name=NGC641_02D03, radec=01:40:36.768 -42:37:41.000, tags=target, duration=300.0
+      - name=NGC641_03D03, radec=01:38:13.250 -42:37:41.000, tags=target, duration=300.0
+      - name=NGC641_04D03, radec=01:35:49.732 -42:37:41.000, tags=target, duration=300.0
+      - name=NGC641_02D04, radec=01:39:25.009 -43:00:32.784, tags=target, duration=300.0
+      - name=NGC641_03D04, radec=01:37:01.491 -43:00:32.784, tags=target, duration=300.0
+``` 
+
+
+### Add standard MeerKAT calibrator to observation targets
+
+
 
 **Note to the user:** MeerKAT is designed with observation scripts wrapped in schedule blocks. These schedule blocks contains most of the observational metadata related to scheduling the observation for execution, such as `desired starttime` and `observation duration`. The observation script thus is agnostic to these since control of the observation start and end is done by CAM. What is important, is that the observation script and observation configuration file, correctly represent the desired flow of the observation over the full LST range that the observation can be scheduled, to ensure that when scheduled, expected output is achieved.
 
