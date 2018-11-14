@@ -131,7 +131,7 @@ PKS 1934-638    radec bpcal                     19:39:25.03     -63:42:45.6     
 J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     13:24:06        01:20:54        15.70 ***       separation from NGC641_04D03
 J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     15:10:54        03:02:44        3.34            separation from NGC641_02D03
 ```
-![AR1_mosaic_NGC641_panning](https://github.com/ska-sa/astrokat/blob/master/wiki/AR1_mosaic_NGC641_panning.png)   
+![AR1_mosaic_NGC641_planning](https://github.com/ska-sa/astrokat/blob/master/wiki/AR1_mosaic_NGC641_planning.png)   
 
 More detail on converting CSV target lists to YAML observation files can be found on the [Catalogues to observation files](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) page.
 
