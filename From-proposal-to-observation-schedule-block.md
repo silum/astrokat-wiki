@@ -1,7 +1,7 @@
 In order to achieve consistent representation and processing, MeerKAT observations are executed using the the `astrokat-observe.py` script, which takes as input a human readable/editable observation file. All aspects related to requirements and targets to observe is housed in this single observation file.
 
 
-## Observational setup and target specification
+# Observational setup and target specification
 The obvious first step is to generate an observation file listing targets and calibrators with the respective durations per target visit.
 
 Existing observation files can simply be copied and edited using any convenient text editor.   
@@ -79,42 +79,31 @@ More detail on the `astrokat-cals.py` tool, as well as add flux and polarisation
 [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) page.
 
 
-
-creating an observation file from an target csv file
-> python catalogue2obsfile.py --catalogue sample_targetlist_catalogue.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65 --product c856M4k --band l --integration-period 8 --max-duration 11700
-
-
-converting existing observation files
-(image.csv)
-
-> python catalogue2obsfile.py --catalogue sample_targetlist_catalogue.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65 --product c856M4k --band l --integration-period 8 --max-duration 11700 --obsfile sample_targetlist_obsfile.yaml
-To view to targets listed in the observation file
-> python astrokat-cals.py --target 'Omega Cen' '13:26:47.28' '-47:28:46.1' --cal-tags gain bp flux --datetime '2018-11-11 02:35:00'
-
-
-> python astrokat-cals.py --view sample_targetlist_catalogue.csv --text-only
-> python astrokat-cals.py --view sample_targetlist_catalogue.csv
-> python astrokat-cals.py --view sample_targetlist_obsfile.yaml --text-only
-> python astrokat-cals.py --view sample_targetlist_obsfile.yaml --datetime '2018-11-11 02:35:00'
-
-
-
-
-
-## Creating an observation YAML file
-Observation YAML files can either be created from scratch by the astronomer during observation planning, or, for an existing observation which already has a CSV catalogue and has an existing schedule block using `track.py` or `image.py` observation scripts, conversion to the YAML observation framework is quick and easy.
-
-
-### Construct a YAML observation file.
-A YAML observation file can be constructed using any editor using the information provided on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) wiki page.
+### Creating an observation YAML file
+A YAML observation file can be constructed using any editor and the information provided on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) wiki page.
 Alternatively, simply make a copy of an existing YAML file and edit the information appropriately.
+
+For the mosaic observation example constructed in the previous section, a YAML observation file can be generated given a limited number of additional information: 
 ```
-> cat image.yaml
+python catalogue2obsfile.py --catalogue AR1_mosaic_NGC641.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --obsfile AR1_mosaic_NGC641.yaml
+```
+Which will generate a YAML observation file
+```
+# Catalogue needed for the AR1 mosaic tests
 # AR1 mosaic NGC641
-# Catalogue for the AR1 mosaic tests
+instrument:
+  integration_period: 8.0
+  band: l
+  product: c856M4k
+durations:
+  obs_duration: 35400.0
 observation_loop:
   - LST: 1.795-8.947
     target_list:
+      - name=3C138, radec=05:21:09.90 +16:38:22.1, tags=bpcal, duration=180.0, cadence=1800.0
+      - name=PKS 1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal, duration=180.0, cadence=1800.0
+      - name=J0010-4153, radec=0:10:52.52 -41:53:10.8, tags=bpcal, duration=180.0, cadence=1800.0
+      - name=J0155-4048, radec=1:55:37.06 -40:48:42.4, tags=gaincal, duration=65.0
       - name=NGC641_02D02, radec=01:39:25.009 -42:14:49.216, tags=target, duration=300.0
       - name=NGC641_03D02, radec=01:37:01.491 -42:14:49.216, tags=target, duration=300.0
       - name=NGC641_02D03, radec=01:40:36.768 -42:37:41.000, tags=target, duration=300.0
@@ -122,35 +111,31 @@ observation_loop:
       - name=NGC641_04D03, radec=01:35:49.732 -42:37:41.000, tags=target, duration=300.0
       - name=NGC641_02D04, radec=01:39:25.009 -43:00:32.784, tags=target, duration=300.0
       - name=NGC641_03D04, radec=01:37:01.491 -43:00:32.784, tags=target, duration=300.0
-``` 
+```
+Planning for observation this file can also be viewed as the CSV file above:   
+`python astrokat-cals.py --view AR1_mosaic_NGC641.yaml --datetime '2018-11-11 02:35:00'`
+```
+Observation Table for 2018/11/11 02:35:00
+Times in UTC when target is above the default horizon = 20 degrees
+Sources         Class                           RA              Decl            Rise Time       Set Time        Separation      Notes
+NGC641_02D02    radec target                    1:39:25.01      -42:14:49.2     14:51:23        02:49:57        117.36          separation from Sun
+NGC641_03D02    radec target                    1:37:01.49      -42:14:49.2     14:49:00        02:47:34        117.19
+NGC641_02D03    radec target                    1:40:36.77      -42:37:41.0     14:51:40        02:52:03        117.10
+NGC641_03D03    radec target                    1:38:13.25      -42:37:41.0     14:49:17        02:49:40        116.93
+NGC641_04D03    radec target                    1:35:49.73      -42:37:41.0     14:46:54        02:47:17        116.75
+NGC641_02D04    radec target                    1:39:25.01      -43:00:32.8     14:49:34        02:51:46        116.66
+NGC641_03D04    radec target                    1:37:01.49      -43:00:32.8     14:47:11        02:49:23        116.49
+3C138           radec bpcal                     5:21:09.90      16:38:22.1      20:58:09        04:06:02        77.89 ***       separation from NGC641_02D02
+PKS 1934-638    radec bpcal                     19:39:25.03     -63:42:45.6     07:43:02        22:02:00        52.05 ***       separation from NGC641_03D04
+J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     13:24:06        01:20:54        15.70 ***       separation from NGC641_04D03
+J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     15:10:54        03:02:44        3.34            separation from NGC641_02D03
+```
+INSERT OUTPUT IMAGE HERE
+
+More detail on converting CSV target lists to YAML observation files can be found on the [Catalogues to observation files](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) page.
 
 
-
-
-### Convert the CSV catalogue to a YAML observation file.
-Detailed discussion of CSV catalogues to YAML observation files can be found on the [Catalogues to observation files](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) wiki page.
-
-For this tutorial consider an example imaging observation:   
-`
-/home/kat/katsdpscripts/observation/image.py <image.csv> --horizon=20 -t 300 -g 65 -b 180 -i 1800 -m 35400
-`
-
-To create the associated YAML file from the standard observation options, the mapping of options between the two observation scripts are tabled below:
-
-| `image.py` | `catalogue2obsfile.py` |
-| --- | --- |
-| -t | --target-duration |
-| -m | --max-duration |
-| -g | --secondary-cal-duration |
-| -b | --primary-cal-duration |
-| -i | --primary-cal-cadence |
-
-`
-python catalogue2obsfile.py --catalogue astrokat/tests/test_convert/image.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --obsfile image.yaml
-`
-
-
-## Observation planning
+# Observation planning
 **Note to the user:** MeerKAT is designed with observation scripts wrapped in schedule blocks. These schedule blocks contains most of the observational metadata related to scheduling the observation for execution, such as `desired starttime` and `observation duration`. What is important, is that the observation script and observation file, correctly represent the desired flow of the observation over the full LST range that the observation can be scheduled, to ensure that when scheduled, expected output is achieved.
 
 
@@ -249,12 +234,12 @@ TODO: Restore defaults
 `python observe.py --profile ../config/OH_periodic_masers.yaml`
 
 
-## Observation verification
+# Observation verification
 System verification of observation viability
 Mainly done by the staff astronomer or AOD
 Scheduling control is added here as part of the dry-run verification and needs to be validated against the expected full range LST output
 
-## Observation scheduling
+# Observation scheduling
 Observation execution on live system
 This is where restrictive requirements on the _`instrument`_ will be evaluated before the observation continues
 Mainly OOD responsibility
