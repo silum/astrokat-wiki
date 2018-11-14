@@ -7,7 +7,7 @@ The tool requires that a target, or a catalogue file be specified.
 A single target is specified with the `--target` argument,    
 while catalogue file containing multiple targets are provided with the `--infile` argument.   
 * Format for specifying a single target is simply `--target <name> <ra> <dec>`   
-* Providing multiple targets in an input file simply follows the typical target specification definition of the observation [CSV catalogue](https://github.com/ska-sa/astrokat/wiki/Observation-catalogues) files.
+* Providing multiple targets in an input file simply follows the typical target specification definition of the observation [CSV catalogue](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues) files.
 Default is to select the first target in the list of targets to find the indicated calibrators for. This is not always desirable and to indicate which targets in the file to use when selecting calibrators the `calref` tag must be added to that target's observation information.   
 For example the input file: `cat sample_targetlist_for_cals.csv`
 ```
