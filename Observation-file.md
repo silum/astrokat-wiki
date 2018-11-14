@@ -5,7 +5,7 @@ Three simple rules that the user should know:
 * Keys and values are separated by a colon, '`:`'
 * Use **2 additional spaces indentation** for key words of the next deeper layer.
 
-Example configuration files with various observation types can be found on the [Observation configuration examples](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-examples) page.
+Example configuration files with various observation types can be found on the [Observation configuration examples](https://github.com/ska-sa/astrokat/wiki/Observation-configuration-examples) page.
 
 Primary keys of interest to the user are:   
 _`instrument`_, _`configuration`_, _`noise_diode`_, _`durations`_ and **_`observation_loop`_**   
