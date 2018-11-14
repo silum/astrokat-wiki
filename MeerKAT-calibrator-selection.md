@@ -11,16 +11,15 @@ while catalogue file containing multiple targets are provided with the `--infile
 Default is to select the first target in the list of targets to find the indicated calibrators for. This is not always desirable and to indicate which targets in the file to use when selecting calibrators the `calref` tag must be added to that target's observation information.   
 For example the input file: `cat sample_targetlist_for_cals.csv`
 ```
-#7th set of pointings of the Galactic plane Mosaic
-T3R04C06, radec, +17:22:27.46877, -38:12:09.4023
-T4R00C02, radec, +17:11:22.47016, -37:51:51.0758
-T4R00C04, radec, +17:08:23.04449, -38:39:29.8486
-T4R00C06, radec, +17:05:19.53524, -39:26:50.4693
-T4R01C01, radec calref, +17:14:51.97986, -37:45:16.2459
-T4R01C03, radec, +17:11:55.13096, -38:33:15.4802
-T4R01C05, radec, +17:08:54.27808, -39:20:57.3978
-T4R02C02, radec, +17:15:26.58923, -38:26:36.9760
-T4R02C04, radec, +17:12:28.40227, -39:14:39.4421
+# Catalogue needed for the AR1 mosaic tests
+# AR1 mosaic NGC641
+NGC641_02D02, radec target, 01:39:25.009, -42:14:49.216
+NGC641_03D02, radec target, 01:37:01.491, -42:14:49.216
+NGC641_02D03, radec target, 01:40:36.768, -42:37:41.000
+NGC641_03D03, radec target calref, 01:38:13.250, -42:37:41.000
+NGC641_04D03, radec target, 01:35:49.732, -42:37:41.000
+NGC641_02D04, radec target, 01:39:25.009, -43:00:32.784
+NGC641_03D04, radec target, 01:37:01.491, -43:00:32.784
 ```
 
 * In addition to the targets, the user must also specify the type of calibrators to select using the `--cal-tags` argument. Current available options are `gain, bp, flux, pol`
@@ -48,15 +47,19 @@ The purpose of this information is simply informational and is supplementary to 
 
 ### Using a single target as input
 Most basic implementation is to view available calibrators for a target   
-`python astrokat-cals.py --target 'Abell 13' '00:13:32.2' '-19:30:03.6' --cal-tags gain flux`
+`python astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux`
 
 Resulting in display output:
 ```
 Observation Table for 2018-10-20 12:45:51.596
 Sources         Class           Rise Time       Set Time        Separation      Notes
-Abell 13        target          15:41:37        02:01:43        143.42          separation from Sun
-J0408-6545      bpcal,fluxcal   17:24:33        08:05:34        59.64 ***       separation from Abell 13
-J2348-1631      gaincal         15:22:34        01:29:57        6.75            separation from Abell 13
+Observation Table for 2018/11/14 08:43:24
+Times in UTC when target is above the default horizon = 20 degrees
+Sources         Class                           RA              Decl            Rise Time       Set Time        Separation      Notes
+NGC641_03D03    radec target                    1:38:13.25      -42:37:41.0     14:37:30        02:37:52        115.08          separation from Sun
+J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     13:12:18        01:09:07        16.13 ***       separation from NGC641_03D03
+J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     14:59:06        02:50:56        3.72
+J0408-6545      radec bpcal fluxcal             4:08:20.38      -65:45:09.6     15:46:16        06:27:16        31.01 ***
 ```
 With the `***` a visual aid to the user to draw attention that the closest calibrator found was more than 15 degrees away from the target.
 
@@ -65,22 +68,23 @@ If the Python `matplotlib` library is available, an elevation graph will also be
 
 Useful additional options:
 * To create a catalogue file a filename for the output catalogue has to be provided by adding the `--outfile` argument.   
-`python astrokat-cals.py --prop-id 'SCI-20180624FC-01' --pi 'Fernando Camilo' --contact 'fernando@ska.ac.za, sharmila@ska.ac.za' --target 'Abell 13' '00:13:32.2' '-19:30:03.6' --cal-tags gain flux --outfile ../output/test_SCI-20180624FC-01_Abell13.csv`   
-`Observation catalogue ../output/test_SCI-20180624FC-01_Abell13.csv`
-
+`python astrokat-cals.py --prop-id 'SCI-dateinitials-nr' --pi 'No One' --contact 'dummy@ska.ac.za' --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --outfile ../output/test_NGC641_03D03.csv`
+`Observation catalogue ../output/test_NGC641_03D03.csv`   
+The `--outfile` argument is **very important when selecting flux and polarisation calibrators**. These calibrators comes with flux model coefficients that must be added to the targets and is only done in the output file.
 ```
-# Observation catalogue for proposal ID SCI-20180624FC-01
-# PI: Fernando Camilo
-# Contact details: fernando@ska.ac.za, sharmila@ska.ac.za
-Abell 13, radec target, 0:13:32.20, -19:30:03.6
+# Observation catalogue for proposal ID SCI-dateinitials-nr
+# PI: No One
+# Contact details: dummy@ska.ac.za
+J0010-4153 | 0008-421, radec bpcal, 0:10:52.52, -41:53:10.8, (145.0 20000.0 -16.93 15.39 -4.21 0.3496)
+J0155-4048 | 0153-410, radec gaincal, 1:55:37.06, -40:48:42.4
 J0408-6545 | 0408-658, radec bpcal fluxcal, 4:08:20.38, -65:45:09.6, (145.0 18000.0 -0.979 3.366 -1.122 0.0861)
-J2348-1631 | 2345-167, radec gaincal, 23:48:02.62, -16:31:12.6
+NGC641_03D03, radec target, 1:38:13.25, -42:37:41.0
 ```
 
 
 ### For multiple targets in an input file
 Using the example input file above listing multiple galactic pointings   
-`python astrokat-cals.py --prop-id 'SDP-calselect-test' --cal-tags gain bp pol flux delay --outfile ../output/SDP-calselect-test_catalogue.csv --infile ../test/sample_targetlist_for_cals.csv --datetime '2018-08-06 12:34'`
+`python astrokat-cals.py --prop-id 'SDP-calselect-test' --cal-tags gain bp pol flux delay --outfile ../output/SDP-calselect-test_catalogue.csv --infile ../input/sample_targetlist_for_cals.csv --datetime '2018-08-06 12:34'`
 
 Producing screen output:   
 ```
