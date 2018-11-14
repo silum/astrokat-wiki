@@ -2,7 +2,7 @@
 ## Definitions and terminology
 * [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification)
 * [Types of target observations](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations)
-* [Observation catalogues](https://github.com/ska-sa/astrokat/wiki/Observation-catalogues)
+* [MeerKAT calibrators and CSV catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues)
 * [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file)
 
 ## Input and planning utilities
