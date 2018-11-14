@@ -191,9 +191,6 @@ An optional extra output is a PDF report containing the elevation graph and targ
 ```python astrokat-cals.py --cal-tags gain bp pol flux delay --outfile mosaic_catalogue.csv --infile sample_targetlist_for_cals.csv --solar-angle=55 --datetime '2018-04-06 12:34' --report
 ```     
 `Observation catalogue report mosaic_catalogue.pdf` 
-[../output/SDP-calselect-test_catalogue.pdf](https://github.com/ska-sa/astrokat/blob/master/wiki/SDP-calselect-test_catalogue.pdf)    
-REMOVE
-
 [mosaic_catalogue report](https://github.com/ska-sa/astrokat/blob/master/wiki/mosaic_catalogue.pdf)
 
 
