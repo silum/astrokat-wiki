@@ -43,7 +43,8 @@ NGC641_03D03    radec target                    1:38:13.25      -42:37:41.0     
 J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     13:12:18        01:09:07        16.13 ***       separation from NGC641_03D03
 J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     14:59:06        02:50:56        3.72
 ```
-ADD OUTPUT IMAGE HERE
+![NGC641_03D03_with_calibrators](https://github.com/ska-sa/astrokat/blob/master/wiki/NGC641_03D03_with_calibrators.png)   
+
 
 The user selects the relevant calibrators and add those to the target CSV file.
 ```
@@ -73,7 +74,7 @@ NGC641_03D04, radec, 01:37:01.491, -43:00:32.784
 ```
 View the elevation of the targets in the constructed observation over time    
 `python astrokat-cals.py --view AR1_mosaic_NGC641.csv`   
-ADD OUTPUT IMAGE HERE
+![AR1_mosaic_NGC641](https://github.com/ska-sa/astrokat/blob/master/wiki/AR1_mosaic_NGC641.png)   
 
 More detail on the `astrokat-cals.py` tool, as well as add flux and polarisation calibrators can be found on the 
 [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) page.
@@ -130,7 +131,7 @@ PKS 1934-638    radec bpcal                     19:39:25.03     -63:42:45.6     
 J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     13:24:06        01:20:54        15.70 ***       separation from NGC641_04D03
 J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     15:10:54        03:02:44        3.34            separation from NGC641_02D03
 ```
-INSERT OUTPUT IMAGE HERE
+![AR1_mosaic_NGC641_panning](https://github.com/ska-sa/astrokat/blob/master/wiki/AR1_mosaic_NGC641_panning.png)   
 
 More detail on converting CSV target lists to YAML observation files can be found on the [Catalogues to observation files](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) page.
 
