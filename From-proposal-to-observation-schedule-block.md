@@ -1,9 +1,103 @@
 In order to achieve consistent representation and processing, MeerKAT observations are executed using the the `astrokat-observe.py` script, which takes as input a human readable/editable observation file. All aspects related to requirements and targets to observe is housed in this single observation file.
 
 
-## Observational setup and target specificaton
+## Observational setup and target specification
+The obvious first step is to generate an observation file listing targets and calibrators with the respective durations per target visit.
 
-### Add standard MeerKAT calibrator to observation targets
+Existing observation files can simply be copied and edited using any convenient text editor.   
+The following sections describe the process to create an observation file from scratch if none exist or a new observation file is desired.
+
+
+### Starting an observation with multiple targets
+The first step is to construct a simple CSV file listing the desired targets as:   
+`<name>, radec, <RA=HH:MM:SS>, <DEC=DD:MM:SS>`    
+Meta information such as the aim or a short description of the observation can be provided as comments at the top of the file if desired.   
+Consider an AR1 mosaic observation as example: `AR1_mosaic_NGC641.csv`
+```
+# Catalogue needed for the AR1 mosaic tests
+# AR1 mosaic NGC641
+NGC641_02D02, radec, 01:39:25.009, -42:14:49.216
+NGC641_03D02, radec, 01:37:01.491, -42:14:49.216
+NGC641_02D03, radec, 01:40:36.768, -42:37:41.000
+NGC641_03D03, radec, 01:38:13.250, -42:37:41.000
+NGC641_04D03, radec, 01:35:49.732, -42:37:41.000
+NGC641_02D04, radec, 01:39:25.009, -43:00:32.784
+NGC641_03D04, radec, 01:37:01.491, -43:00:32.784
+```
+
+Next calibrators must be added per observation file. These include both secondary calibrators such as gain calibrators, as well as primary calibrators such as bandpass and flux calibrators.
+The user can select and specify any calibrator directly as part of the observation. Alternatively, MeerKAT provides catalogues with standard calibrators that are known to work well for MeerKAT observations.
+
+To find MeerKAT standard calibrators for a target use the following python tool:   
+`python astrokat-cals.py --cat-path ../catalogues/ --target <Name> <RA> DEC --cal-tags <tag> [<tag> ...]`    
+For the mosaic example above target `NGC641_03D03` is used to select the observations calibrators, since the pointing are fairly tightly group the observation only requires a single gain calibrator, as well as bandpass and flux calibrators.   
+```
+python astrokat-cals.py --cat-path ../catalogues/ --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp
+```
+MeerKAT standard catalogues have a large number of gain calibrators available, but currently only a small number of primary calibrators such as bandpass, flux and polarisation calibrators. Thus, the `astrokat-cals.py` Python tool will find the closest gain calibrator to the target, the closet bandpass and flux calibrators, as well as additional bandpass and flux calibrators to cover the entire LST time range that the target will be visible to ensure a primary calibrator is always visible.
+```
+Observation Table for 2018/11/14 07:30:06
+Times in UTC when target is above the default horizon = 20 degrees
+Sources         Class                           RA              Decl            Rise Time       Set Time        Separation      Notes
+NGC641_03D03    radec target                    1:38:13.25      -42:37:41.0     14:37:30        02:37:52        115.11          separation from Sun
+J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     13:12:18        01:09:07        16.13 ***       separation from NGC641_03D03
+J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     14:59:06        02:50:56        3.72
+```
+ADD OUTPUT IMAGE HERE
+
+The user selects the relevant calibrators and add those to the target CSV file.
+```
+J0010-4153, radec bpcal, 0:10:52.52, -41:53:10.8
+J0155-4048, radec gaincal, 1:55:37.06, -40:48:42.4
+```
+There is no limit to the number of calibrators used, it is up to the user to select and/or add all required calibrators for the observation file.
+```
+3C138, radec bpcal, 05:21:09.90, +16:38:22.1
+PKS 1934-638, radec bpcal, 19:39:25.03, -63:42:45.63
+```
+Resulting in an initial target and calibrator list
+```
+# Catalogue needed for the AR1 mosaic tests
+# AR1 mosaic NGC641
+3C138, radec bpcal, 05:21:09.90, +16:38:22.1
+PKS 1934-638, radec bpcal, 19:39:25.03, -63:42:45.63
+J0010-4153, radec bpcal, 0:10:52.52, -41:53:10.8
+J0155-4048, radec gaincal, 1:55:37.06, -40:48:42.4
+NGC641_02D02, radec, 01:39:25.009, -42:14:49.216
+NGC641_03D02, radec, 01:37:01.491, -42:14:49.216
+NGC641_02D03, radec, 01:40:36.768, -42:37:41.000
+NGC641_03D03, radec, 01:38:13.250, -42:37:41.000
+NGC641_04D03, radec, 01:35:49.732, -42:37:41.000
+NGC641_02D04, radec, 01:39:25.009, -43:00:32.784
+NGC641_03D04, radec, 01:37:01.491, -43:00:32.784
+```
+View the elevation of the targets in the constructed observation over time    
+`python astrokat-cals.py --view AR1_mosaic_NGC641.csv`   
+ADD OUTPUT IMAGE HERE
+
+More detail on the `astrokat-cals.py` tool, as well as add flux and polarisation calibrators can be found on the 
+[MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) page.
+
+
+
+creating an observation file from an target csv file
+> python catalogue2obsfile.py --catalogue sample_targetlist_catalogue.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65 --product c856M4k --band l --integration-period 8 --max-duration 11700
+
+
+converting existing observation files
+(image.csv)
+
+> python catalogue2obsfile.py --catalogue sample_targetlist_catalogue.csv --target-duration 300 --primary-cal-duration 180 --primary-cal-cadence 1800 --secondary-cal-duration 65 --product c856M4k --band l --integration-period 8 --max-duration 11700 --obsfile sample_targetlist_obsfile.yaml
+To view to targets listed in the observation file
+> python astrokat-cals.py --target 'Omega Cen' '13:26:47.28' '-47:28:46.1' --cal-tags gain bp flux --datetime '2018-11-11 02:35:00'
+
+
+> python astrokat-cals.py --view sample_targetlist_catalogue.csv --text-only
+> python astrokat-cals.py --view sample_targetlist_catalogue.csv
+> python astrokat-cals.py --view sample_targetlist_obsfile.yaml --text-only
+> python astrokat-cals.py --view sample_targetlist_obsfile.yaml --datetime '2018-11-11 02:35:00'
+
+
 
 
 
