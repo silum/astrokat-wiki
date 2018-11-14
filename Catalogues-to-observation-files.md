@@ -2,16 +2,16 @@
 The _minimum required information_ for any observation is a list of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.   
 Per target required information:   
 `[name], tags, ra, dec` or `[name], tags, az, el` or `[name], tags, l, b`   
-Details discussion of the per target information can be found on the [Observation target specification](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-target-specification) page
+Details discussion of the per target information can be found on the [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) page
 
 The targets can be celestial, horizontal or galactic. Specials such as TLE for satellites and near earth objects are not currently available.
 
-Generally a catalogue is expected as part of the observation request. See [docs](https://github.com/rubyvanrooyen/astrokat/tree/master/docs) for an example observation request template
+Generally a catalogue is expected as part of the observation request. See [docs](https://github.com/ska-sa/astrokat/tree/master/docs) for an example observation request template
 
 
 ## Converting target catalogue to observation configuration file
 If an observation catalogue file is provided, an initial configuration file can easily be generated.
-More extensive information on the observation configuration file can be found on the [Observation configuration file](https://github.com/rubyvanrooyen/astrokat/wiki/Observation-configuration-file) page
+More extensive information on the observation configuration file can be found on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) page.
 
 The `catalogue2obsfile.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
 ```
@@ -23,6 +23,22 @@ Once the user is satisfied with the output, an observation profile can be create
 ```
 python catalogue2obsfile.py --catalogue targets.csv --obsfile targets.yaml ...
 ```
+
+For users familiar with the MeerKAT `track.py` or `image.py` observation scripts, the input to `catalogue2obsfile.py` is similar to the standard options used by these to standard observation scripts.
+```
+/home/kat/katsdpscripts/observation/image.py <image.csv> --horizon=20 -t <target duration> -g <time on gain calibrator> -b <time on bandpass calibrator> -i <how often to visit bandpass calibrator> -m <total observation run time>
+```
+
+To create the associated YAML file from the standard observation options, the mapping of options between the two observation scripts are tabled below:
+
+| `image.py` | `catalogue2obsfile.py` |
+| --- | --- |
+| -t | --target-duration |
+| -m | --max-duration |
+| -g | --secondary-cal-duration |
+| -b | --primary-cal-duration |
+| -i | --primary-cal-cadence |
+
 
 ### Adding observation source targets
 Basic steps for conversion can be illustrated using some random targets, `targets.csv`
