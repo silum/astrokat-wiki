@@ -40,6 +40,7 @@ The implementation will be updated as new requirements are identified based on u
 * Optional input arguments such as `--pi`, `--contact` and `--prop-id`, provides metadata that is added when the observation catalogue file is created.
 The purpose of this information is simply informational and is supplementary to the target specification. 
 
+* MeerKAT standard catalogues have a large number of gain calibrators available, but currently only a small number of primary calibrators such as bandpass, flux and polarisation are available. Thus, `astrokat-cals.py` will find the _closest gain calibrator_ to the target, the _closet bandpass and flux calibrators_, as well as _additional bandpass and flux calibrators_ to cover the entire LST time range that the target will be visible to ensure a primary calibrator is always visible.
 
 # Detailed examples
 
@@ -68,8 +69,10 @@ If the Python `matplotlib` library is available, an elevation graph will also be
 
 Useful additional options:
 * To create a catalogue file a filename for the output catalogue has to be provided by adding the `--outfile` argument.   
-`python astrokat-cals.py --prop-id 'SCI-dateinitials-nr' --pi 'No One' --contact 'dummy@ska.ac.za' --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --outfile ../output/test_NGC641_03D03.csv`
-`Observation catalogue ../output/test_NGC641_03D03.csv`   
+```
+python astrokat-cals.py --prop-id 'SCI-dateinitials-nr' --pi 'No One' --contact 'dummy@ska.ac.za' --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --outfile test_NGC641_03D03.csv
+```
+`Observation catalogue test_NGC641_03D03.csv`   
 The `--outfile` argument is **very important when selecting flux and polarisation calibrators**. These calibrators comes with flux model coefficients that must be added to the targets and is only done in the output file.
 ```
 # Observation catalogue for proposal ID SCI-dateinitials-nr
@@ -83,101 +86,122 @@ NGC641_03D03, radec target, 1:38:13.25, -42:37:41.0
 
 
 ### For multiple targets in an input file
+Some observations, such as the example mosaic observations only require single calibrators and for such observations simple CSV files listing the targets to observe can be used.    
+The only difference is the addition of a unique tag, _`calref`_, to indicate which target or coordinate should be used when selected the closest calibrator sources. Such as the example `sample_targetlist_for_cals.csv`
+```
+> cat sample_targetlist_for_cals.csv
+# AR1 mosaic NGC641
+# Catalogue for the AR1 mosaic tests
+NGC641_02D02, radec target, 01:39:25.009, -42:14:49.216
+NGC641_03D02, radec target, 01:37:01.491, -42:14:49.216
+NGC641_02D03, radec target, 01:40:36.768, -42:37:41.000
+NGC641_03D03, radec target calref, 01:38:13.250, -42:37:41.000
+NGC641_04D03, radec target, 01:35:49.732, -42:37:41.000
+NGC641_02D04, radec target, 01:39:25.009, -43:00:32.784
+NGC641_03D04, radec target, 01:37:01.491, -43:00:32.784
+```
+
 Using the example input file above listing multiple galactic pointings   
-`python astrokat-cals.py --prop-id 'SDP-calselect-test' --cal-tags gain bp pol flux delay --outfile ../output/SDP-calselect-test_catalogue.csv --infile ../input/sample_targetlist_for_cals.csv --datetime '2018-08-06 12:34'`
+```
+python astrokat-cals.py --cal-tags gain bp flux --outfile mosaic_catalogue.csv --infile sample_targetlist_for_cals.csv
+```
 
 Producing screen output:   
 ```
-Observation catalogue ../output/SDP-calselect-test_catalogue.csv
+Observation catalogue mosaic_catalogue.csv
 
-Observation Table for 2018-08-06 12:34:00
-Sources         Class           Rise Time       Set Time        Separation      Notes
-T3R04C06        target          08:07:52        19:48:16        127.09          separation from Sun
-T4R00C02        target          07:57:33        19:36:28        124.96
-T4R00C04        target          07:52:47        19:35:17        124.30
-T4R00C06        target          07:47:57        19:34:02        123.63
-T4R01C01        target          08:01:17        19:39:42        125.66
-T4R01C03        target          07:56:33        19:38:34        124.99
-T4R01C05        target          07:51:45        19:37:23        124.32
-T4R02C02        target          08:00:19        19:41:50        125.69
-T4R02C04        target          07:55:33        19:40:42        125.02
-J1331+3030      polcal          07:43:46        12:30:09        85.95 ***       separation from T4R01C01
-J1744-5144      gaincal         07:55:44        20:44:37        14.92           separation from T4R01C01
-J1939-6342      bpcal,fluxcal   09:05:36        23:24:36        33.72 ***       separation from T4R01C01
+Observation Table for 2018/11/14 11:32:31
+Times in UTC when target is above the default horizon = 20 degrees
+Sources         Class                           RA              Decl            Rise Time       Set Time        Separation      Notes
+NGC641_02D02    radec target                    1:39:25.01      -42:14:49.2     14:39:36        02:38:09        115.45          separation from Sun
+NGC641_02D03    radec target                    1:40:36.77      -42:37:41.0     14:39:52        02:40:15        115.21
+NGC641_02D04    radec target                    1:39:25.01      -43:00:32.8     14:37:46        02:39:58        114.77
+NGC641_03D02    radec target                    1:37:01.49      -42:14:49.2     14:37:13        02:35:46        115.26
+NGC641_03D03    radec target                    1:38:13.25      -42:37:41.0     14:37:30        02:37:52        115.01
+NGC641_03D04    radec target                    1:37:01.49      -43:00:32.8     14:35:23        02:37:35        114.58
+NGC641_04D03    radec target                    1:35:49.73      -42:37:41.0     14:35:07        02:35:29        114.82
+J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     13:12:18        01:09:07        16.13 ***       separation from NGC641_03D03
+J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     14:59:06        02:50:56        3.72
+J0408-6545      radec bpcal fluxcal             4:08:20.38      -65:45:09.6     15:46:16        06:27:16        31.01 ***
 ```
 Creates the catalogue file:   
 ```
-#7th set of pointings of the Galactic plane Mosaic
-# Observation catalogue for proposal ID SDP-calselect-test
+# AR1 mosaic NGC641
+# Catalogue for the AR1 mosaic tests
+# Observation catalogue for proposal ID None
 # PI: None
 # Contact details: None
-J1331+3030 | 3C286, radec polcal, 13:31:08.29, 30:30:33.0, (50.0 50000.0 0.0181 1.592 -0.5011 0.0357)
-J1744-5144 | 1740-517, radec gaincal, 17:44:25.47, -51:44:43.1, (145.0 99000.0 -3.694 2.745 -0.3655 -0.015)
-J1939-6342 | 1934-638, radec bpcal fluxcal, 19:39:25.05, -63:42:43.6, (408.0 8640.0 -30.77 26.49 -7.098 0.6053)
-T3R04C06, radec target, 17:22:27.47, -38:12:09.4
-T4R00C02, radec target, 17:11:22.47, -37:51:51.1
-T4R00C04, radec target, 17:08:23.04, -38:39:29.8
-T4R00C06, radec target, 17:05:19.54, -39:26:50.5
-T4R01C01, radec target, 17:14:51.98, -37:45:16.2
-T4R01C03, radec target, 17:11:55.13, -38:33:15.5
-T4R01C05, radec target, 17:08:54.28, -39:20:57.4
-T4R02C02, radec target, 17:15:26.59, -38:26:37.0
-T4R02C04, radec target, 17:12:28.40, -39:14:39.4
+J0010-4153 | 0008-421, radec bpcal, 0:10:52.52, -41:53:10.8, (145.0 20000.0 -16.93 15.39 -4.21 0.3496)
+J0155-4048 | 0153-410, radec gaincal, 1:55:37.06, -40:48:42.4
+J0408-6545 | 0408-658, radec bpcal fluxcal, 4:08:20.38, -65:45:09.6, (145.0 18000.0 -0.979 3.366 -1.122 0.0861)
+NGC641_02D02, radec target, 1:39:25.01, -42:14:49.2
+NGC641_02D03, radec target, 1:40:36.77, -42:37:41.0
+NGC641_02D04, radec target, 1:39:25.01, -43:00:32.8
+NGC641_03D02, radec target, 1:37:01.49, -42:14:49.2
+NGC641_03D03, radec target, 1:38:13.25, -42:37:41.0
+NGC641_03D04, radec target, 1:37:01.49, -43:00:32.8
+NGC641_04D03, radec target, 1:35:49.73, -42:37:41.0
 ```
 Elevation plot:
 ![astrokat-cals-multiple-target](https://github.com/ska-sa/astrokat/blob/master/wiki/astrokat-cals-multiple-target.png)
 
-If the `--datetime` argument is not specified, the current time will be used for all time conversions and elevation calculations
+If the `--datetime` argument is not specified, the current time will be used for all time conversions and elevation calculations. The impact of the `--datetime` argument can be shown in the following examples, using the 55 minimum solar separation angle threshold, `--solar-angle`, to highlight the differences:
 
-The impact of the `--datetime` argument can be shown in the following example, using the 55 minimum solar separation angle threshold, `--solar-angle`, to highlight the differences:
+```
+python astrokat-cals.py --cal-tags gain bp flux --infile sample_targetlist_for_cals.csv --datetime '2018-04-06 12:34' --text-only
+```
+```
+Observation Table for 2018/4/6 12:34:00
+Times in UTC when target is above the default horizon = 20 degrees
+Sources         Class                           RA              Decl            Rise Time       Set Time        Separation      Notes
+NGC641_02D02    radec target                    1:39:25.01      -42:14:49.2     05:12:22        17:10:57        49.50           separation from Sun
+NGC641_02D03    radec target                    1:40:36.77      -42:37:41.0     05:12:39        17:13:03        49.92
+NGC641_02D04    radec target                    1:39:25.01      -43:00:32.8     05:10:33        17:12:46        50.25
+NGC641_03D02    radec target                    1:37:01.49      -42:14:49.2     05:09:59        17:08:34        49.41
+NGC641_03D03    radec target                    1:38:13.25      -42:37:41.0     05:10:16        17:10:40        49.83
+NGC641_03D04    radec target                    1:37:01.49      -43:00:32.8     05:08:10        17:10:23        50.15
+NGC641_04D03    radec target                    1:35:49.73      -42:37:41.0     05:07:53        17:08:17        49.74
+J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     03:45:05        15:41:54        16.13 ***       separation from NGC641_03D03
+J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     05:31:52        17:23:44        3.72
+J0408-6545      radec bpcal fluxcal             4:08:20.38      -65:45:09.6     06:19:00        21:00:05        31.01 ***
+J1939-6342      radec bpcal fluxcal             19:39:25.05     -63:42:43.6     22:04:06        12:23:00        52.49 ***
+```
+Compared to the output by specifying a required solar separation angle larger than the default 20 degrees.   
+```
+python astrokat-cals.py --cal-tags gain bp flux --infile sample_targetlist_for_cals.csv --datetime '2018-04-06 12:34' --solar-angle=55 --text-only
+```
+```
+Observation Table for 2018/4/6 12:34:00
+Times in UTC when target is above the default horizon = 20 degrees
+Sources         Class                           RA              Decl            Rise Time       Set Time        Separation      Notes
+NGC641_02D02    radec target                    1:39:25.01      -42:14:49.2     05:12:22        17:10:57        49.50 ***       separation from Sun
+NGC641_02D03    radec target                    1:40:36.77      -42:37:41.0     05:12:39        17:13:03        49.92 ***
+NGC641_02D04    radec target                    1:39:25.01      -43:00:32.8     05:10:33        17:12:46        50.25 ***
+NGC641_03D02    radec target                    1:37:01.49      -42:14:49.2     05:09:59        17:08:34        49.41 ***
+NGC641_03D03    radec target                    1:38:13.25      -42:37:41.0     05:10:16        17:10:40        49.83 ***
+NGC641_03D04    radec target                    1:37:01.49      -43:00:32.8     05:08:10        17:10:23        50.15 ***
+NGC641_04D03    radec target                    1:35:49.73      -42:37:41.0     05:07:53        17:08:17        49.74 ***
+J0010-4153      radec bpcal                     0:10:52.52      -41:53:10.8     03:45:05        15:41:54        16.13 ***       separation from NGC641_03D03
+J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     05:31:52        17:23:44        3.72
+J0408-6545      radec bpcal fluxcal             4:08:20.38      -65:45:09.6     06:19:00        21:00:05        31.01 ***
+J1939-6342      radec bpcal fluxcal             19:39:25.05     -63:42:43.6     22:04:06        12:23:00        52.49 ***
+```
 
-`python astrokat-cals.py --prop-id 'SDP-calselect-test' --cal-tags gain bp pol flux delay --infile ../test/sample_targetlist_for_cals.csv --text-only --solar-angle=55`
-```
-Observation Table for 2018-10-20 14:29:47.782
-Sources         Class           Rise Time       Set Time        Separation      Notes
-T3R04C06        target          08:07:52        19:48:16        56.82           separation from Sun
-T4R00C02        target          07:57:33        19:36:28        54.62 ***
-T4R00C04        target          07:52:47        19:35:17        54.29 ***
-T4R00C06        target          07:47:57        19:34:02        53.96 ***
-T4R01C01        target          08:01:17        19:39:42        55.26
-T4R01C03        target          07:56:33        19:38:34        54.92 ***
-T4R01C05        target          07:51:45        19:37:23        54.59 ***
-T4R02C02        target          08:00:19        19:41:50        55.55
-T4R02C04        target          07:55:33        19:40:42        55.22
-J1331+3030      polcal          07:43:46        12:30:09        85.95 ***       separation from T4R01C01
-J1744-5144      gaincal         07:55:44        20:44:37        14.92           separation from T4R01C01
-J1939-6342      bpcal,fluxcal   09:05:36        23:24:36        33.72 ***       separation from T4R01C01
-```
+An optional extra output is a PDF report containing the elevation graph and target information will be generated by adding the `--report` argument:   
+```python astrokat-cals.py --cal-tags gain bp pol flux delay --outfile mosaic_catalogue.csv --infile sample_targetlist_for_cals.csv --solar-angle=55 --datetime '2018-04-06 12:34' --report
+```     
+`Observation catalogue report mosaic_catalogue.pdf` 
+[../output/SDP-calselect-test_catalogue.pdf](https://github.com/ska-sa/astrokat/blob/master/wiki/SDP-calselect-test_catalogue.pdf)    
+REMOVE
 
-Compared to:
-`python astrokat-cals.py --prop-id 'SDP-calselect-test' --cal-tags gain bp pol flux delay --infile ../test/sample_targetlist_for_cals.csv --text-only --solar-angle=55 --datetime '2018-08-06 12:34'`
-```
-Observation Table for 2018-08-06 12:34:00
-Sources         Class           Rise Time       Set Time        Separation      Notes
-T3R04C06        target          08:07:52        19:48:16        127.09          separation from Sun
-T4R00C02        target          07:57:33        19:36:28        124.96
-T4R00C04        target          07:52:47        19:35:17        124.30
-T4R00C06        target          07:47:57        19:34:02        123.63
-T4R01C01        target          08:01:17        19:39:42        125.66
-T4R01C03        target          07:56:33        19:38:34        124.99
-T4R01C05        target          07:51:45        19:37:23        124.32
-T4R02C02        target          08:00:19        19:41:50        125.69
-T4R02C04        target          07:55:33        19:40:42        125.02
-J1331+3030      polcal          07:43:46        12:30:09        85.95 ***       separation from T4R01C01
-J1744-5144      gaincal         07:55:44        20:44:37        14.92           separation from T4R01C01
-J1939-6342      bpcal,fluxcal   09:05:36        23:24:36        33.72 ***       separation from T4R01C01
-```
-
-Similarly, a PDF containing the elevation graph and target information will be generated by adding the `--report` argument:   
-`python astrokat-cals.py --prop-id 'SDP-calselect-test' --cal-tags gain bp pol flux delay --outfile ../output/SDP-calselect-test_catalogue.csv --infile ../test/sample_targetlist_for_cals.csv --solar-angle=55 --datetime '2018-08-06 12:34' --report`   
-[../output/SDP-calselect-test_catalogue.pdf](https://github.com/ska-sa/astrokat/blob/master/wiki/SDP-calselect-test_catalogue.pdf)
+[mosaic_catalogue report](https://github.com/ska-sa/astrokat/blob/master/wiki/mosaic_catalogue.pdf)
 
 
 ## Viewing a catalogue
 An updated elevation plot of catalogue targets can be shown by adding the `--view` option   
-* `python astrokat-cals.py --view ../output/test_SCI-20180624FC-01_Abell13.csv`   
-* `python astrokat-cals.py --view ../output/SDP-calselect-test_catalogue.csv --text-only --solar-angle=55`
-* `python astrokat-cals.py --view ../output/SDP-calselect-test_catalogue.csv --text-only --solar-angle=56 --datetime '2018-08-06 12:34'`
+* `python astrokat-cals.py --view mosaic_catalogue.csv`   
+* `python astrokat-cals.py --view mosaic_catalogue.csv --datetime '2018-04-06 12:34'`
+* `python astrokat-cals.py --view mosaic_catalogue.csv --text-only --solar-angle=55 --datetime '2018-04-06 12:34'`
 
 
 # Important notes to user
@@ -189,7 +213,7 @@ Unhandled exception <type 'exceptions.RuntimeError'> : Could not access calibrat
 add explicit location of catalogue folder using --cat-path <dirname>
 ```   
 The standard catalogues will be made available in a separate repository for local use, with the updated command   
-`python astrokat-cals.py --prop-id 'SCI-20180624FC-01' --pi 'Fernando Camilo' --contact 'fernando@ska.ac.za, sharmila@ska.ac.za' --target 'Abell 13' '00:13:32.2' '-19:30:03.6' --cal-tags gain flux --outfile ../output/test_SCI-20180624FC-01_Abell13.csv  --cat-path ../calibrators/`   
+`python astrokat-cals.py --prop-id 'SCI-dateinitials-nr' --pi 'No One' --contact 'dummy@ska.ac.za' --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --outfile test_NGC641_03D03.csv --cat-path ../calibrators/`   
 
 * The generation graphical output such as the elevation plot and PDF report creation is not always available on the observation systems. If the python `matplotlib` package is not available, the script will default to the text output displayed to screen and indicate this to the user with the output:   
 ```
