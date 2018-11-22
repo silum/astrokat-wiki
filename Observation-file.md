@@ -4,8 +4,10 @@ Three simple rules that the user should know:
 * YAML is **case sensitive** and uses spaces for indentation, please **no TABS**.   
 * Keys and values are separated by a colon, '`:`'
 * Use **2 additional spaces indentation** for key words of the next deeper layer.
+* Comments can be added to file using the hash, '`#`', character.
 
-Example configuration files with various observation types can be found on the [Example Observation files](https://github.com/ska-sa/astrokat/wiki/Example-observation-files) page.
+A full feature example observation file is available [here](https://github.com/ska-sa/astrokat/blob/master/obs_plans/observation-template.yaml),
+while more example observation files with various observation types can be found on the [Example Observation files](https://github.com/ska-sa/astrokat/wiki/Example-observation-files) page.
 
 Primary keys of interest to the user are:   
 _`instrument`_, _`configuration`_, _`noise_diode`_, _`durations`_ and **_`observation_loop`_**   
@@ -32,8 +34,8 @@ observation_loop:
 
 
 ### Observation loops
-An observation_loop contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When [converting from a catalogue](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files), the LST range is calculated from the RA of the listed targets.   
-If an observation loop has multiple _`target_list`_s, the lists must be separated by explicitly indicating their LST range, both _`start`_ and _`end`_ as decimal angle hours.
+An _`observation_loop`_ contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When [converting from a catalogue](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files), the LST range is calculated from the RA of the listed targets.   
+If an observation loop has multiple _`target_list`_ keys, the lists must be separated by explicitly indicating their LST range, both _`start`_ and _`end`_ as decimal angle hours.
 If, however, the observation contains only a single _`target_list`_, the user need only specify a start LST, as well as the expected _`obs_duration`_ of the observation.
 
 The **Target List** is generally specified as:   
@@ -69,6 +71,27 @@ Additional keys can be added per target for specialised target specification:
 Sources specified in the _`target_list`_ will be observed in the order listed in the configuration file, with sources marked with a cadence will be inserted intermittently at a user specified cadence.
 Targets listed in the _`target_list`_ can be observation targets of interest with accompanying calibrators.
 A _`target_list`_ must always be provided for observation.
+
+
+### [Optional] Desired observation durations and timings
+All observation time related information is housed under the _`durations`_ primary key:    
+The desired observation duration can be specified here using the _`obs_duration`_ sub-key and is specified in seconds.
+If an observation duration is not specified, the observation sequence will be a single run through all the targets listed in order.    
+Additionally, if the observation has a minimum observation time requirement to ensure science quality data, that time is indicated as _`minimum_duration`_ and specified in seconds.    
+For offline planning the desired start time for the observation may also be specified. This is one of the few planning only options that is ignored once scheduled using a system schedule block (SB). The desired start time is provided using the _`start_time`_ sub-key and assumes a '`%Y-%m-%d %H:%M:%S`' format.
+
+| key | Value |
+| --- | --- |
+| _`obs_duration`_ | Desired full duration of the observation, specified in seconds |
+| _`start_time`_ | For offline / local host planning the desired start time may be given |
+| _`minimum_duration`_ | Shortest observation time that is required to obtain science usable data in seconds |
+
+```
+durations:
+  obs_duration: <sec>
+  minimum_duration: <sec>
+  start_time: YYYY-mm-dd HH:MM:SS
+```
 
 
 ### [Optional] Required instrument setup
