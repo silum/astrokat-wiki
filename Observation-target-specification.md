@@ -7,7 +7,7 @@ The minimum requirement is a comma-separated file that contains a list of target
 
 The structure of each target specified in the input catalogues can be assumed to be:
 * Target name [optional]
-* Tags
+* Tags defining target coordinate type
 * Target X location
 * Target Y location
 * Flux model [optional]
@@ -21,11 +21,14 @@ Sometimes a target may have a number of names associated and these can be listed
 The asterisk, '`*`', character indicate the preferred target name to use.
 
 ### Tags
-A list of tags associated with the provided target coordinates.   
-The first tag is always the format of the coordinates provided.    
+A list of tags associated with the provided target coordinates.
+These are generally provided by the proposing astronomer for pointing information.   
+The first tag is always the format of the coordinates provided:    
 `radec` or `azel` or `gal`   
-For targets the explicit `target` tag or epoch `B1950`. `J2000` is assumed as default epoch.   
-The following calibrator tags are available: `phasecal`, `gaincal`, `bpcal`, `fluxcal`, `polcal`
+For targets the explicit `target` tag or epoch `B1950` can be provided. `J2000` is assumed as default epoch.
+
+The following calibrator tags may appear in submitted/existing catalogues: `phasecal`, `gaincal`, `bpcal`, `fluxcal`, `polcal`   
+These are internal tags that is assigned and used by the telescope systems.
 
 ### Target location
 
