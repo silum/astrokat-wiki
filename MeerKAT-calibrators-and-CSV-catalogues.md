@@ -21,7 +21,7 @@ The MeerKAT calibrator sources and catalogues can be view in the repository:
 
 MeerKAT standard calibrator catalogues follow a specific calibrator naming convention:    
 `Lband-<calibrator_classification>-calibrators.csv`   
-and relevant calibrators will be added for each observation band and calibrator type.  
+and relevant calibrators will be added for each observation per band and calibrator type.  
 
 The following calibrator catalogues are available:
 * **Complex gain calibrators**, identified in observation files using the `gaincal` tag.    
