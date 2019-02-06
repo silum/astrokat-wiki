@@ -1,15 +1,69 @@
 # Aim
 User tool to find the closest, good calibrators to a target, as well as create a CSV catalogue file.   
-`python astrokat-cals.py -h`
+`astrokat-cals.py -h`
+
+```
+usage: astrokat-cals.py [options]
+
+calibrator selection for MeerKAT telescope
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --pi PI               name of principle investigator or designated project
+                        leader (default: None)
+  --contact CONTACT     PI contact details, such as email address or phone
+                        number (default: None)
+  --prop-id PROP_ID     proposal ID (default: None)
+  --cal-tags <tag> [<tag> ...]
+                        list of tags specifying types of calibrators to
+                        provide: gain bp flux pol (default: None)
+  --cat-path CAT_PATH   path to calibrator catalogue folder (default: None)
+  --solar-angle SOLAR_ANGLE
+                        solar separation angle from target observation region
+                        (default: 20.0)
+  --datetime DATETIME   catalogue creation or viewing date and time with
+                        string format 'YYYY-MM-DD HH:MM' (default: 2019-02-06
+                        15:04:40.691558)
+  --horizon HORIZON     minimum pointing angle of MeerKAT dish (default: 17.0)
+  --lst                 display rise and set times in LST (default UTC)
+                        (default: False)
+
+observation target specification (*required*):
+  multiple targets are added using an input file, while for a single target
+  a quick command line option is also available -- simultaneous use of a
+  catalogue and input target is not allowed.
+
+  --infile INFILE       observation targets as CSV input file (default: None)
+  --target Name RA Decl
+                        returns MeerKAT LST range for a celestial target with
+                        coordinates HH:MM:SS DD:MM:SS (default: None)
+  --view CATALOGUE      display catalogue sources elevation over time
+                        (default: None)
+
+catalogue output options:
+  options to view constructed observation catalogue
+
+  --outfile OUTFILE     path and name for observation catalogue CSV file (if
+                        not provided, only target listing will be displayed)
+                        (default: None)
+  --text-only           output observation target information text only
+                        (default: False)
+  --all-cals            show all primary calibrators in catalogue (default:
+                        False)
+  --view-tags <tag> [<tag> ...]
+                        list of plot options for target visualization:
+                        elevation solarangle riseset (default: elevation)
+```
 
 #### Basic functionality
 The tool requires that a target, or a catalogue file be specified.   
 A single target is specified with the `--target` argument,    
 while catalogue file containing multiple targets are provided with the `--infile` argument.   
-* Format for specifying a single target is simply `--target <name> <ra> <dec>`   
+* Format for specifying a single target is simply `--target <name> <ra> <dec>`, currently only string format input for the (RA, DEC) coordinates are implemented, `HH:MM:SS.f DD:MM:SS.f`   
 * Providing multiple targets in an input file simply follows the typical target specification definition of the observation [CSV catalogue](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues) files.
 Default is to select the first target in the list of targets to find the indicated calibrators for. This is not always desirable and to indicate which targets in the file to use when selecting calibrators the `calref` tag must be added to that target's observation information.   
-For example the input file: `cat sample_targetlist_for_cals.csv`
+Example of such an input file:
 ```
 # Catalogue needed for the AR1 mosaic tests
 # AR1 mosaic NGC641
@@ -89,7 +143,6 @@ NGC641_03D03, radec target, 1:38:13.25, -42:37:41.0
 Some observations, such as the example mosaic observations only require single calibrators and for such observations simple CSV files listing the targets to observe can be used.    
 The only difference is the addition of a unique tag, _`calref`_, to indicate which target or coordinate should be used when selected the closest calibrator sources. Such as the example `sample_targetlist_for_cals.csv`
 ```
-> cat sample_targetlist_for_cals.csv
 # AR1 mosaic NGC641
 # Catalogue for the AR1 mosaic tests
 NGC641_02D02, radec target, 01:39:25.009, -42:14:49.216
