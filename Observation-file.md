@@ -39,9 +39,9 @@ If an observation loop has multiple _`target_list`_ keys, the lists must be sepa
 If, however, the observation contains only a single _`target_list`_, the user need only specify a start LST, as well as the expected _`obs_duration`_ of the observation.
 
 The **Target List** is generally specified as:   
-_`name=<name>, radec=<HH:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
-_`name=<name>, gal=<DD:MM:SS.f, DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
-_`name=<name>, azel=<az.f,el.f>, tags=<target>, duration=<sec>`_   
+_`name=<name>, radec=<HH:MM:SS.f DD:MM:SS.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, gal=<l.f b.f>, tags=<cal/target>, duration=<sec>`_   
+_`name=<name>, azel=<az.f el.f>, tags=<target>, duration=<sec>`_   
 
 The only key in the target definition that is not clearly self-explanatory is the _`tags`_ key.
 **Tags** are used by the telescope to classify the target type:
