@@ -87,14 +87,6 @@ The purpose of this information is simply informational and is supplementary to 
 
 * Currently, MeerKAT only has three flux calibrators with known flux models, as well as three polarisation calibrators. The number of calibrators will improve going forward, but sometimes to make selection between these few calibrators visually, add the `--all-cals` tag. This will display all calibrators in the selected catalogues (flux or polarisation) in the elevation plot. 
 
-* While the target elevation plot is the default display, for more intricate observations, more display options are available
-
-| Tag | Graph Type |
-| --- | --- |
-| elevation | Elevation angle or catalogue sources over LST range for a 24hr period|
-| solarangle | Solar separation angle of target over a year|
-| riseset | Target rise and set times (UTC) over the duration of a year|
-
 
 # Detailed examples
 
@@ -150,6 +142,15 @@ astrokat-cals.py --view test_NGC641_03D03.csv --horizon 20
 astrokat-cals.py --view test_NGC641_03D03.csv --datetime '2018-04-06 12:34'
 astrokat-cals.py --view test_NGC641_03D03.csv --text-only --solar-angle=55 --datetime '2018-04-06 12:34'
 ```
+
+While the target elevation plot is the default display, for more intricate observations, more display options are available with the `--view-tags` option.
+These can be specified as a list, e.g.: `--view-tags elevation solarangle`
+
+| Tag | Graph Type |
+| --- | --- |
+| elevation | Elevation angle or catalogue sources over LST range for a 24hr period|
+| solarangle | Solar separation angle of target over a year|
+| riseset | Target rise and set times (UTC) over the duration of a year|
 
 
 ## Multiple targets in an input file
