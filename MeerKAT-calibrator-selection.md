@@ -63,7 +63,7 @@ while catalogue file containing multiple targets are provided with the `--infile
 * Format for specifying a single target is simply `--target <name> <ra> <dec>`, currently only string format input for the (RA, DEC) coordinates are implemented,   
 `HH:MM:SS.f DD:MM:SS.f`   
 
-* In addition to the targets, the user must also specify the type of calibrators to select using the `--cal-tags` argument. Current available options are `gain, bp, flux, or pol`
+* In addition to the targets, the user must also specify the type of [calibrators](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues) to select using the `--cal-tags` argument. Current available options are `gain, bp, flux, or pol`
 
 | Tag | Calibrator Type |
 | --- | --- |
