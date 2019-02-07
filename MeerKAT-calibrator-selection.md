@@ -77,7 +77,7 @@ while catalogue file containing multiple targets are provided with the `--infile
 For users to access these catalogues the `--cat-path` argument must be specified giving the full path to the folder where the desired catalogues are located.
 Currently, these catalogues are available in the repository under the `astrokat/catalogues` folder.   
 **Important**: The reader should note that the current implementation of `astrokat-cals.py` assume a specific calibrator naming convension:   
-`Lband-<calibrator_calssification>-calibrators.csv`.   
+`Lband-<calibrator_clasification>-calibrators.csv`.   
 The implementation will be updated as new requirements are identified based on usage.
 
 * Optional input arguments such as `--pi`, `--contact` and `--prop-id`, provides metadata that is added when the observation catalogue file is created.
@@ -144,17 +144,19 @@ NGC641_03D03, radec target, 1:38:13.25, -42:37:41.0
 
 ## Viewing a catalogue
 Scheduling an observation with an existing catalogue, or evaluating viability of a created catalogue for a specific observation date, the `--view` option can be added.
-This will generate an updated elevation plot of catalogue targets, adding a desired date and time using the `--datetime` option and leaving out the `--lst` option will display the rise and set time in UCT at the selected time.   
-* `python astrokat-cals.py --view test_NGC641_03D03.csv`   
-* `python astrokat-cals.py --view test_NGC641_03D03.csv --datetime '2018-04-06 12:34'`
-* `python astrokat-cals.py --view test_NGC641_03D03.csv --text-only --solar-angle=55 --datetime '2018-04-06 12:34'`
+This will generate an updated elevation plot of catalogue targets, adding a desired date and time using the `--datetime` option and leaving out the `--lst` option will display the rise and set time in UCT at the selected time.
+```   
+astrokat-cals.py --view test_NGC641_03D03.csv --horizon 20   
+astrokat-cals.py --view test_NGC641_03D03.csv --datetime '2018-04-06 12:34'
+astrokat-cals.py --view test_NGC641_03D03.csv --text-only --solar-angle=55 --datetime '2018-04-06 12:34'
+```
 
 
-### For multiple targets in an input file
+## Multiple targets in an input file
 Providing multiple targets in an input file simply follows the typical target specification definition of the observation [CSV catalogue](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues) files.
 Default is to select the first target in the list of targets to find the indicated calibrators for.
-This is not always desirable and to indicate which targets in the file to use when selecting calibrators the `calref` tag must be added to that target's observation information.   
-The unique _`calref`_ tag now indicates which target or coordinate should be used when selected the closest calibrator sources.
+This is not always desirable and to indicate which targets in the file to use when selecting calibrators the `--calref` tag must be added to that target's observation information.   
+The unique _`--calref`_ tag now indicates which target or coordinate should be used when selected the closest calibrator sources.
 ```
 # AR1 mosaic NGC641
 # Catalogue for the AR1 mosaic tests
@@ -169,7 +171,7 @@ NGC641_03D04, radec target, 01:37:01.491, -43:00:32.784
 
 Using the example input file above listing multiple galactic pointings   
 ```
-astrokat-cals.py --cal-tags gain bp flux --outfile mosaic_catalogue.csv --infile sample_targetlist_for_cals.csv
+astrokat-cals.py --cal-tags gain bp flux --outfile mosaic_catalogue.csv --infile sample_targetlist_for_cals.csv  --horizon 20
 ```
 
 Producing screen output:   
@@ -214,7 +216,7 @@ Elevation plot:
 If the `--datetime` argument is not specified, the current time will be used for all time conversions and elevation calculations. The impact of the `--datetime` argument can be shown in the following examples, using the 55 minimum solar separation angle threshold, `--solar-angle`, to highlight the differences:
 
 ```
-astrokat-cals.py --cal-tags gain bp flux --infile sample_targetlist_for_cals.csv --datetime '2018-04-06 12:34' --text-only
+astrokat-cals.py --cal-tags gain bp flux --infile sample_targetlist_for_cals.csv --datetime '2018-04-06 12:34' --text-only  --horizon 20
 ```
 ```
 Observation Table for 2018/4/6 12:34:00
@@ -234,7 +236,7 @@ J1939-6342      radec bpcal fluxcal             19:39:25.05     -63:42:43.6     
 ```
 Compared to the output by specifying a required solar separation angle larger than the default 20 degrees.   
 ```
-astrokat-cals.py --cal-tags gain bp flux --infile sample_targetlist_for_cals.csv --datetime '2018-04-06 12:34' --solar-angle=55 --text-only
+astrokat-cals.py --cal-tags gain bp flux --infile sample_targetlist_for_cals.csv --datetime '2018-04-06 12:34' --solar-angle=55 --text-only  --horizon 20
 ```
 ```
 Observation Table for 2018/4/6 12:34:00
@@ -263,7 +265,7 @@ Unhandled exception <type 'exceptions.RuntimeError'> : Could not access calibrat
 add explicit location of catalogue folder using --cat-path <dirname>
 ```   
 The standard catalogues will be made available in a separate repository for local use, with the updated command   
-`python astrokat-cals.py --prop-id 'SCI-dateinitials-nr' --pi 'No One' --contact 'dummy@ska.ac.za' --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --outfile test_NGC641_03D03.csv --cat-path astrokat/calibrators/`   
+`astrokat-cals.py --prop-id 'SCI-dateinitials-nr' --pi 'No One' --contact 'dummy@ska.ac.za' --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --outfile test_NGC641_03D03.csv --cat-path astrokat/calibrators/`   
 
 * The generation graphical output such as the elevation plot and PDF report creation is not always available on the observation systems. If the python `matplotlib` package is not available, the script will default to the text output displayed to screen and indicate this to the user with the output:   
 ```
