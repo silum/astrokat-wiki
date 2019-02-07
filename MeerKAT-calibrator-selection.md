@@ -60,7 +60,8 @@ catalogue output options:
 The tool requires that a target, or a catalogue file be specified.   
 A single target is specified with the `--target` argument,    
 while catalogue file containing multiple targets are provided with the `--infile` argument.   
-* Format for specifying a single target is simply `--target <name> <ra> <dec>`, currently only string format input for the (RA, DEC) coordinates are implemented, `HH:MM:SS.f DD:MM:SS.f`   
+* Format for specifying a single target is simply `--target <name> <ra> <dec>`, currently only string format input for the (RA, DEC) coordinates are implemented,   
+`HH:MM:SS.f DD:MM:SS.f`   
 
 * In addition to the targets, the user must also specify the type of calibrators to select using the `--cal-tags` argument. Current available options are `gain, bp, flux, or pol`
 
@@ -72,8 +73,9 @@ while catalogue file containing multiple targets are provided with the `--infile
 | pol | select a polarisation calibrator|
 
 #### Additional information
-* Calibrators are selected using observatory calibrator catalogues located in `katconfig/user/catalogues`.   
-To use a user specified catalogue the `--cat-path` argument must be specified giving the full path to the folder where the desired catalogues are located.   
+* MeerKAT standard calibrator catalogues are selected using observatory calibrator catalogues located in `katconfig/user/catalogues`.   
+For users to access these catalogues the `--cat-path` argument must be specified giving the full path to the folder where the desired catalogues are located.
+Currently, these catalogues are available in the repository under the `astrokat/catalogues` folder.   
 **Important**: The reader should note that the current implementation of `astrokat-cals.py` assume a specific calibrator naming convension:   
 `Lband-<calibrator_calssification>-calibrators.csv`.   
 The implementation will be updated as new requirements are identified based on usage.
@@ -83,10 +85,11 @@ The purpose of this information is simply informational and is supplementary to 
 
 * MeerKAT standard catalogues have a large number of gain calibrators available, but currently only a small number of primary calibrators such as bandpass, flux and polarisation are available. Thus, `astrokat-cals.py` will find the _closest gain calibrator_ to the target, the _closet bandpass and flux calibrators_, as well as _additional bandpass and flux calibrators_ to cover the entire LST time range that the target will be visible to ensure a primary calibrator is always visible.
 
-* Currently, MeerKAT only has three flux calibrators with known flux models, and three polarisation calibrators. The number of calibrators will improve going forward, but sometimes to make selection between these few calibrators visually, add the `--all-cals` tag. This will display all calibrators in the selected catalogues (flux or polarisation) in the elevation plot. 
+* Currently, MeerKAT only has three flux calibrators with known flux models, as well as three polarisation calibrators. The number of calibrators will improve going forward, but sometimes to make selection between these few calibrators visually, add the `--all-cals` tag. This will display all calibrators in the selected catalogues (flux or polarisation) in the elevation plot. 
 
 * While the target elevation plot is the default display, for more intricate observations, more display options are available
-| Tag | Calibrator Type |
+
+| Tag | Graph Type |
 | --- | --- |
 | elevation | Elevation angle or catalogue sources over LST range for a 24hr period|
 | solarangle | Solar separation angle of target over a year|
@@ -99,9 +102,11 @@ The purpose of this information is simply informational and is supplementary to 
 
 ### Using a single target as input
 Most basic implementation is to view available calibrators for a target   
-`astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --lst`
+```
+astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --lst  --cat-path catalogues/
+```
 
-Note the use of the `--lst` tag, this is generally for planning when catalogues are constructed and calibrators has to be selected.
+Note the use of the `--lst` tag to display the tabulated rise and set times in LST. This is generally used for planning when catalogues are constructed and calibrators has to be selected.
 
 Resulting in display output:
 ```
@@ -122,7 +127,7 @@ If the Python `matplotlib` library is available, an elevation graph will also be
 Useful additional options:
 * To create a catalogue file a filename for the output catalogue has to be provided by adding the `--outfile` argument.   
 ```
-astrokat-cals.py --prop-id 'SCI-dateinitials-nr' --pi 'No One' --contact 'dummy@ska.ac.za' --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --outfile test_NGC641_03D03.csv
+astrokat-cals.py --prop-id 'SCI-dateinitials-nr' --pi 'No One' --contact 'dummy@ska.ac.za' --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --outfile test_NGC641_03D03.csv  --lst --cat-path catalogues/
 ```
 `Observation catalogue test_NGC641_03D03.csv`   
 The `--outfile` argument is **very important when selecting flux and polarisation calibrators**. These calibrators comes with flux model coefficients that must be added to the targets and is only done in the output file.
@@ -138,7 +143,8 @@ NGC641_03D03, radec target, 1:38:13.25, -42:37:41.0
 
 
 ## Viewing a catalogue
-An updated elevation plot of catalogue targets can be shown by adding the `--view` option   
+Scheduling an observation with an existing catalogue, or evaluating viability of a created catalogue for a specific observation date, the `--view` option can be added.
+This will generate an updated elevation plot of catalogue targets, adding a desired date and time using the `--datetime` option and leaving out the `--lst` option will display the rise and set time in UCT at the selected time.   
 * `python astrokat-cals.py --view mosaic_catalogue.csv`   
 * `python astrokat-cals.py --view mosaic_catalogue.csv --datetime '2018-04-06 12:34'`
 * `python astrokat-cals.py --view mosaic_catalogue.csv --text-only --solar-angle=55 --datetime '2018-04-06 12:34'`
