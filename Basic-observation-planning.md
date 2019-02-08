@@ -41,11 +41,14 @@ An observation using the YAML framework can be scheduled anywhere within this ra
 For observation schedule creation the visibility in UTC must be displayed and evaluated.
 It can also be displayed starting from the desired UTC schedule time using the `--datetime` option.
 Then validate LST values at the bottom are within range and the sources rise and set starting at the UCT time specified.
-***
+```
 astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20
 astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20 --datetime '2019-2-6 14:52:48'
-***
+```
 
+
+***
+***
 
 
 ## Detail overview
