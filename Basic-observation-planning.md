@@ -13,7 +13,7 @@ astrokat-cals.py --view astrokat_catalogue.csv --lst --horizon 20
 ```
 astrokat-catalogue2obsfile.py --infile astrokat_catalogue.csv --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile astrokat_obsfile.yaml
 ```
-Update file to correct LST range, observation period or source observation sequences, as needed.
+4. Update the .yaml file to correct LST range, observation period or source observation sequences, as needed.
 ```
 astrokat-cals.py --view astrokat_obsfile.yaml --lst --text-only --horizon 20
 ```
