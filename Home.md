@@ -1,25 +1,25 @@
 # Introduction
 For MeerKAT the process of getting an observation from planning to observation execution can be grouped into two components.
-* Observation planning, both during and after proposal submission
-* MeerKAT observation verification and execution
+* Planning prior to observation
+* Verification and execution
 
 The astrokat framework is a package to assist the astronomers with observation planning both during the proposal phase, as well as when setting up for actual observations.
-It consists of python scripts that compliments the MeerKAT OPT and provide simple tools for users to set up observations for submission via the OPT.
+It consists of python scripts that compliment the MeerKAT Observation Planning Tool (OPT) and provide simple tools for users to set up observations for submission via the OPT.
 It also houses the standard observation script, allowing the astronomer to get an idea of observation timings and target sequence independent of the MeerKAT telescope interface.
 
-The main output product of the astrokat framework is the creation of an observation file that contains the observation targets and associated instructions such as integration period and cadence.
+The main output product of the astrokat framework is the creation of an observation file that contains the observation targets and associated instructions such as the integration period and cadence.
 While the main usage feature is the ability to simulate the observation to plan observation target sequence and timing.
 
 It is important to note that the generated observation output file is a YAML file that simply provides a list of targets and per target instructions, describing the desired observation sequence.
 The file is independent of the observation script that will interpret and execute the observation, as well as the MeerKAT telescope operations interface that will schedule and run the observation.
 
 Even though the output of the observation script executing the observation file will look similar, the three steps of execution have very different goals.
-1. Initially running the observation script independent to the MeerKAT system, will generated an anticipated observation sequence for validation by the astronomer.
+1. Initially running the observation script independent to the MeerKAT system, will generate an anticipated observation sequence for validation by the astronomer.
 This is independent of the actual MeerKAT system and uses timing simulations to generate the output.   
-The astronomer use this output to evaluate if the order in which the targets are observed are acceptable, as well as the time spend on each target to ensure maximum use of time allocated.
+The astronomer uses this output to evaluate if the order in which the targets are observed are acceptable, as well as the time spend on each target to ensure maximum use of time allocated.
 
 2. Before observation, the MeerKAT operational system will use the observation script to perform a dry-run to verify the validity of the observation to be executed on the telescope given current time and instrument setup.   
-The AOD and OOD uses this output to evaluate the success of the observation, as well as verify if the observation is similar as requested.
+The Astronomer on Duty (AOD) and Operator on Duty (OOD) use this output to evaluate the success of the observation, as well as verify if the observation will proceed as requested.
 The output of this can be provided to the proposing astronomer as well for planning and target sequence verification.
 
 3. If the observation dry-run is successful, the MeerKAT operational system will execute the observation.
