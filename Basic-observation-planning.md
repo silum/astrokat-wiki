@@ -19,15 +19,27 @@ astrokat-cals.py --view astrokat_obsfile.yaml --lst --text-only --horizon 20
 ```
 
 
-## Updating an existing observation file
+## Adding or removing observation targets
+**It is strongly advised not to update an existing YAML file manually.**
+
+Add or remove targets and calibrators from an existing observation should only be done by editing the observation CSV catalogue.   
+If this catalogue does not exist, regenerate a CSV catalogue using the steps described above.
+
+For an existing CSV catalogue, the following steps can be used to obtain an update observation YAML file.
+
 1. Find calibrators for new target, but this time do not create a CSV file, only display the output to screen
 ```
 astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain flux --cat-path astrokat/catalogues/ --lst --horizon 20
 ```
 
-2. Copy and paste information into existing file
+2. Add target and calibrator information to the existing observation CSV catalogue
 
-3. Display and update relevant information
+3. Convert the updated CSV catalogue to YAML observation file
+```
+astrokat-catalogue2obsfile.py --infile astrokat_catalogue.csv --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile astrokat_obsfile.yaml
+```
+
+4. Display and verify update information   
 When new targets are added, or redundant targets are removed, it is most important to verify that the LST range specified are still relevant since this will be used to evaluate the viability of the observation.
 ```
 astrokat-cals.py --view astrokat_obsfile.yaml --lst --horizon 20
@@ -107,8 +119,7 @@ NGC641_03D03    radec target                    1:38:13.25      -42:37:41.0     
 J0408-6545      radec bpcal fluxcal             4:08:20.38      -65:45:09.6     20:46:45.33     11:30:13.91     31.01 ***       separation from NGC641_03D03
 J0155-4048      radec gaincal                   1:55:37.06      -40:48:42.4     19:59:29.85     7:53:17.65      3.72
 ```
-
-[add image here astrokat_catalogue.png]
+![astrokat csv catalogue](https://github.com/ska-sa/astrokat/blob/master/wiki/astrokat_catalogue.png)
 
 
 ### 3. Convert CSV catalogue to YAML observation file
