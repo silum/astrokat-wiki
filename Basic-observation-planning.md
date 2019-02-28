@@ -200,214 +200,26 @@ observation_loop:
 ```
 
 Running the observation script now will adopt the set observation start time and produce observation output similar to what the telescope will produce when executing the observation.
+```
+astrokat-observe.py --yaml astrokat_obsfile.yaml
+```
 
+Standard format will be in the form of log messages: `CCYY-MM-DD HH:MM:SSZ - <msg>`   
+Structure of the output:
+* pre-amble summarising targets to observe
+* body containing the observation sequence   
+`Initialising Track bpcal J0408-6545 for 180.0 sec`   
+As well as information of targets not visible or setting during the observation   
+All targets will be observed in sequence specified with only cadence targets being injected during the observation at a time close to the cadence specified.
+* ending with a summary of the anticipated per target observation time
+```
+Observation loop statistics
+Desired observation time 35400.00 sec (590.00 min)
+Total observation time 35218.74 sec (586.98 min)
+Targets observed :
+J0155-4048 observed for 5590.0 sec
+J0408-6545 observed for 3240.0 sec
+NGC641_03D03 observed for 25500.0 sec
+```
 
-> astrokat-observe.py --yaml astrokat_obsfile.yaml
-2019-02-28 07:52:51Z - Setting up telescope for observation
-2019-02-28 07:52:51Z - Switch noise-diode off at 1551340377.0
-2019-02-28 07:39:52Z - Found 3 target(s): 0 from 0 catalogue(s), 0 from default catalogue and 3 as target string(s)
-2019-02-28 07:39:52Z - Imaging targets are ['NGC641_03D03']
-2019-02-28 07:39:52Z - Bandpass calibrators are ['J0408-6545']
-2019-02-28 07:39:52Z - Gain calibrators are ['J0155-4048']
-2019-02-28 09:59:59Z - Slewing to first target
-2019-02-28 10:00:44Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 10:04:00Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:05:21Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 10:10:22Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:11:29Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 10:16:31Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:17:38Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 10:22:40Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:23:47Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 10:28:49Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:29:56Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 10:34:57Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 10:38:13Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:39:33Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 10:44:35Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:45:42Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 10:50:44Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:51:51Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 10:56:53Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 10:58:00Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:03:01Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 11:04:08Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:09:10Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 11:12:26Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 11:13:46Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:18:48Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 11:19:55Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:24:57Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 11:26:04Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:31:06Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 11:32:12Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:37:14Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 11:38:21Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:43:23Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 11:46:38Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 11:47:59Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:53:01Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 11:54:08Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 11:59:10Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:00:16Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 12:05:18Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:06:25Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 12:11:27Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:12:34Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 12:17:36Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 12:20:51Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:22:12Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 12:27:14Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:28:21Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 12:33:22Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:34:29Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 12:39:31Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:40:38Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 12:45:40Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:46:47Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 12:51:49Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 12:55:04Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 12:56:25Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:01:26Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:02:33Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:07:35Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:08:42Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:13:44Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:14:51Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:19:53Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:21:00Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:26:01Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 13:29:17Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:30:37Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:35:39Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:36:46Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:41:48Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:42:55Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:47:57Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:49:04Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 13:54:05Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 13:55:12Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:00:14Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 14:03:30Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:04:50Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:09:52Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:10:59Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:16:01Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:17:08Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:22:10Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:23:16Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:28:18Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:29:25Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:34:27Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 14:37:42Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:39:03Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:44:05Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:45:12Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:50:14Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:51:20Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 14:56:22Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 14:57:29Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:02:31Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:03:38Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:08:40Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 15:11:55Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:13:16Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:18:18Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:19:25Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:24:26Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:25:33Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:30:35Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:31:42Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:36:44Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:37:51Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:42:53Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 15:46:08Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:47:29Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:52:30Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:53:37Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 15:58:39Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 15:59:46Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 16:04:48Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 16:05:55Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 16:10:57Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 16:12:04Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 16:17:05Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 16:20:21Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 16:21:41Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 16:26:43Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 16:27:50Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 16:32:52Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 16:33:59Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 16:39:01Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 16:40:08Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 16:45:09Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 16:46:16Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 16:51:18Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 16:54:34Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 16:55:54Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:00:56Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:02:03Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:07:05Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:08:12Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:13:14Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:14:20Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:19:22Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:20:29Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:25:31Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 17:28:46Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:30:07Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:35:09Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:36:16Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:41:18Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:42:24Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:47:26Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:48:33Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:53:35Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 17:54:42Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 17:59:44Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 18:02:59Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:04:20Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 18:09:22Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:10:29Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 18:15:30Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:16:37Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 18:21:39Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:22:46Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 18:27:48Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:28:55Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 18:33:57Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 18:37:12Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:38:33Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 18:43:35Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:44:41Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 18:49:43Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:50:50Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 18:55:52Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 18:56:59Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 19:02:01Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 19:03:08Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 19:08:09Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 19:11:25Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 19:12:45Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 19:17:47Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 19:18:54Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 19:23:56Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 19:25:03Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 19:30:05Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 19:31:12Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 19:36:13Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 19:37:20Z - Initialising Track target NGC641_03D03 for 300.0 sec
-2019-02-28 19:42:22Z - Initialising Track bpcal J0408-6545 for 180.0 sec
-2019-02-28 19:45:38Z - Initialising Track gaincal J0155-4048 for 65.0 sec
-2019-02-28 19:46:58Z - Scheduled observation time lapsed - ending observation
-
-2019-02-28 19:46:58Z - Observation loop statistics
-2019-02-28 19:46:58Z - Desired observation time 35400.00 sec (590.00 min)
-2019-02-28 19:46:58Z - Total observation time 35218.74 sec (586.98 min)
-2019-02-28 19:46:58Z - Targets observed :
-2019-02-28 19:46:58Z - J0155-4048 observed for 5590.0 sec
-2019-02-28 19:46:58Z - J0408-6545 observed for 3240.0 sec
-2019-02-28 19:46:58Z - NGC641_03D03 observed for 25500.0 sec
-
-2019-02-28 19:46:58Z - Returning telescope to startup state
-2019-02-28 19:46:58Z - Switch noise-diode off at 1551383224.0
+This can be rerun as needed, allowing the astronomer to refine the observation if needed, or to select better calibrators to optimise time usage.
