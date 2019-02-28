@@ -1,3 +1,5 @@
+In order to achieve consistent representation and processing, MeerKAT observations are executed using the the `astrokat-observe.py` script, which takes as input a human readable/editable observation file. All aspects related to requirements and targets to observe is housed in this single observation file.
+
 # Building an observation file
 Fundamentally all MeerKAT observation are represented by 2 modules:
 * The [observation file](https://github.com/ska-sa/astrokat/wiki/Basic-observation-planning/_edit#creating-the-observation-file) that describes the observation on a per target basis, and
@@ -8,8 +10,23 @@ While the second represents the telescope executing the observation and forms th
 
 
 ## Creating the observation file
+Generate an observation file listing targets and calibrators with the respective durations per target visit.   
+The following sections describe the process to create an observation file.
+
 ### 1. Create an observation catalogue
-For an identified observation target
+The first step is to construct a simple CSV file listing the desired targets as:   
+`<name>, radec, <RA=HH:MM:SS>, <DEC=DD:MM:SS>`    
+
+Calibrators must be added per target / observation. These include both secondary calibrators such as gain calibrators, as well as primary calibrators such as bandpass and flux calibrators.
+The user can select and specify any calibrator directly as part of the observation. Alternatively, MeerKAT provides catalogues with standard calibrators that are known to work well for MeerKAT observations.
+
+To find MeerKAT standard calibrators for a target use the following python tool:   
+`python astrokat-cals.py --cat-path ../catalogues/ --target <Name> <RA> DEC --cal-tags <tag> [<tag> ...]`    
+
+MeerKAT standard catalogues have a large number of gain calibrators available, but currently only a small number of primary calibrators such as bandpass, flux and polarisation calibrators. Thus, the `astrokat-cals.py` Python tool will find the closest gain calibrator to the target, the closet bandpass and flux calibrators, as well as additional bandpass and flux calibrators to cover the entire LST time range that the target will be visible to ensure a primary calibrator is always visible.
+
+
+In summary: for an identified observation target
 * select standard MeerKAT calibrators if not provided
 * list rise and set time in LST for all observation sources
 * create a CSV catalogue listing sources and J2000 coordinates
@@ -18,7 +35,7 @@ For an identified observation target
 
 Simple usage example
 ```
-astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain flux --cat-path astrokat/catalogues/ --outfile 'astrokat_catalogue.csv' --lst --datetime '2019-2-6 14:52:48' --horizon 20
+astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --cat-path astrokat/catalogues/ --outfile 'astrokat_catalogue.csv' --lst --datetime '2019-2-6 14:52:48' --horizon 20
 ```
 Refer to [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) for all options
 
@@ -39,6 +56,9 @@ J1939-6342      radec bpcal fluxcal             19:39:25.05     -63:42:43.6     
 ```
 
 In the example output above, both `J0408-6545` and `J1939-6342` was added to the selection to ensure best coverage of the target LST range. But `J1939-6342` is not really needed since `J0408-6545` has LST rise and set times close to those of the target, thus `J1939-6342` can be manually removed from the output CSV file it is not needed.
+
+**Note**: YAML files are text files and can be edited using any convenient text editor.    
+Word of warning: When using word processing software to update the files, hidden white space or special unicode characters may be inserted. It is up to the user to ensure flat text files are returned for observation.
 
 
 ### 2. List rise and set times in LST
@@ -123,7 +143,6 @@ observation_loop:
       - name=J0155-4048 | 0153-410, radec=1:55:37.06 -40:48:42.4, tags=gaincal, duration=65.0
       - name=NGC641_03D03, radec=1:38:13.25 -42:37:41.0, tags=target, duration=300.0
 ```
-
 **Note**: Targets as listed in the YAML file will be observed in sequence and repeated as necessary, except for cadence targets.
 It is thus very important to remember to update the observation YAML file and insert source repetitions if required.
 
@@ -147,7 +166,7 @@ observation_loop:
 
 
 ## [Optional] Verify and refine the observation
-
+Observation configuration and sequence planning is mainly done by the proposing astronomer with possible assistance from a staff astronomer.   
 Detail descriptions of all the information that can be contained in a YAML file can be found on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) wiki page.
 
 Basic information for validating the observation sequence of a newly created observation file are as follows:
@@ -181,9 +200,13 @@ Simply running the observation script by results in errors such as:
 * Local LST does not match the LST range specified in the observation plan   
 `Local LST outside LST range 19:37:00.00-7:40:00.00`
 
-This is because the observation will always assume current time if it is not instructed to use a different time to simulate the observation.
-Setting or adjusting the observation time to simulate the observation is done by adding the `start_time` option to the YAML observation file under the `durations` group.
+This is because the observation will always assume current time if it is not instructed to use a different time to simulate the observation.   
+For observation verification and simulation, the source visibility in UTC is displayed and evaluated, this is achieved by not specifying the `--lst` option. UTC rise and set times can simply be displayed at the current time, or it can be displayed starting from the desired UTC schedule time using the `--datetime` option.
+```
+astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20 --datetime '2019-2-6 10:15:00'
+```
 
+Setting or adjusting the observation time to simulate the observation is done by adding the `start_time` option to the YAML observation file under the `durations` group.
 ```
 # Observation catalogue for proposal ID None
 # PI: None
