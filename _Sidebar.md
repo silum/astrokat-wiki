@@ -2,7 +2,7 @@
 ## Observation planning and setup
 * [Basic observation planning](https://github.com/ska-sa/astrokat/wiki/Basic-observation-planning)
 * [Quick reference: Basic observation planning](https://github.com/ska-sa/astrokat/wiki/Quick-reference:-Basic-observation-planning)
-* x [Example observation files](https://github.com/ska-sa/astrokat/wiki/Example-observation-files)
+* [Example observation files](https://github.com/ska-sa/astrokat/wiki/Example-observation-files)
 
 ## Input and planning utilities
 * [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection)
