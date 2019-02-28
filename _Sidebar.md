@@ -1,6 +1,7 @@
 # How To
 ## Observation planning and setup
 * [Basic observation planning](https://github.com/ska-sa/astrokat/wiki/Basic-observation-planning)
+* [Quick reference: Basic observation planning](https://github.com/ska-sa/astrokat/wiki/Quick-reference:-Basic-observation-planning)
 * x [Example observation files](https://github.com/ska-sa/astrokat/wiki/Example-observation-files)
 * x [From proposal to observation](https://github.com/ska-sa/astrokat/wiki/From-proposal-to-observation-schedule-block)
 * x [Verification and observation](https://github.com/ska-sa/astrokat/wiki/Verification-and-observation)
