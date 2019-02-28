@@ -7,7 +7,7 @@
 ## Input and planning utilities
 * [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection)
 * [Catalogues to observation files](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files)
-* x [MeerKAT LST tools](https://github.com/ska-sa/astrokat/wiki/MeerKAT-LST-tools)
+* [MeerKAT LST tools](https://github.com/ska-sa/astrokat/wiki/MeerKAT-LST-tools)
 
 ## Definitions and terminology
 * [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification)
