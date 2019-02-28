@@ -50,9 +50,20 @@ Rise and set times for all sources in an observation file is related to the LST 
 For observation verification and simulation, the source visibility in UTC must be displayed and evaluated.
 It can simply be displayed at the current time, or it can be displayed starting from the desired UTC schedule time using the `--datetime` option.
 
+1. Find appropriate UTC time to simulate or schedule the observation   
 Always validate LST values displayed at on the bottom x-axis are within the LST range listed in the observation file, and select the best rise and set starting UCT time to simulate the observation.
 ```
 astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20
-astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20 --datetime '2019-2-6 14:52:48'
+astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20 --datetime '2019-2-6 10:15:00'
 ```
 
+2. Edit the observation script to add this selected start time
+```
+durations:
+   start_time: 2019-02-06 10:15:00
+```
+
+3. Run the observation and carefully read and evaluate the output sequence and timing information
+```
+astrokat-observe.py --yaml astrokat_obsfile.yaml
+```
