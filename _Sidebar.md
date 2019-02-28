@@ -11,7 +11,7 @@
 
 ## Definitions and terminology
 * [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification)
-* x [Types of target observations](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations)
-* x [Noise diode usage during observations](https://github.com/ska-sa/astrokat/wiki/Noise-diode-usage-during-observations)
+* [Types of target observations](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations)
+* [Noise diode usage during observations](https://github.com/ska-sa/astrokat/wiki/Noise-diode-usage-during-observations)
 * [MeerKAT calibrators and CSV catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues)
-* x [MeerKAT observation YAML file](https://github.com/ska-sa/astrokat/wiki/Observation-file)
+* [MeerKAT observation YAML file](https://github.com/ska-sa/astrokat/wiki/Observation-file)
