@@ -7,10 +7,10 @@ The astrokat framework is a package to assist the astronomers with observation p
 It consists of python scripts that compliment the MeerKAT Observation Planning Tool (OPT) and provide simple tools for users to set up observations for submission via the OPT.
 It also houses the standard observation script, allowing the astronomer to get an idea of observation timings and target sequence independent of the MeerKAT telescope interface.
 
-The main output product of the astrokat framework is the creation of an observation file that contains the observation targets and associated instructions such as the integration period and cadence.
-While the main usage feature is the ability to simulate the observation to plan observation target sequence and timing.
+The output product of the astrokat framework is the creation of an observation file that contains the observation targets and associated instructions, such as the integration period and cadence.
+However, the main usage feature is the ability to simulate the observation to plan observation target sequence and timing.
 
-It is important to note that the generated observation output file is a YAML file that simply provides a list of targets and per target instructions, describing the desired observation sequence.
+It is important to note that the generated observation output file is a YAML file that is a list of targets and per target instructions, describing the desired observation sequence.
 The file is independent of the observation script that will interpret and execute the observation, as well as the MeerKAT telescope operations interface that will schedule and run the observation.
 
 Even though the output of the observation script executing the observation file will look similar, the three steps of execution have very different goals.
