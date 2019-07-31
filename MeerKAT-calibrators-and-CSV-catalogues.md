@@ -13,7 +13,7 @@ The CSV observation catalogue format is very simple:
 
 
 ## MeerKAT standard calibrator catalogues
-MeerKAT telescope provides lists of standard primary and secondary calibrators in CSV format. The official location of these files on the operational systems is `katconfig/user/catalogues`. For offline and local system use, the catalogues are made available as part of the astrokat repository, `astrokat/catalogues`.
+MeerKAT telescope provides lists of standard primary and secondary calibrators in CSV format. The official location of these files on the operational systems is `katconfig/user/catalogues`. For offline and local system use, the catalogues are made available as part of the `AstroKAT` repository, `astrokat/catalogues`.
 
 The MeerKAT calibrator sources and catalogues can be view in the repository:
 [astrokat](https://github.com/ska-sa/astrokat)`/catalogues`
@@ -25,10 +25,10 @@ and relevant calibrators will be added for each observation per band and calibra
 
 The following calibrator catalogues are available:
 * **Complex gain calibrators**, identified in observation files using the `gaincal` tag.    
-Gain calibrators are generally classified as secondary calibrators in the `astrokat` framework scripts and currently about 100 calibrator sources are provided with good sky coverage in `Lband-gain-calibrators.csv`.
+Gain calibrators are generally classified as secondary calibrators in the `AstroKAT` framework scripts and currently about 100 calibrator sources are provided with good sky coverage in `Lband-gain-calibrators.csv`.
 
 * **Bandpass calibrator sources** are indicated with the `bpcal` tag.    
-Bandpass calibrators are classified as primary calibrators in the `astrokat` framework scripts. These sources have good phase closure, but some are variable, `Lband-bandpass-calibrators.csv`.
+Bandpass calibrators are classified as primary calibrators in the `AstroKAT` framework scripts. These sources have good phase closure, but some are variable, `Lband-bandpass-calibrators.csv`.
 
 * Currently MeerKAT only use 3 trusted **flux calibrator sources**.  MeerKAT has models for these sources and they can be found in `Lband-flux-calibrators.csv`.  Flux calibrators are primary calibrators and can also be used as bandpass calibrators, so when an observation selects a flux calibrator, indicated with the `fluxcal` tag, a second bandpass calibrator is not required --- unless, the flux calibrator is very far away from the observation target and an additional bandpass calibrator closer is required. When these targets are added to observation files they are indicated with both the `bpcal` and `fluxcal` tags by default.
 
