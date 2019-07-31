@@ -30,4 +30,4 @@ The per target implementation of the noise diode trigger, provides the additiona
 **Implementation note**:   
 It takes time for the command to trigger the noise diode to get to all the digitisers, so in order to ensure the on/off setting of the noise diodes are in sync, a timestamp at which to execute the command must be provided. Else the on/off event will the staggered depending on when the command reaches the digitiser and get executed.
 
-To ensure all noise diode events always happen in sync, a default lead time of two, 2.0, seconds are added to the time at which the command is requested. Thus ensuring the command are received by all digitisers and will trigger simultaneously.
+To ensure all noise diode events always happen in sync, a default lead time of five, 5.0, seconds are added to the time at which the command is requested. Thus ensuring the command are received by all digitisers and will trigger simultaneously.
