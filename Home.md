@@ -27,17 +27,18 @@ The output of this can be provided to the proposing astronomer as well for plann
 3. If the observation dry-run is successful, the MeerKAT operational system will execute the observation.
 This is the only stage at which the telescope will actually execute the observation instructions in the observation file, as interpreted by the observation script.
 
+
 ## Anticipated observation build sequence
 The general sequence from proposal to observation execution are as follows:
 1. The proposing / observing astronomer generates the observation YAML file (either independent or through the MeerKAT OPT)
 2. A schedule block is created by the AOD for each observation
-3. For new observations, the AOD will also perform a dry-run to verify the observation setup and target sequence.
+3. For each observations, the AOD will also perform a dry-run to verify the observation setup and target sequence.
 The AOD may use the dry-run to communicate with the astronomer to refine and finalise the observation.
 4. Once the observation is accepted and scheduled, the OOD ensures every observation is verified before observation using the dry-run, as well as queue the observation for execution.
 
 
 # All observations
-* [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) of observation targets, definition, structure and coordinate specification.   
+* All targets to be observed by MeerKAT requires information such as name, definition, structure and coordinate specification. The OPT will assist the user through the GUI interface to specify or selects targets, alternatively information on the required information can be found on [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification).   
 * Observation target catalogues, CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues) vs [observation files](https://github.com/ska-sa/astrokat/wiki/Observation-file).   
 As well as a method to go [from CSV catalogue to observation file](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) in order to easily move from the older observation regime to the new observation framework.
 * Additional scripts provide an easy way of selecting [calibrators from MeerKAT observatory catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) as well as some basic functionality for command line observation evaluation during planning.
