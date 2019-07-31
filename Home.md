@@ -16,6 +16,9 @@ It is important to note that the generated observation file is a YAML file that 
 The YAML file is independent of the observation script that will interpret and execute the observation, as well as the MeerKAT telescope operations interface that will schedule and run the observation.
 
 Even though the output of the observation script executing the observation file will look similar, the three steps of execution have very different goals.
+```
+astrokat-observe.py --yaml <YAMLfile>
+```
 1. Initially running the observation script independent to the MeerKAT telescope, will generate an anticipated observation sequence for validation by the astronomer.
 This is independent of the actual MeerKAT system and uses timing simulations to generate the output.   
 The astronomer evaluates this output to verify the order in which the targets are observed are acceptable, as well as the time spend on each target to ensure maximum use of time allocated.
@@ -38,51 +41,17 @@ The AOD may use the dry-run to communicate with the astronomer to refine and fin
 
 
 ## Targets and observation specification
+The OPT will assist the user to achieve an observation file, as well as observational setup, through the GUI interface.
+If the OPT cannot be accessed or the astronomer selects to set up an observation offline, the following is available.
 * All targets to be observed by MeerKAT requires information such as name, definition, structure and coordinate specification.
-The OPT will assist the user through the GUI interface to specify or selects targets, alternatively information on the required information can be found on [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification).
+Details on the required information can be found on [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification).
 * The `astrokat-targets.py` script provides an easy way of selecting [calibrators from MeerKAT observatory catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) as well as some basic functionality for command line observation evaluation during planning.
-
 * It is a little easier to specify the targets for new observations using CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues).
 Extracting the information from the CSV file and creating a basic YAML observation file can be achieved using the `astrokat-catalogue2obsfile.py` script described in [CSV catalogue to observation file](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files).
 To update a created or existing YAML observation file a standard editor can be used.
 Detail information of currently supported settings are provided in [observation files](https://github.com/ska-sa/astrokat/wiki/Observation-file).   
+* In addition to the default observation mode tracking a target, some scan options are also available and discussed on the [Types of target observations](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) page.
 
-* In addition to the standard observation of tracking a target, some scan options are also available and discussed on the [Types of target observations](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) page.
-
-## Noise diode usage during observations
-Some observations may include the use of a noise diode. The current understanding of the various noise diode implementation requirements are described here.
-
-Noise diode implementation for the observation framework provides the following functionality:   
-_`on`_, _`off`_, _`trigger`_ and _`pattern`_
-
-While switching the noise diode _`on`_ and _`off`_ is a straight forward implementation, the _`trigger`_ and _`pattern`_ settings needs to be clarified a little more.
-
-Standard definition of the noise diode is to specify an on/off _`pattern`_ that will be repeated until disabled. The pattern is defined by specifying the time period to repeat the pattern, `cycle length`, in seconds, as well as the fraction of the pattern time length that the noise diode must be switched on, `on fraction`. This can be applied to all antennas, or to a specified list of antennas.
-
-For example setting a noise diode pattern that will repeat every 100 ms with an on/off fraction of 50% of the cycle time:
-```
-noise_diode:
-  # set noise diode pattern on all antennas associated to the active subarray
-  antennas: all
-  # set an on/off noise diode cycle of 100 milliseconds
-  cycle_len: 0.1  # sec
-  # use a 50% duty cycle to switch the noise diode on
-  on_frac: 0.5  # fractional value 0 .. 1.0
-```
-More information on usage options for setting the noise diode pattern can be found in that section of the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) page.
-
-**Note to the user**:
-When a noise diode pattern is requested it will be set at the start of the observation and deactivated at the end of the observation.
-
-The ability to _`trigger`_ the noise diode between tracks for a specified number of seconds is implemented as a per target option, eg _`nd=10`_ to trigger the noise diode for 10 seconds before a track of the target.
-See target discussion in the **Observation loops** section of the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) page.
-
-The per target implementation of the noise diode trigger, provides the additional ability to deactivate a noise diode pattern for a selected target observation, _`nd=off`_, and then to reactivate the pattern for the remainder of the observation.
-
-**Implementation note**:   
-It takes time for the command to trigger the noise diode to get to all the digitisers, so in order to ensure the on/off setting of the noise diodes are in sync, a timestamp at which to execute the command must be provided. Else the on/off event will the staggered depending on when the command reaches the digitiser and get executed.
-
-To ensure all noise diode events always happen in sync, a default lead time of two, 2.0, seconds are added to the time at which the command is requested. Thus ensuring the command are received by all digitisers and will trigger simultaneously.
 
 ## Verification needs
 The observation framework provides a number of usage levels and currently requires three, 3, stages where verification must occur during development.
