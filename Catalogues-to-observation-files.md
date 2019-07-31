@@ -65,10 +65,10 @@ calibrator observation strategy:
                         [sec] (default: 60)
 ```
 
-The only required input parameter is the name of the catalogue file, `--catalogue`.   
-For convenience the output will be displayed to screen if an output filename, `--obsfile`, is not specified.  
+The only required input parameter is the name of the catalogue file, `--infile`.   
+For convenience the output will be displayed to screen if an output filename, `--outfile`, is not specified.  
 Once the user is satisfied with the output, an observation profile can be created   
-`astrokat-catalogue2obsfile.py --catalogue targets.csv --obsfile targets.yaml ...`
+`astrokat-catalogue2obsfile.py --infile targets.csv --outfile targets.yaml ...`
 
 For users familiar with the MeerKAT `track.py` or `image.py` observation scripts, the input to `astrokat-catalogue2obsfile.py` is similar to the standard options used by these to standard observation scripts.
 ```
