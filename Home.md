@@ -38,10 +38,8 @@ The AOD may use the dry-run to communicate with the astronomer to refine and fin
 
 
 ## Targets and observation specification
-
 * All targets to be observed by MeerKAT requires information such as name, definition, structure and coordinate specification.
 The OPT will assist the user through the GUI interface to specify or selects targets, alternatively information on the required information can be found on [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification).
-
 * Additional scripts provide an easy way of selecting [calibrators from MeerKAT observatory catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) as well as some basic functionality for command line observation evaluation during planning.
 
 * It is a little easier to specify the targets for new observations using CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues).
