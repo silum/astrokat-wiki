@@ -9,7 +9,6 @@ Observation input requires a _`target`_ specified as a _`katpoint.Target`_ objec
 
 
 ### Performing a drift scan
-**Currently not giving accurate results, some debugging still required**   
 Track a constant point in front of the target on the expected trajectory, allowing the object to _`drift`_ over the observation point. This generally results in a map of the observed beam pattern.    
 Similar to the _`track`_ observation, a _`target`_ and _`duration`_ is required as input to this observation type.
 
