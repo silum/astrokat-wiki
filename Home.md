@@ -37,11 +37,18 @@ The AOD may use the dry-run to communicate with the astronomer to refine and fin
 4. Once the observation is accepted and scheduled, the OOD ensures every observation is verified before observation using the dry-run, as well as queue the observation for execution.
 
 
-# All observations
-* All targets to be observed by MeerKAT requires information such as name, definition, structure and coordinate specification. The OPT will assist the user through the GUI interface to specify or selects targets, alternatively information on the required information can be found on [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification).   
-* Observation target catalogues, CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues) vs [observation files](https://github.com/ska-sa/astrokat/wiki/Observation-file).   
-As well as a method to go [from CSV catalogue to observation file](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files) in order to easily move from the older observation regime to the new observation framework.
+## Targets and observation specification
+
+* All targets to be observed by MeerKAT requires information such as name, definition, structure and coordinate specification.
+The OPT will assist the user through the GUI interface to specify or selects targets, alternatively information on the required information can be found on [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification).
+
 * Additional scripts provide an easy way of selecting [calibrators from MeerKAT observatory catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) as well as some basic functionality for command line observation evaluation during planning.
+
+* It is a little easier to specify the targets for new observations using CSV format [catalogues](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrators-and-CSV-catalogues).
+Extracting the information from the CSV file and creating a basic YAML observation file can be achieved using the `astrokat-catalogue2obsfile.py` script described in [CSV catalogue to observation file](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files).
+To update a created or existing YAML observation file a standard editor can be used.
+Detail information of currently supported settings are provided in [observation files](https://github.com/ska-sa/astrokat/wiki/Observation-file).   
+
 * In addition to the standard observation of tracking a target, some scan options are also available and discussed on the [Types of target observations](https://github.com/ska-sa/astrokat/wiki/Types-of-target-observations) page.
 
 ## Noise diode usage during observations
