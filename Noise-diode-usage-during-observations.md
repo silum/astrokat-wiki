@@ -15,7 +15,7 @@ noise_diode:
   # set an on/off noise diode cycle of 100 milliseconds
   cycle_len: 0.1  # sec
   # use a 50% duty cycle to switch the noise diode on
-  on_frac: 0.5  # %
+  on_frac: 0.5  # fractional value 0 .. 1.0
 ```
 More information on usage options for setting the noise diode pattern can be found in that section of the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) page.
 
