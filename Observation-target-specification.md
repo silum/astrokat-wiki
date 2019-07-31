@@ -1,4 +1,4 @@
-## Observation Target Input
+## Observation target input
 
 Observational targets and calibrators are grouped in observational catalogues provided by the requesting astronomer or constructed in collaboration with MeerKAT astronomers.
 
@@ -17,8 +17,9 @@ Note: All information provided in the catalogue file must be standard text, no u
 ### Target name
 User free form string associated with the target.   
 Sometimes a target may have a number of names associated and these can be listed using the '`|`' to separate names.   
-`J0025-2602 | *PKS 0023-26 | OB-238`   
+`*J0025-2602 | PKS 0023-26 | OB-238`   
 The asterisk, '`*`', character indicate the preferred target name to use.
+**Important to note** is that the standard naming convention assumed is the `J` format and some auto tasks may not run if a different naming convention is selected as preferred target name.
 
 ### Tags
 A list of tags associated with the provided target coordinates.
@@ -27,8 +28,8 @@ The first tag is always the format of the coordinates provided:
 `radec` or `azel` or `gal`   
 For targets the explicit `target` tag or epoch `B1950` can be provided. `J2000` is assumed as default epoch.
 
-The following calibrator tags may appear in submitted/existing catalogues: `gaincal`, `bpcal`, `fluxcal`, `polcal`   
-These are internal tags that is assigned and used by the telescope systems.
+The following calibrator tags may appear in submitted/existing catalogues: `delaycal`, `gaincal`, `bpcal`, `fluxcal`, `polcal`   
+**Important to note**, these tags are used by the telescope pipelines and some MeerKAT processing software require the `delaycal` tag for secondary gain/phase calibrators.
 
 ### Target location
 
