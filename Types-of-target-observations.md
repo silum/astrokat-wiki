@@ -1,5 +1,5 @@
 Depending on the science observation, an observation method is selected from the available observation types.
-The most standard observation type is to track a _`target`_ during observation, but a number of _`scan`_ type observation that is used to move across a target rather than remain on it is also available.
+The most standard observation type is to _`track`_ a target during observation, but a number of _`scan`_ type observation that is used to move across a target rather than remain on it is also available.
 
 ## Standard observation types
 
