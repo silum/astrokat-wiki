@@ -45,12 +45,13 @@ _`name=<name>, azel=<az.f el.f>, tags=<target>, duration=<sec>`_
 
 The only key in the target definition that is not clearly self-explanatory is the _`tags`_ key.
 **Tags** are used by the telescope to classify the target type:
-* The explicit `target` tag for non-calibrator sources are optional
+* The explicit `target` tag is assigned to non-calibrator sources
 * Calibrator tags are assigned per functionality
   * Gain calibrator to solve the complex phase corrections: `gaincal`
   * Bandpass calibrators: `bpcal`
   * Flux calibrators: `fluxcal`
   * Polarisation calibrators: `polcal`
+  * Calculate delay calibration solutions: `delaycal`
 
 Full definition of the target specification and related keys can be found on the [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) page.
 
