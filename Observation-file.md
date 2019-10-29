@@ -10,7 +10,7 @@ A full feature example observation file is available [here](https://github.com/s
 while more example observation files with various observation types can be found on the [Example Observation files](https://github.com/ska-sa/astrokat/wiki/Example-observation-files) page.
 
 Primary keys of interest to the user are:   
-_`instrument`_, _`configuration`_, _`noise_diode`_, _`durations`_ and **_`observation_loop`_**   
+_`instrument`_, _`horizon`_, _`noise_diode`_, _`durations`_ and **_`observation_loop`_**   
 Only the _`observation_loop`_ key is required, the rest is optional and only added to the observation file when needed.
 
 ## Typical observation file
@@ -19,6 +19,7 @@ instrument:
   product: <name>
   integration_period: <s>
   band: l
+horizon: <elev>
 noise_diode:
   antennas: <all> or <cycle> or <m0XX>
   on_frac: < % >
