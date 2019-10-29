@@ -6,7 +6,7 @@
 > Now is 2018/9/20 11:19:21Z UTC and 12:42:19.57 LST
 
 * Return MeerKAT LST for a given UTC date and time   
-`astrokat-lst.py --utc '2018-08-06 12:34'`   
+`astrokat-lst.py --date '2018-08-06 12:34'`   
 > At 2018/8/6 12:34:00Z MeerKAT LST will be 10:59:45.92
 
 * Calculate per target LST   
@@ -14,5 +14,5 @@
 > Target (17:22:27.46877 -38:12:09.4023) rises at LST 11:32:33.31 and sets at LST 23:14:52.82
 
 * Simple tool to figure out when an observation will start given the LST hour   
-`astrokat-lst.py --lst 10.6 --utc 2018-08-06`   
-> 2018-08-06 10.6 LST corresponds to 2018-08-06 12:11:00Z UTC   
+`astrokat-lst.py --lst 10.6 --date 2018-08-06`   
+> 2018-08-06 10.6 LST corresponds to 2018-08-06 12:10:17.973608Z UTC   
