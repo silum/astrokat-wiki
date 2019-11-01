@@ -14,11 +14,11 @@ Generally a catalogue is expected as part of the observation request. See [docs]
 If an observation catalogue file is provided, an initial configuration file can easily be generated.
 More extensive information on the observation configuration file can be found on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) page.
 
-The `astrokat-catalogue2obsfile.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
+The `astrokat-catalogue2observation.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
 ```
-python astrokat-catalogue2obsfile.py -h
+astrokat-catalogue2observation.py -h
 
-usage: astrokat-catalogue2obsfile.py [options] --catalogue <full_path/cat_file.csv>
+usage: astrokat-catalogue2observation.py [options] --csv <full_path/cat_file.csv>
 
 sources are specified as a catalogue of targets, with optional timing
 information
@@ -26,10 +26,12 @@ information
 optional arguments:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
-  --infile INFILE       filename of the CSV catalogue to convert
-                        (**required**) (default: None)
-  --outfile OUTFILE     filename for output observation file (default outputs
-                        to screen) (default: None)
+  --csv CSV             filename of the input CSV catalogue (**required**)
+                        (default: None)
+  --yaml YAML           filename for observation YAML file (default outputs to
+                        screen) (default: None)
+  --json JSON           filename for observation JSON file (default: None)
+  --show                Show observation JSON instructions (default: False)
 
 observation instrument setup:
   instrument setup requirements
@@ -44,40 +46,44 @@ target observation strategy:
   track a target for imaging or spectral line observations, may optionally
   have a tag of 'target'.
 
-  --lst LST             observation start LST or LST range (default: None)
+  --lst LST             observation start LST (default: None)
   --target-duration TARGET_DURATION
                         default target track duration [sec] (default: 300)
+  --horizon HORIZON     Minimum horizon angle [deg] (default: None)
   --max-duration MAX_DURATION
                         maximum duration of observation [sec] (default: None)
 
 calibrator observation strategy:
-  calibrators are identified by tags in their description strings 'bpcal',
+  calibrators are identified by tags in their description strings: 'bpcal',
   'gaincal', 'fluxcal' and 'polcal' respectively
 
   --primary-cal-duration PRIMARY_CAL_DURATION
-                        minimum duration to track primary calibrators tagged
-                        as 'bpcal', 'fluxcal' or 'polcal' [sec] (default: 300)
+                        duration to track primary calibrators tagged as
+                        'bpcal', 'fluxcal' or 'polcal' [sec] (default: 300)
   --primary-cal-cadence PRIMARY_CAL_CADENCE
-                        minimum observation interval between primary
-                        calibrators [sec] (default: None)
+                        interval between calibrator observation [sec]
+                        (default: None)
   --secondary-cal-duration SECONDARY_CAL_DURATION
-                        minimum duration to track gain calibrator, 'gaincal'
-                        [sec] (default: 60)
+                        duration to track gain calibrator [sec] (default: 60)
 ```
 
-The only required input parameter is the name of the catalogue file, `--infile`.   
-For convenience the output will be displayed to screen if an output filename, `--outfile`, is not specified.  
+The only required input parameter is the name of the catalogue file, `--csv`.   
+For convenience the YAML output will be displayed to screen if an output filename, `--yaml`, is not specified.  
 Once the user is satisfied with the output, an observation profile can be created   
-`astrokat-catalogue2obsfile.py --infile targets.csv --outfile targets.yaml ...`
+`astrokat-catalogue2observation.py --csv targets.csv --yaml targets.yaml ...`
 
-For users familiar with the MeerKAT `track.py` or `image.py` observation scripts, the input to `astrokat-catalogue2obsfile.py` is similar to the standard options used by these to standard observation scripts.
+In addition, the user may select a JSON file for upload to the MeerKAT OPT.
+This simply requires the addition of a json filename    
+`astrokat-catalogue2observation.py --csv targets.csv --yaml targets.yaml  --json targets.json ...`
+
+For users familiar with the MeerKAT `track.py` or `image.py` observation scripts, the input to `astrokat-catalogue2observation.py` is similar to the standard options used by these to standard observation scripts.
 ```
 /home/kat/katsdpscripts/observation/image.py <image.csv> --horizon=20 -t <target duration> -g <time on gain calibrator> -b <time on bandpass calibrator> -i <how often to visit bandpass calibrator> -m <total observation run time>
 ```
 
 To create the associated YAML file from the standard observation options, the mapping of options between the two observation scripts are tabled below:
 
-| `image.py` | `astrokat-catalogue2obsfile.py` |
+| `image.py` | `astrokat-catalogue2observation.py` |
 | --- | --- |
 | -t | --target-duration |
 | -m | --max-duration |
@@ -89,35 +95,37 @@ To create the associated YAML file from the standard observation options, the ma
 ### Adding observation source targets
 Basic steps for conversion can be illustrated using some random targets, `targets.csv`
 ```
-, radec target, 0, -90
+, radec target, 0:00:00, -90:00:00
 , azel target, 10, 50
 , gal target, -10, 40
 ```
 
 Simple convert targets to configuration
 ```
-astrokat-catalogue2obsfile.py --infile targets.csv --target-duration 10
+astrokat-catalogue2observation.py --csv targets.csv --target-duration 10
 ```
 Resulting in a basic target list
 ```
+horizon: 20
 observation_loop:
-  - LST: 0:00-23:59
+  - LST: 0:00
     target_list:
-      - name=target0_radec, radec=0 -90, tags=target, duration=10.0
+      - name=target0_radec, radec=0:00:00 -90:00:00, tags=target, duration=10.0
       - name=target1_azel, azel=10 50, tags=target, duration=10.0
       - name=target2_gal, gal=-10 40, tags=target, duration=10.0
 ```
-No _`LST`_ range was specified in the conversion, so the range over which the targets are visible has been inserted by default.   
+No _`LST`_ range was specified in the conversion, so a start LST for the targets have been inserted by default.   
 Target names were also not provided, resulting in generated names to be added.   
 Each target has its own _`tags`_ and _`duration`_, which can be updated by the user.
 
 The source list construction does not distinguish between targets and calibrators when converting from CSV format catalogues to observation files.
 When converting catalogues that contains calibrators, the user must specify the associated timings required.
 ```
-astrokat-catalogue2obsfile.py --infile two_calib.csv --primary-cal-duration 180
+astrokat-catalogue2observation.py --csv two_calib.csv --primary-cal-duration 180
 
+horizon: 20
 observation_loop:
-  - LST: 12:30-11:30
+  - LST: 12:30
     target_list:
       - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=bpcal, duration=180.0
       - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=bpcal, duration=180.0
@@ -128,7 +136,7 @@ In general the default application assumes _`gaincal`_ as secondary calibrators,
 ### Observations with targets and calibrators
 Gain calibrators are generally intermingled with the source target list, with primary calibrators often need only be visited at some slower cadence.
 ```
- AR1 mosaic NGC641
+# AR1 mosaic NGC641
 # Catalogue needed for the AR1 mosaic tests
 J0408-6545 | 0408-658, radec bpcal fluxcal, 4:08:20.38, -65:45:09.6, (145.0 18000.0 -0.979 3.366 -1.122 0.0861)
 J1939-6342 | 1934-638, radec bpcal fluxcal, 19:39:25.05, -63:42:43.6, (408.0 8640.0 -30.77 26.49 -7.098 0.6053)
@@ -145,17 +153,20 @@ NGC641_04D03, radec target, 1:35:49.73, -42:37:41.0
 Example of an imaging observation with both primary and secondary calibrators, where the bandpass calibrator is only observed every 30 minutes for 3 minutes.
 The targets for 5 minutes and the gain calibrators for 65 seconds.
 ```
-astrokat-catalogue2obsfile.py --infile sample_targetlist_catalogue.csv --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile sample_targetlist_obsfile.yaml
+astrokat-catalogue2observation.py --csv AR1_mosaic_NGC641.csv --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --yaml AR1_mosaic_NGC641.yaml
 
+# Catalogue needed for the AR1 mosaic tests
 # AR1 mosaic NGC641
-# Catalogue for the AR1 mosaic tests
+# Observation catalogue for proposal ID None
+# PI: None
+# Contact details: None
+horizon: 20
 durations:
-  obs_duration: 35400.0
+  obs_duration: 35400
 observation_loop:
-  - LST: 12:30-11:30
+  - LST: 18:12
     target_list:
-      - name=J0408-6545 | 0408-658, radec=4:08:20.38 -65:45:09.6, tags=bpcal fluxcal, duration=180.0, cadence=1800.0, model=(145.0 18000.0 -0.979 3.366 -1.122 0.0861)
-      - name=J1939-6342 | 1934-638, radec=19:39:25.05 -63:42:43.6, tags=bpcal fluxcal, duration=180.0, cadence=1800.0, model=(408.0 8640.0 -30.77 26.49 -7.098 0.6053)
+      - name=J0010-4153 | 0008-421, radec=0:10:52.52 -41:53:10.8, tags=bpcal, duration=180.0, cadence=1800.0, model=(145.0 20000.0 -16.93 15.39 -4.21 0.3496)
       - name=J0155-4048 | 0153-410, radec=1:55:37.06 -40:48:42.4, tags=gaincal, duration=65.0
       - name=NGC641_02D02, radec=1:39:25.01 -42:14:49.2, tags=target, duration=300.0
       - name=NGC641_02D03, radec=1:40:36.77 -42:37:41.0, tags=target, duration=300.0
@@ -191,24 +202,85 @@ observation_loop:
       - name=J0155-4048 | 0153-410, radec=1:55:37.06 -40:48:42.4, tags=gaincal, duration=65.0
 ```
 
-
 ### Adding telescope specific requirements
 Most astronomy observations will require a specific observation instrument, provided by MeerKAT as correlator products. These are generally identified from the science proposal requirements, but if known upfront, can be added in the conversion step.
 ```
-astrokat-catalogue2obsfile.py --infile sample_targetlist_catalogue.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile sample_targetlist_obsfile.yaml
+astrokat-catalogue2observation.py --csv sample_targetlist_for_cals.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --yaml sample_targetlist_for_cals.yaml
 ```
 Which will add the following additional options to the YAML observation file
 ```
+# Catalogue needed for the AR1 mosaic tests
 # AR1 mosaic NGC641
-# Catalogue for the AR1 mosaic tests
 instrument:
+  enabled: False
+  product: c856M4k
   integration_period: 8.0
   band: l
-  product: c856M4k
+  pool_resources: cbf,sdp
+horizon: 20
 durations:
-  obs_duration: 35400.0
+  obs_duration: 35400
 observation_loop:
-  - LST: 12:30-11:30
+  - LST: 19:35
     target_list:
 ...
 ```
+
+### Writing JSON observation file for OPT
+YAML files can be converted to JSON for easy [planning]() and upload to the MeerKAT OPT, but can also be generated directly during conversion
+```
+astrokat-catalogue2observation.py --csv two_calib.csv --primary-cal-duration 180 --max-duration 3000 --horizon 17 --json two_calib.json
+
+{
+    "name": "",
+    "id": 0,
+    "description": null,
+    "proposal_id": "",
+    "state": "DRAFT",
+    "owner": "",
+    "sb_id": 0,
+    "calendar_event_url": "",
+    "instrument": {},
+    "noise_diode": {},
+    "horizon": 17.0,
+    "lst_start": "12:30",
+    "lst_start_end": null,
+    "desired_start_time": null,
+    "duration": 3000,
+    "blocks": [
+        {
+            "name": "Block",
+            "repeat": 1,
+            "targets": [
+                {
+                    "name": "1934-638",
+                    "coord_type": "radec",
+                    "x": "19:39:25.03",
+                    "y": "-63:42:45.63",
+                    "tags": "bpcal",
+                    "type": "track",
+                    "duration": 180.0,
+                    "cadence": "",
+                    "flux_model": ""
+                },
+                {
+                    "name": "0408-65",
+                    "coord_type": "radec",
+                    "x": "04:08:20.38",
+                    "y": "-65:45:09.1",
+                    "tags": "bpcal",
+                    "type": "track",
+                    "duration": 180.0,
+                    "cadence": "",
+                    "flux_model": ""
+                }
+            ]
+        }
+    ],
+    "activities": [],
+    "flux_bandpass_calibrators": [],
+    "polarisation_calibrators": [],
+    "isYamlObservation": "false"
+}
+```
+
