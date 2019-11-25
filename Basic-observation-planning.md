@@ -21,9 +21,9 @@ Calibrators must be added per target / observation. These include both secondary
 The user can select and specify any calibrator directly as part of the observation. Alternatively, MeerKAT provides catalogues with standard calibrators that are known to work well for MeerKAT observations.
 
 To find MeerKAT standard calibrators for a target use the following python tool:   
-`python astrokat-cals.py --cat-path ../catalogues/ --target <Name> <RA> DEC --cal-tags <tag> [<tag> ...]`    
+`python astrokat-targets.py --cat-path catalogues/ --target <Name> <RA> DEC --cal-tags <tag> [<tag> ...]`    
 
-MeerKAT standard catalogues have a large number of gain calibrators available, but currently only a small number of primary calibrators such as bandpass, flux and polarisation calibrators. Thus, the `astrokat-cals.py` Python tool will find the closest gain calibrator to the target, the closet bandpass and flux calibrators, as well as additional bandpass and flux calibrators to cover the entire LST time range that the target will be visible to ensure a primary calibrator is always visible.
+MeerKAT standard catalogues have a large number of gain calibrators available, but currently only a small number of primary calibrators such as bandpass, flux and polarisation calibrators. Thus, the `astrokat-targets.py` Python tool will find the closest gain calibrator to the target, the closet bandpass and flux calibrators, as well as additional bandpass and flux calibrators to cover the entire LST time range that the target will be visible to ensure a primary calibrator is always visible.
 
 
 In summary: for an identified observation target
@@ -35,7 +35,7 @@ In summary: for an identified observation target
 
 Simple usage example
 ```
-astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --cat-path astrokat/catalogues/ --outfile 'astrokat_catalogue.csv' --lst --datetime '2019-2-6 14:52:48' --horizon 20
+astrokat-targets.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain bp flux --cat-path astrokat/catalogues/ --outfile 'astrokat_catalogue.csv' --lst --datetime '2019-2-6 14:52:48' --horizon 20
 ```
 Refer to [MeerKAT calibrator selection](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection) for all options
 
@@ -73,7 +73,7 @@ All coordinates are listed in the currently expected (RA,DEC) string format and 
 All sources list LST rise and set times.
 
 ```
-astrokat-cals.py --view astrokat_catalogue.csv --lst --horizon 20
+astrokat-targets.py --view astrokat_catalogue.csv --lst --horizon 20
 
 Observation Table for 2019/2/7 06:37:44 (UTC)
 Times listed in LST for target rise and set times
@@ -111,7 +111,7 @@ Viewing the LST rise and set times of the targets listed can be used to assist w
 `LST: 19:37-11:30`
 
 ```
-astrokat-cals.py --view astrokat_obsfile.yaml --lst --text-only --horizon 20
+astrokat-targets.py --view astrokat_obsfile.yaml --lst --text-only --horizon 20
 
 Observation Table for 2019/2/7 08:34:04 (UTC)
 Times listed in LST for target rise and set times
@@ -203,7 +203,7 @@ Simply running the observation script by results in errors such as:
 This is because the observation will always assume current time if it is not instructed to use a different time to simulate the observation.   
 For observation verification and simulation, the source visibility in UTC is displayed and evaluated, this is achieved by not specifying the `--lst` option. UTC rise and set times can simply be displayed at the current time, or it can be displayed starting from the desired UTC schedule time using the `--datetime` option.
 ```
-astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20 --datetime '2019-2-6 10:15:00'
+astrokat-targets.py --view astrokat_obsfile.yaml --horizon 20 --datetime '2019-2-6 10:15:00'
 ```
 
 Setting or adjusting the observation time to simulate the observation is done by adding the `start_time` option to the YAML observation file under the `durations` group.
