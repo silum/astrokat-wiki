@@ -1,11 +1,11 @@
 ## Creating an observation file
 1. Starting off with only a target and coordinates -- create an observation CSV catalogue
 ```
-astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain flux --cat-path astrokat/catalogues/ --outfile 'astrokat_catalogue.csv' --lst --datetime '2019-2-6 14:52:48' --horizon 20
+astrokat-targets.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain flux --cat-path astrokat/catalogues/ --outfile 'astrokat_catalogue.csv' --lst --datetime '2019-2-6 14:52:48' --horizon 20
 ```
 2. List rise and set times in LST and update listed targets accordingly
 ```
-astrokat-cals.py --view astrokat_catalogue.csv --lst --horizon 20
+astrokat-targets.py --view astrokat_catalogue.csv --lst --horizon 20
 ```
 3. Convert CSV catalogue to YAML observation file
 ```
@@ -13,7 +13,7 @@ astrokat-catalogue2obsfile.py --infile astrokat_catalogue.csv --target-duration 
 ```
 4. Update the `.yaml` file to correct LST range, observation period or source observation sequences, as needed.
 ```
-astrokat-cals.py --view astrokat_obsfile.yaml --lst --text-only --horizon 20
+astrokat-targets.py --view astrokat_obsfile.yaml --lst --text-only --horizon 20
 ```
 
 
@@ -27,7 +27,7 @@ For an existing CSV catalogue, the following steps can be used to obtain an upda
 
 1. Find calibrators for new target, but this time do not create a CSV file, only display the output to screen
 ```
-astrokat-cals.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain flux --cat-path astrokat/catalogues/ --lst --horizon 20
+astrokat-targets.py --target 'NGC641_03D03' '01:38:13.250' '-42:37:41.000' --cal-tags gain flux --cat-path astrokat/catalogues/ --lst --horizon 20
 ```
 
 2. Add target and calibrator information to the existing observation CSV catalogue
@@ -40,7 +40,7 @@ astrokat-catalogue2obsfile.py --infile astrokat_catalogue.csv --target-duration 
 4. Display and verify update information   
 When new targets are added, or redundant targets are removed, it is most important to verify that the LST range specified are still relevant since this will be used to evaluate the viability of the observation.
 ```
-astrokat-cals.py --view astrokat_obsfile.yaml --lst --horizon 20
+astrokat-targets.py --view astrokat_obsfile.yaml --lst --horizon 20
 ```
 
 ## Observation planning and timing refinements
@@ -53,8 +53,8 @@ It can simply be displayed at the current time, or it can be displayed starting 
 1. Find appropriate UTC time to simulate or schedule the observation   
 Always validate LST values displayed at on the bottom x-axis are within the LST range listed in the observation file, and select the best rise and set starting UCT time to simulate the observation.
 ```
-astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20
-astrokat-cals.py --view astrokat_obsfile.yaml --horizon 20 --datetime '2019-2-6 10:15:56'
+astrokat-targets.py --view astrokat_obsfile.yaml --horizon 20
+astrokat-targets.py --view astrokat_obsfile.yaml --horizon 20 --datetime '2019-2-6 10:15:56'
 ```
 
 2. Edit the observation script to add this selected start time
