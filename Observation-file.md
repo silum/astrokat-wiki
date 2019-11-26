@@ -35,7 +35,8 @@ observation_loop:
 
 
 ### Observation loops
-An _`observation_loop`_ contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range. When [converting from a catalogue](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files), the LST range is calculated from the RA of the listed targets.   
+An _`observation_loop`_ contains a sequence of LST ranges, each LST element provides a list of targets to observe over that sidereal time range.
+When [converting from a catalogue](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files), the LST range is calculated from the RA of the listed targets.   
 If an observation loop has multiple _`target_list`_ keys, the lists must be separated by explicitly indicating their LST range, both _`start`_ and _`end`_ as decimal angle hours.
 If, however, the observation contains only a single _`target_list`_, the user need only specify a start LST, as well as the expected _`obs_duration`_ of the observation.
 
@@ -80,7 +81,8 @@ All observation time related information is housed under the _`durations`_ prima
 The desired observation duration can be specified here using the _`obs_duration`_ sub-key and is specified in seconds.
 If an observation duration is not specified, the observation sequence will be a single run through all the targets listed in order.    
 Additionally, if the observation has a minimum observation time requirement to ensure science quality data, that time is indicated as _`minimum_duration`_ and specified in seconds.    
-For offline planning the desired start time for the observation may also be specified. This is one of the few planning only options that is ignored once scheduled using a system schedule block (SB). The desired start time is provided using the _`start_time`_ sub-key and assumes a '`%Y-%m-%d %H:%M:%S`' format.
+For offline planning the desired start time for the observation may also be specified.
+This is one of the few planning only options that is ignored once scheduled using a system schedule block (SB). The desired start time is provided using the _`start_time`_ sub-key and assumes a '`%Y-%m-%d %H:%M:%S`' format.
 
 | key | Value |
 | --- | --- |
@@ -97,9 +99,12 @@ durations:
 
 
 ### [Optional] Required instrument setup
-The _`instrument`_ primary key is optional. If the instrument key is not specified, the observation can be executed using any active subarray.
+The _`instrument`_ primary key is optional.
+If the instrument key is not specified, the observation can be executed using any active subarray.
 
-The _`instrument`_ key describes all subarray parameters **required** to be available in the active subarray before the observation can be executed. The observation will not execute unless these resources are available in the active subarray at the time of observation. Currently, these include
+The _`instrument`_ key describes all subarray parameters **required** to be available in the active subarray before the observation can be executed.
+The observation will not execute unless these resources are available in the active subarray at the time of observation.
+Currently, these include
 
 | key | Value |
 | --- | --- |
@@ -123,7 +128,15 @@ TBD
 ### [Optional] Noise diode
 A 20K noise diode is fitted at each receptor. The activation of the noise diode will trigger noise diodes on all antennas in the active subarray.
 
-Standard definition of the noise diode is to specify an on/off pattern that will be repeated until disabled. The pattern is defined by specifying the optional _`noise_diode`_ primary key. Once specified, all the secondary keys must be provided to describe how the noise diode pattern must be set. These include the time period to repeat the pattern, `cycle length`, as well as the fraction of the pattern time length that the noise diode must be switched on, `on fraction`. The pattern applies to the active array and can be applied to all antennas, or to a specified list of antennas.
+Standard definition of the noise diode is to specify an on/off pattern that will be repeated until disabled.
+The pattern is defined by specifying the optional _`noise_diode`_ primary key.
+Once specified, all the secondary keys must be provided to describe how the noise diode pattern must be set.
+These include the time period to repeat the pattern, _`cycle length`_, as well as the fraction of the pattern time length that the noise diode must be switched on, _`on fraction`_.
+The pattern applies to the active array and can be applied to all antennas, or to a specified list of antennas.
+
+The observation script will try and execute the command as soon as possible, with the addition of a few seconds lead time.
+The noise diode _`lead_time`_ ensures that the command arrives at all the antennas before the command is executed, ensuring the all the antennas will apply the noise diode command at the same time.
+The default is 3 seconds, but when desired the observer can lengthen or shorten this lead time by adding the optional _`lead_time=<sec>`_ key.
 
 | key | Value |
 | --- | --- |
@@ -131,6 +144,7 @@ Standard definition of the noise diode is to specify an on/off pattern that will
 |    | < all > or <m0XX, ...> |
 | _`cycle_len`_ | The noise diode will cycle through an on/off pattern in the amount of time set, specified in seconds or fraction of seconds. For L-band there is a maximum cycle length of 20 seconds. |
 | _`on_frac`_ | Fraction of the cycle time the noise diode must be in the on state. |
+| _`lead_time`_ | Lead time in seconds. Time added onto timestamps at which noise diode is set to execute the command, in order to ensure all antennas activate/deactivate the noise diode at the same time. |
 
 When a noise diode pattern is requested it will be set at the start of the observation and deactivated at the end of the observation.
 ```
