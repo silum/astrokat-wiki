@@ -140,7 +140,7 @@ The default is 3 seconds, but when desired the observer can lengthen or shorten 
 
 | key | Value |
 | --- | --- |
-| _`antennas`_ | The antennas for which the noise diode pattern should be set. Noise diode can be triggered an all antennas in the array, or a list of selected antennas. |
+| _`antennas`_ | The antennas for which the noise diode pattern should be set. Noise diode can be triggered an all antennas in the array, or a comma separated list of selected antennas. |
 |    | < all > or <m0XX, ...> |
 | _`cycle_len`_ | The noise diode will cycle through an on/off pattern in the amount of time set, specified in seconds or fraction of seconds. For L-band there is a maximum cycle length of 20 seconds. |
 | _`on_frac`_ | Fraction of the cycle time the noise diode must be in the on state. |
