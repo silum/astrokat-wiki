@@ -22,7 +22,7 @@ instrument:
 horizon: <elev>
 noise_diode:
   antennas: <all> or <cycle> or <m0XX>
-  on_frac: < % >
+  on_frac: < fractional value 0 .. 1.0 >
   cycle_len: <sec>
 durations:
   obs_duration: <sec>
