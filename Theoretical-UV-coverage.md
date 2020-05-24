@@ -36,5 +36,9 @@ Example generating all output graphs and display generated coverage maps, `-v`
 astrokat-uvcoverage.py --config config/mkat_antennas.yml --time 10 --dec -30 -v -s --natural --gaussian
 ```
 
+PSF for only core antennas
+```
+astrokat-uvcoverage.py --config config/mkat_antennas.yml --time 300 --dec -60 -v --natural --gaussian --sub m002 m000 m005 m006 m001 m003 m004 m018 m020 m017 m015 m029 m021 m007 m019 m009 m016 m011 m028 m012 m027 m034 m035 m014 m042 m022 m013 m036 m008 m031 m026 m047 m030 m010 m032 m041 m037 m023 m038 m043 m039 m040 m024 m025
+```
 
 
