@@ -8,6 +8,8 @@
 * [MeerKAT target selection and display](https://github.com/ska-sa/astrokat/wiki/MeerKAT-calibrator-selection)
 * [Catalogues to observation files](https://github.com/ska-sa/astrokat/wiki/Catalogues-to-observation-files)
 * [MeerKAT LST tools](https://github.com/ska-sa/astrokat/wiki/MeerKAT-LST-tools)
+* [Galactic coordinates to ICRS](https://github.com/ska-sa/astrokat/wiki/Galactic-coordinates-to-ICRS)
+* [Theoretical UV coverage](https://github.com/ska-sa/astrokat/wiki/Theoretical-UV-coverage)
 
 ## Definitions and terminology
 * [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification)
