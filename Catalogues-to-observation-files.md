@@ -226,7 +226,7 @@ observation_loop:
 ```
 
 ### Writing JSON observation file for OPT
-YAML files can be converted to JSON for easy [planning]() and upload to the MeerKAT OPT, but can also be generated directly during conversion
+YAML files can be converted to JSON for easy [planning](https://github.com/ska-sa/astrokat/wiki/JSON-and-YAML-conversion-scripts) and upload to the MeerKAT OPT, but can also be generated directly during conversion
 ```
 astrokat-catalogue2observation.py --csv two_calib.csv --primary-cal-duration 180 --max-duration 3000 --horizon 17 --json two_calib.json
 
