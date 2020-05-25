@@ -5,7 +5,7 @@ durations:
   start_time: 2018-12-07 05:00:00
   obs_duration: 7200.0
 observation_loop:
-  - LST: 11.006-1.5
+  - LST: 11:01-15:30
     target_list:
       - name=J0408-6545 | 0408-658, radec=4:08:20.38 -65:45:09.6, tags=bpcal fluxcal, duration=600.0, cadence=3600.0, model=(145.0 18000.0 -0.979 3.366 -1.122 0.0861)
       - name=J1744-5144 | 1740-517, radec=17:44:25.47 -51:44:43.1, tags=gaincal, duration=120.0, model=(145.0 99000.0 -3.694 2.745 -0.3655 -0.015)
@@ -24,7 +24,7 @@ instrument:
 durations:
   start_time: 2019-02-11 02:10:47
 observation_loop:
-  - LST: 11.140-23.248
+  - LST: 11:10-23:00
     target_list:
       - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=gaincal, duration=30.0
       - name=T3R04C06, radec=+17:22:27.46877 -38:12:09.4023, tags=target, duration=180.0
@@ -50,7 +50,7 @@ durations:
   start_time: 2019-02-11 02:10:47
   obs_duration: 3600
 observation_loop:
-  - LST: 11.140-23.248
+  - LST: 11:10-23:00
     target_list:
       - name=1827-360, radec=18:30:58.80 -36:02:30.1, tags=gaincal, duration=30.0
       - name=T3R04C06, radec=+17:22:27.46877 -38:12:09.4023, tags=target, duration=180.0
@@ -80,7 +80,7 @@ noise_diode:
   on_fraction: -1.0
   cycle_len: 0.1
 observation_loop:
-  - LST: 0.0-23.9
+  - LST: 0:00-23:50
     target_list:
       - name=1934-638, radec=19:39:25.03 -63:42:45.63, tags=target, duration=180.0, type=drift_scan
       - name=0408-65, radec=04:08:20.38 -65:45:09.1, tags=target, duration=180.0, type=drift_scan
@@ -92,7 +92,7 @@ Not all observations are straightforward, depending on science need, the observa
 instrument:
   product: c856M32k
 observation_loop:
-  - LST: 10-12
+  - LST: 10:00-12:00
     target_list:
       - name=G328.24-0.55, radec=15:54:06.11 -53:50:47.0, tags=B1950 target, duration=300
       - name=1613-586, radec=16:17:17.88951 -58:48:07.8604, tags=gaincal delaycal, duration=60
@@ -101,7 +101,7 @@ observation_loop:
       - name=1722-55, radec=17:26:49.615 -55:29:40.60, tags=gaincal delaycal, duration=60
       - name=G339.62-0.12, radec=16:42:26.5 -45:31:18.0, tags=B1950 target, duration=300
       - name=3C286, radec=13:31:08.29 +30:30:33.0, tags=bpcal fluxcal delaycal, duration=300
-  - LST: 12-16
+  - LST: 12:00-16:00
     target_list:
       - name=G328.24-0.55, radec=15:54:06.11 -53:50:47.0, tags=B1950 target, duration=300
       - name=1613-586, radec=16:17:17.88951 -58:48:07.8604, tags=gaincal delaycal, duration=60
@@ -115,7 +115,7 @@ observation_loop:
       - name=G12.89+0.49, radec=18:08:56.4 -17:32:14.0, tags=B1950 target, duration=600
       - name=1730-130, radec=17:33:02.705790 -13:04:49.548230, tags=gaincal delaycal, duration=60
       - name=3C286, radec=13:31:08.29 +30:30:33.0, tags=bpcal fluxcal delaycal, duration=300
-  - LST: 16-23
+  - LST: 16:00-23:00
     target_list:
       - name=G328.24-0.55, radec=15:54:06.11 -53:50:47.0, tags=B1950 target, duration=300
       - name=1613-586, radec=16:17:17.88951 -58:48:07.8604, tags=gaincal delaycal, duration=60
