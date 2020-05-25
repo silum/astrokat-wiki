@@ -1,13 +1,26 @@
 ## Convenience calculator to transform Galactic coordinates to the ICRS frame.
 
 ### Convert coordinates of a single galactic target to equatorial    
-`astrokat-coords.py --galactic T11R00C02 21h51m30.37s +00d59m15.56s -v`    
+`astrokat-coords.py --galactic T11R00C02 21h51m30.37s +00d59m15.56s`    
 or    
-`astrokat-coords.py --galactic T11R00C02 21.8584h 0.9877d -v`    
+`astrokat-coords.py --galactic T11R00C02 21.8584h 0.9877d`    
 or    
-`astrokat-coords.py --galactic T11R00C02 327.8760d 0.9877d -v`    
+`astrokat-coords.py --galactic T11R00C02 327.8760d 0.9877d`    
 
 Will generate output
+```
+Target T11R00C02
+Galactic coordinates
+	(21:51:30.2400, +00:59:15.7200) = (21.8584h, 0.9877d) = (327.8760d, 0.9877d)
+(RA, DEC) coordinates
+	(15:49:32.1367, -53:02:01.4826) = (15.8256h, -53.0337d) = (237.3839d, -53.0337d)
+```
+
+For more verbose and file output add the `-v` (`--verbose`) and `--outfile` options
+```
+astrokat-coords.py --galactic T11R00C02 21.8584h 0.9877d -v --outfile galactic_as_equitorial.csv
+```
+To obtain output:
 ```
 Target T11R00C02
 Galactic coordinates
