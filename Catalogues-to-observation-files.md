@@ -1,10 +1,10 @@
 ## Observation catalogue
 The _minimum required information_ for any observation is a list of observation targets specified as one target per line, using comma separated formatting to provide the relevant target information.   
 Per target required information:   
-`[name], tags, ra, dec` or `[name], tags, az, el` or `[name], tags, l, b`   
+`[name], tags, ra, dec` or `[name], tags, az, el`   
 Details discussion of the per target information can be found on the [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) page
 
-The targets can be celestial, horizontal or galactic.    
+The targets can be celestial or horizontal.    
 Specials such as TLE for satellites and near earth objects are not currently available.    
 Generally a catalogue is expected as part of the observation request.
 
@@ -29,8 +29,6 @@ optional arguments:
                         (default: None)
   --yaml YAML           filename for observation YAML file (default outputs to
                         screen) (default: None)
-  --json JSON           filename for observation JSON file (default: None)
-  --show                Show observation JSON instructions (default: False)
 
 observation instrument setup:
   instrument setup requirements
@@ -70,10 +68,6 @@ The only required input parameter is the name of the catalogue file, `--csv`.
 For convenience the YAML output will be displayed to screen if an output filename, `--yaml`, is not specified.  
 Once the user is satisfied with the output, an observation profile can be created   
 `astrokat-catalogue2observation.py --csv targets.csv --yaml targets.yaml ...`
-
-In addition, the user may select a JSON file for upload to the MeerKAT OPT.
-This simply requires the addition of a json filename    
-`astrokat-catalogue2observation.py --csv targets.csv --yaml targets.yaml  --json targets.json ...`
 
 For users familiar with the MeerKAT `track.py` or `image.py` observation scripts, the input to `astrokat-catalogue2observation.py` is similar to the standard options used by these to standard observation scripts.
 ```
@@ -223,63 +217,5 @@ observation_loop:
   - LST: 19:35
     target_list:
 ...
-```
-
-### Writing JSON observation file for OPT
-YAML files can be converted to JSON for easy [planning](https://github.com/ska-sa/astrokat/wiki/JSON-and-YAML-conversion-scripts) and upload to the MeerKAT OPT, but can also be generated directly during conversion
-```
-astrokat-catalogue2observation.py --csv two_calib.csv --primary-cal-duration 180 --max-duration 3000 --horizon 17 --json two_calib.json
-
-{
-    "name": "",
-    "id": 0,
-    "description": null,
-    "proposal_id": "",
-    "state": "DRAFT",
-    "owner": "",
-    "sb_id": 0,
-    "calendar_event_url": "",
-    "instrument": {},
-    "noise_diode": {},
-    "horizon": 17.0,
-    "lst_start": "12:30",
-    "lst_start_end": null,
-    "desired_start_time": null,
-    "duration": 3000,
-    "blocks": [
-        {
-            "name": "Block",
-            "repeat": 1,
-            "targets": [
-                {
-                    "name": "1934-638",
-                    "coord_type": "radec",
-                    "x": "19:39:25.03",
-                    "y": "-63:42:45.63",
-                    "tags": "bpcal",
-                    "type": "track",
-                    "duration": 180.0,
-                    "cadence": "",
-                    "flux_model": ""
-                },
-                {
-                    "name": "0408-65",
-                    "coord_type": "radec",
-                    "x": "04:08:20.38",
-                    "y": "-65:45:09.1",
-                    "tags": "bpcal",
-                    "type": "track",
-                    "duration": 180.0,
-                    "cadence": "",
-                    "flux_model": ""
-                }
-            ]
-        }
-    ],
-    "activities": [],
-    "flux_bandpass_calibrators": [],
-    "polarisation_calibrators": [],
-    "isYamlObservation": "false"
-}
 ```
 
