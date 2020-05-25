@@ -4,10 +4,9 @@ Per target required information:
 `[name], tags, ra, dec` or `[name], tags, az, el` or `[name], tags, l, b`   
 Details discussion of the per target information can be found on the [Observation target specification](https://github.com/ska-sa/astrokat/wiki/Observation-target-specification) page
 
-The targets can be celestial, horizontal or galactic.
-Specials such as TLE for satellites and near earth objects are not currently available.
-
-Generally a catalogue is expected as part of the observation request. See [docs](https://github.com/ska-sa/astrokat/tree/master/docs) for an example observation request template
+The targets can be celestial, horizontal or galactic.    
+Specials such as TLE for satellites and near earth objects are not currently available.    
+Generally a catalogue is expected as part of the observation request.
 
 
 ## Converting target catalogue to observation configuration file
