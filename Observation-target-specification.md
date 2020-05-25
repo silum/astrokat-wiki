@@ -25,7 +25,7 @@ The asterisk, '`*`', character indicate the preferred target name to use.
 A list of tags associated with the provided target coordinates.
 These are generally provided by the proposing astronomer for pointing information.   
 The first tag is always the format of the coordinates provided:    
-`radec` or `azel` or `gal`   
+`radec` or `azel`   
 For targets the explicit `target` tag or epoch `B1950` can be provided. `J2000` is assumed as default epoch.
 
 The following calibrator tags may appear in submitted/existing catalogues: `delaycal`, `gaincal`, `bpcal`, `fluxcal`, `polcal`      
@@ -44,9 +44,6 @@ The targets can be equatorial, horizontal or galactic.
 * Horizontal coordinates
   * X = az (azimuth angle) -- given as an angle in degrees
   * Y = alt (altitude angle) -- given as angle above horizon
-* Galactic coordinates (Heliocentric)
-  * X = l (galactic longitude) -- given as an angle in degrees
-  * Y = b (galactic latitude) -- given as an angle in degrees
 
 It is important to note that the target coordinates must be **astrometric**. That means the coordinates for the epoch specified.   
 Maximum northern pointing angle for MeerKAT is **+33**.
