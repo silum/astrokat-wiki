@@ -2,8 +2,8 @@ In order to achieve consistent representation and processing, MeerKAT observatio
 
 # Building an observation file
 Fundamentally all MeerKAT observation are represented by 2 modules:
-* The [observation file](https://github.com/ska-sa/astrokat/wiki/Basic-observation-planning/_edit#creating-the-observation-file) that describes the observation on a per target basis, and
-* the [observation script](https://github.com/ska-sa/astrokat/wiki/Basic-observation-planning/_edit#optional-verify-and-refine-the-observation) that interprets and execute the observation file when scheduled.
+* The [observation file](https://github.com/ska-sa/astrokat/wiki/Basic-observation-planning/#creating-the-observation-file) that describes the observation on a per target basis, and
+* the [observation script](https://github.com/ska-sa/astrokat/wiki/Basic-observation-planning/#optional-verify-and-refine-the-observation) that interprets and execute the observation file when scheduled.
 
 The first represents the science requirements of the observation and may include some telescope related options as well.   
 While the second represents the telescope executing the observation and forms the basis for guaranteeing consistency between planning and observation.
