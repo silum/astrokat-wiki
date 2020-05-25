@@ -13,22 +13,22 @@ Generally a catalogue is expected as part of the observation request.
 If an observation catalogue file is provided, an initial configuration file can easily be generated.
 More extensive information on the observation configuration file can be found on the [Observation file](https://github.com/ska-sa/astrokat/wiki/Observation-file) page.
 
-The `astrokat-catalogue2observation.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
+The `astrokat-catalogue2obsfile.py` script does simple conversion of existing observation catalogues, CSV format, to configuration files, YAML format.
 ```
-astrokat-catalogue2observation.py -h
+astrokat-catalogue2obsfile.py -h
 
-usage: astrokat-catalogue2observation.py [options] --csv <full_path/cat_file.csv>
+usage: /Users/ruby/Projects/gitSDP/astrokat/venv/bin/astrokat-catalogue2obsfile.py [options] --infile <full_path/cat_file.csv>
 
-sources are specified as a catalogue of targets, with optional timing
+sources are specified as a catalogue of targets,with optional timing
 information
 
 optional arguments:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
-  --csv CSV             filename of the input CSV catalogue (**required**)
-                        (default: None)
-  --yaml YAML           filename for observation YAML file (default outputs to
-                        screen) (default: None)
+  --infile INFILE       filename of the CSV catalogue to convert
+                        (**required**) (default: None)
+  --outfile OUTFILE     filename for output observation file (default outputs
+                        to screen) (default: None)
 
 observation instrument setup:
   instrument setup requirements
@@ -40,43 +40,43 @@ observation instrument setup:
                         averaging time per dump [sec] (default: None)
 
 target observation strategy:
-  track a target for imaging or spectral line observations, may optionally
+  track a target for imaging or spectral line observations,may optionally
   have a tag of 'target'.
 
-  --lst LST             observation start LST (default: None)
+  --lst LST             observation start LST or LST range (default: None)
   --target-duration TARGET_DURATION
                         default target track duration [sec] (default: 300)
-  --horizon HORIZON     Minimum horizon angle [deg] (default: None)
   --max-duration MAX_DURATION
                         maximum duration of observation [sec] (default: None)
 
 calibrator observation strategy:
-  calibrators are identified by tags in their description strings: 'bpcal',
+  calibrators are identified by tags in their description strings'bpcal',
   'gaincal', 'fluxcal' and 'polcal' respectively
 
   --primary-cal-duration PRIMARY_CAL_DURATION
-                        duration to track primary calibrators tagged as
-                        'bpcal', 'fluxcal' or 'polcal' [sec] (default: 300)
+                        minimum duration to track primary calibrators tagged
+                        as 'bpcal', 'fluxcal' or 'polcal' [sec] (default: 300)
   --primary-cal-cadence PRIMARY_CAL_CADENCE
-                        interval between calibrator observation [sec]
-                        (default: None)
+                        minimum observation interval between primary
+                        calibrators [sec] (default: None)
   --secondary-cal-duration SECONDARY_CAL_DURATION
-                        duration to track gain calibrator [sec] (default: 60)
+                        minimum duration to track gain calibrator, 'gaincal'
+                        [sec] (default: 60)
 ```
 
-The only required input parameter is the name of the catalogue file, `--csv`.   
-For convenience the YAML output will be displayed to screen if an output filename, `--yaml`, is not specified.  
+The only required input parameter is the name of the catalogue file, `--infile`.   
+For convenience the YAML output will be displayed to screen if an output filename, `--outfile`, is not specified.  
 Once the user is satisfied with the output, an observation profile can be created   
-`astrokat-catalogue2observation.py --csv targets.csv --yaml targets.yaml ...`
+`astrokat-catalogue2obsfile.py --infile targets.csv --outfile targets.yaml ...`
 
-For users familiar with the MeerKAT `track.py` or `image.py` observation scripts, the input to `astrokat-catalogue2observation.py` is similar to the standard options used by these to standard observation scripts.
+For users familiar with the MeerKAT `track.py` or `image.py` observation scripts, the input to `astrokat-catalogue2obsfile.py` is similar to the standard options used by these to standard observation scripts.
 ```
 /home/kat/katsdpscripts/observation/image.py <image.csv> --horizon=20 -t <target duration> -g <time on gain calibrator> -b <time on bandpass calibrator> -i <how often to visit bandpass calibrator> -m <total observation run time>
 ```
 
 To create the associated YAML file from the standard observation options, the mapping of options between the two observation scripts are tabled below:
 
-| `image.py` | `astrokat-catalogue2observation.py` |
+| `image.py` | `astrokat-catalogue2obsfile.py` |
 | --- | --- |
 | -t | --target-duration |
 | -m | --max-duration |
@@ -95,7 +95,7 @@ Basic steps for conversion can be illustrated using some random targets, `target
 
 Simple convert targets to configuration
 ```
-astrokat-catalogue2observation.py --csv targets.csv --target-duration 10
+astrokat-catalogue2obsfile.py --infile targets.csv --target-duration 10
 ```
 Resulting in a basic target list
 ```
@@ -114,7 +114,7 @@ Each target has its own _`tags`_ and _`duration`_, which can be updated by the u
 The source list construction does not distinguish between targets and calibrators when converting from CSV format catalogues to observation files.
 When converting catalogues that contains calibrators, the user must specify the associated timings required.
 ```
-astrokat-catalogue2observation.py --csv two_calib.csv --primary-cal-duration 180
+astrokat-catalogue2obsfile.py --infile two_calib.csv --primary-cal-duration 180
 
 horizon: 20
 observation_loop:
@@ -146,7 +146,7 @@ NGC641_04D03, radec target, 1:35:49.73, -42:37:41.0
 Example of an imaging observation with both primary and secondary calibrators, where the bandpass calibrator is only observed every 30 minutes for 3 minutes.
 The targets for 5 minutes and the gain calibrators for 65 seconds.
 ```
-astrokat-catalogue2observation.py --csv AR1_mosaic_NGC641.csv --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --yaml AR1_mosaic_NGC641.yaml
+astrokat-catalogue2obsfile.py --infile AR1_mosaic_NGC641.csv --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile AR1_mosaic_NGC641.yaml
 
 # Catalogue needed for the AR1 mosaic tests
 # AR1 mosaic NGC641
@@ -198,7 +198,7 @@ observation_loop:
 ### Adding telescope specific requirements
 Most astronomy observations will require a specific observation instrument, provided by MeerKAT as correlator products. These are generally identified from the science proposal requirements, but if known upfront, can be added in the conversion step.
 ```
-astrokat-catalogue2observation.py --csv sample_targetlist_for_cals.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --yaml sample_targetlist_for_cals.yaml
+astrokat-catalogue2obsfile.py --infile sample_targetlist_for_cals.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile sample_targetlist_for_cals.yaml
 ```
 Which will add the following additional options to the YAML observation file
 ```
