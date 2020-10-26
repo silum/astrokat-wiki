@@ -1,4 +1,4 @@
-# How To
+# Table of Contents
 ## Observation planning and setup
 * [Basic observation planning](https://github.com/ska-sa/astrokat/wiki/Basic-observation-planning)
 * [Quick reference: Basic observation planning](https://github.com/ska-sa/astrokat/wiki/Quick-reference:-Basic-observation-planning)
