@@ -115,7 +115,7 @@ durations:
   obs_duration: 35400.0
 horizon: 20.0
 observation_loop:
-  - LST: 1:47-8:56
+  - LST: 1:47-7:53
     target_list:
       - name=J1939-6342 | 1934-638, radec=19:39:25.05 -63:42:43.6, tags=bpcal fluxcal, duration=180.0, cadence=1800.0, model=(408.0 8640.0 -30.77 26.49 -7.098 0.6053)
       - name=3C138, radec=05:21:09.90 +16:38:22.1, tags=bpcal, duration=180.0, cadence=1800.0
@@ -138,7 +138,7 @@ durations:
   obs_duration: 35400.0
 horizon: 20.0
 observation_loop:
-  - LST: 1:47-8:56
+  - LST: 1:47-7:53
     target_list:
       - name=J1939-6342 | 1934-638, radec=19:39:25.05 -63:42:43.6, tags=bpcal fluxcal, duration=180.0, cadence=1800.0, model=(408.0 8640.0 -30.77 26.49 -7.098 0.6053)
       - name=3C138, radec=05:21:09.90 +16:38:22.1, tags=bpcal, duration=180.0, cadence=1800.0
@@ -172,7 +172,7 @@ durations:
   obs_duration: 35400.0
 horizon: 20.0
 observation_loop:
-  - LST: 1:47-8:56
+  - LST: 1:47-7:53
     target_list:
 ...
 ```
