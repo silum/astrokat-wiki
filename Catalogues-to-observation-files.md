@@ -91,8 +91,8 @@ Gain calibrators are generally intermingled with the source target list, with pr
 ```
 # AR1 mosaic NGC641
 # Catalogue needed for the AR1 mosaic tests
-J0408-6545 | 0408-658, radec bpcal fluxcal, 4:08:20.38, -65:45:09.6, (145.0 18000.0 -0.979 3.366 -1.122 0.0861)
 J1939-6342 | 1934-638, radec bpcal fluxcal, 19:39:25.05, -63:42:43.6, (408.0 8640.0 -30.77 26.49 -7.098 0.6053)
+3C138, radec bpcal, 05:21:09.90, +16:38:22.1
 J0155-4048 | 0153-410, radec gaincal, 1:55:37.06, -40:48:42.4
 NGC641_02D02, radec target, 1:39:25.01, -42:14:49.2
 NGC641_02D03, radec target, 1:40:36.77, -42:37:41.0
@@ -106,20 +106,19 @@ NGC641_04D03, radec target, 1:35:49.73, -42:37:41.0
 Example of an imaging observation with both primary and secondary calibrators, where the bandpass calibrator is only observed every 30 minutes for 3 minutes.
 The targets for 5 minutes and the gain calibrators for 65 seconds.
 ```
-astrokat-catalogue2obsfile.py --infile AR1_mosaic_NGC641.csv --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile AR1_mosaic_NGC641.yaml
-
-# Catalogue needed for the AR1 mosaic tests
+astrokat-catalogue2obsfile.py --infile image.csv --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile image.yaml
+```
+```
 # AR1 mosaic NGC641
-# Observation catalogue for proposal ID None
-# PI: None
-# Contact details: None
-horizon: 20
+# Catalogue needed for the AR1 mosaic tests
 durations:
-  obs_duration: 35400
+  obs_duration: 35400.0
+horizon: 20.0
 observation_loop:
-  - LST: 18:12
+  - LST: 1:47-8:56
     target_list:
-      - name=J0010-4153 | 0008-421, radec=0:10:52.52 -41:53:10.8, tags=bpcal, duration=180.0, cadence=1800.0, model=(145.0 20000.0 -16.93 15.39 -4.21 0.3496)
+      - name=J1939-6342 | 1934-638, radec=19:39:25.05 -63:42:43.6, tags=bpcal fluxcal, duration=180.0, cadence=1800.0, model=(408.0 8640.0 -30.77 26.49 -7.098 0.6053)
+      - name=3C138, radec=05:21:09.90 +16:38:22.1, tags=bpcal, duration=180.0, cadence=1800.0
       - name=J0155-4048 | 0153-410, radec=1:55:37.06 -40:48:42.4, tags=gaincal, duration=65.0
       - name=NGC641_02D02, radec=1:39:25.01 -42:14:49.2, tags=target, duration=300.0
       - name=NGC641_02D03, radec=1:40:36.77 -42:37:41.0, tags=target, duration=300.0
@@ -134,14 +133,15 @@ The target and gain calibrator, without cadence values will be observed in seque
 Thus, the YAML file must be edited to insert the gain calibrator in the observation sequence where needed.
 ```
 # AR1 mosaic NGC641
-# Catalogue for the AR1 mosaic tests
+# Catalogue needed for the AR1 mosaic tests
 durations:
   obs_duration: 35400.0
+horizon: 20.0
 observation_loop:
-  - LST: 12:30-11:30
+  - LST: 1:47-8:56
     target_list:
-      - name=J0408-6545 | 0408-658, radec=4:08:20.38 -65:45:09.6, tags=bpcal fluxcal, duration=180.0, cadence=1800.0, model=(145.0 18000.0 -0.979 3.366 -1.122 0.0861)
       - name=J1939-6342 | 1934-638, radec=19:39:25.05 -63:42:43.6, tags=bpcal fluxcal, duration=180.0, cadence=1800.0, model=(408.0 8640.0 -30.77 26.49 -7.098 0.6053)
+      - name=3C138, radec=05:21:09.90 +16:38:22.1, tags=bpcal, duration=180.0, cadence=1800.0
       - name=J0155-4048 | 0153-410, radec=1:55:37.06 -40:48:42.4, tags=gaincal, duration=65.0
       - name=NGC641_02D02, radec=1:39:25.01 -42:14:49.2, tags=target, duration=300.0
       - name=NGC641_02D03, radec=1:40:36.77 -42:37:41.0, tags=target, duration=300.0
@@ -158,24 +158,21 @@ observation_loop:
 ### Adding telescope specific requirements
 Most astronomy observations will require a specific observation instrument, provided by MeerKAT as correlator products. These are generally identified from the science proposal requirements, but if known upfront, can be added in the conversion step.
 ```
-astrokat-catalogue2obsfile.py --infile sample_targetlist_for_cals.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile sample_targetlist_for_cals.yaml
+astrokat-catalogue2obsfile.py --infile image.csv --product c856M4k --band l --integration-period 8 --target-duration 300 --max-duration 35400  --secondary-cal-duration 65 --primary-cal-duration 180 --primary-cal-cadence 1800 --outfile image.yaml
 ```
 Which will add the following additional options to the YAML observation file
 ```
-# Catalogue needed for the AR1 mosaic tests
 # AR1 mosaic NGC641
+# Catalogue needed for the AR1 mosaic tests
 instrument:
-  enabled: False
   product: c856M4k
-  integration_period: 8.0
   band: l
-  pool_resources: cbf,sdp
-horizon: 20
+  integration_period: 8.0
 durations:
-  obs_duration: 35400
+  obs_duration: 35400.0
+horizon: 20.0
 observation_loop:
-  - LST: 19:35
+  - LST: 1:47-8:56
     target_list:
 ...
 ```
-
