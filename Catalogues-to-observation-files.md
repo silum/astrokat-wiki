@@ -18,50 +18,8 @@ The `astrokat-catalogue2obsfile.py` script does simple conversion of existing ob
 astrokat-catalogue2obsfile.py -h
 
 usage: /Users/ruby/Projects/gitSDP/astrokat/venv/bin/astrokat-catalogue2obsfile.py [options] --infile <full_path/cat_file.csv>
+...
 
-sources are specified as a catalogue of targets,with optional timing
-information
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --version             show program's version number and exit
-  --infile INFILE       filename of the CSV catalogue to convert
-                        (**required**) (default: None)
-  --outfile OUTFILE     filename for output observation file (default outputs
-                        to screen) (default: None)
-
-observation instrument setup:
-  instrument setup requirements
-
-  --product PRODUCT     observation instrument product configuration (default:
-                        None)
-  --band BAND           observation band: L, UHF, X, S (default: None)
-  --integration-period INTEGRATION_PERIOD
-                        averaging time per dump [sec] (default: None)
-
-target observation strategy:
-  track a target for imaging or spectral line observations,may optionally
-  have a tag of 'target'.
-
-  --lst LST             observation start LST or LST range (default: None)
-  --target-duration TARGET_DURATION
-                        default target track duration [sec] (default: 300)
-  --max-duration MAX_DURATION
-                        maximum duration of observation [sec] (default: None)
-
-calibrator observation strategy:
-  calibrators are identified by tags in their description strings'bpcal',
-  'gaincal', 'fluxcal' and 'polcal' respectively
-
-  --primary-cal-duration PRIMARY_CAL_DURATION
-                        minimum duration to track primary calibrators tagged
-                        as 'bpcal', 'fluxcal' or 'polcal' [sec] (default: 300)
-  --primary-cal-cadence PRIMARY_CAL_CADENCE
-                        minimum observation interval between primary
-                        calibrators [sec] (default: None)
-  --secondary-cal-duration SECONDARY_CAL_DURATION
-                        minimum duration to track gain calibrator, 'gaincal'
-                        [sec] (default: 60)
 ```
 
 The only required input parameter is the name of the catalogue file, `--infile`.   
@@ -91,6 +49,7 @@ Basic steps for conversion can be illustrated using some random targets, `target
 , radec target, 0:00:00, -90:00:00
 , azel target, 10, 50
 , gal target, -10, 40
+Moon, special
 ```
 
 Simple convert targets to configuration
@@ -99,13 +58,14 @@ astrokat-catalogue2obsfile.py --infile targets.csv --target-duration 10
 ```
 Resulting in a basic target list
 ```
-horizon: 20
+horizon: 20.0
 observation_loop:
-  - LST: 0:00
+  - LST: 0:00-23:59
     target_list:
-      - name=target0_radec, radec=0:00:00 -90:00:00, tags=target, duration=10.0
+      - name=target0_radec, radec=0 -90, tags=target, duration=10.0
       - name=target1_azel, azel=10 50, tags=target, duration=10.0
       - name=target2_gal, gal=-10 40, tags=target, duration=10.0
+      - name=Moon, special=special, tags=target, duration=10.0
 ```
 No _`LST`_ range was specified in the conversion, so a start LST for the targets have been inserted by default.   
 Target names were also not provided, resulting in generated names to be added.   
